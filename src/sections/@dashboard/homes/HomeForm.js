@@ -49,7 +49,7 @@ export default function HomeForm(props) {
   const [locale, setLocale] = React.useState('pl');
   const { t, i18n } = useTranslation();
 
-  const { onClose, open, onFormSubmitted } = props;
+  const { onClose, open, onFormSubmitted, defaultStatus = 'dam' } = props;
 
   const TransportSchema = Yup.object().shape({
     name: Yup.string().min(2, t('TooShort')).max(100, 'TooLong').required(t('Field required')),
@@ -73,7 +73,6 @@ export default function HomeForm(props) {
   };
 
   const handleSubmitConfirmed = (values) => {
-    console.log(values);
     onFormSubmitted(values);
   };
 
@@ -85,7 +84,7 @@ export default function HomeForm(props) {
       phone: '',
       description: '',
       addressFrom: '',
-      status: 'dam',
+      status: defaultStatus,
       date: new Date(),
       from: [],
       people: 0
@@ -118,7 +117,7 @@ export default function HomeForm(props) {
 
   return (
     <Dialog onClose={handleClose} open={open} maxWidth={false}>
-      <DialogTitle>{t('AddHome')}</DialogTitle>
+      <DialogTitle>{t(values.status === 'dam' ? 'AddHome' : 'GetHome')}</DialogTitle>
       <DialogContent>
         <FormikProvider value={formik}>
           <Form autoComplete="off" noValidate onSubmit={handleSubmit} style={{ minWidth: '512px' }}>
@@ -263,7 +262,7 @@ export default function HomeForm(props) {
             loading={isSubmitting}
             onClick={submitForm}
           >
-            {t('AddHome')}
+            {t(values.status === 'dam' ? 'AddHome' : 'GetHome')}
           </LoadingButton>
           {Object.keys(errors).length > 0 && (
             <FormHelperText error>{t('Form Invalid')}</FormHelperText>

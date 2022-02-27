@@ -4,6 +4,7 @@ import { Link as RouterLink } from 'react-router-dom';
 // material
 import {
   Card,
+  Box,
   Table,
   Stack,
   Avatar,
@@ -26,6 +27,7 @@ import Scrollbar from '../../components/Scrollbar';
 import Iconify from '../../components/Iconify';
 import SearchNotFound from '../../components/SearchNotFound';
 import { HomeMoreMenu, HomeListToolbar, HomeListHead } from '../../sections/@dashboard/homes';
+import { red } from '@mui/material/colors';
 //
 import i18next from './../../i18n';
 
@@ -112,6 +114,7 @@ export default function Homes() {
   const [selected, setSelected] = useState([]);
   const [orderBy, setOrderBy] = useState('name');
   const [filterName, setFilterName] = useState('');
+  const [formType, setFormType] = useState('dam');
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [selectedLocations, setSelectedLocations] = useState([]);
   const [filterOpen, setFilterOpen] = useState(false);
@@ -219,8 +222,9 @@ export default function Homes() {
     setFilterOpen(false);
   };
 
-  const handleFormOpen = () => {
+  const handleFormOpen = (status) => {
     setFormOpen(true);
+    setFormType(status);
   };
 
   const handleFormClose = () => {
@@ -255,19 +259,30 @@ export default function Homes() {
   };
 
   return (
-    <Page title={t('Transport')}>
+    <Page title={t('Homes')}>
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
             {t('Homes')}
           </Typography>
-          <Button
-            variant="contained"
-            onClick={handleFormOpen}
-            startIcon={<Iconify icon="eva:plus-fill" />}
-          >
-            {t('AddHome')}
-          </Button>
+          <Box>
+            <Button
+              variant="contained"
+              color={'warning'}
+              sx={{ backgroundColor: red[300], mr: 1 }}
+              onClick={() => handleFormOpen('szukam')}
+              startIcon={<Iconify icon="eva:plus-fill" />}
+            >
+              {t('GetHome')}
+            </Button>
+            <Button
+              variant="contained"
+              onClick={() => handleFormOpen('dam')}
+              startIcon={<Iconify icon="eva:plus-fill" />}
+            >
+              {t('AddHome')}
+            </Button>
+          </Box>
         </Stack>
 
         <HomesMap places={filteredUsers} onSelectMarkers={onSelectMarkers} />
@@ -301,16 +316,8 @@ export default function Homes() {
                   {displayedUsers
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => {
-                      const {
-                        id,
-                        name,
-                        addressFrom,
-                        date,
-                        people,
-                        status,
-                        avatarUrl,
-                        isVerified
-                      } = row;
+                      const { id, name, addressFrom, date, people, status, avatarUrl, isVerified } =
+                        row;
                       const isItemSelected = selected.indexOf(id) !== -1;
 
                       return (
@@ -396,13 +403,14 @@ export default function Homes() {
         onClose={handleFilterClose}
         selectFilter={handleSelectFilter}
       />
-      <HomesDetails
-        onClose={handleCloseDetails}
-        open={showDetails.length > 0}
-        home={showDetails}
-      />
+      <HomesDetails onClose={handleCloseDetails} open={showDetails.length > 0} home={showDetails} />
       {formOpen && (
-        <HomeForm open={formOpen} onClose={handleFormClose} onFormSubmitted={onFormSubmitted} />
+        <HomeForm
+          open={formOpen}
+          defaultStatus={formType}
+          onClose={handleFormClose}
+          onFormSubmitted={onFormSubmitted}
+        />
       )}
     </Page>
   );

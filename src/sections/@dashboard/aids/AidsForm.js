@@ -71,7 +71,6 @@ export default function AidsForm(props) {
   };
 
   const handleSubmitConfirmed = (values) => {
-    console.log(values);
     onFormSubmitted(values);
   };
 
@@ -112,7 +111,6 @@ export default function AidsForm(props) {
     lng: 19.956
   };
 
-  console.log(errors)
   return (
     <Dialog onClose={handleClose} open={open} maxWidth={false}>
       <DialogTitle>{t('AddAid')}</DialogTitle>

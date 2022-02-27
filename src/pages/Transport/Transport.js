@@ -4,6 +4,7 @@ import { Link as RouterLink } from 'react-router-dom';
 // material
 import {
   Card,
+  Box,
   Table,
   Stack,
   Avatar,
@@ -41,6 +42,7 @@ import FilterDialog from './Filter';
 import TransportDetails from './TransportDetails';
 import { addTransport, getTransport } from '../../utils/dbService/transport';
 import TransportForm from '../../sections/@dashboard/transport/TransportForm';
+import { red } from '@mui/material/colors';
 
 // ----------------------------------------------------------------------
 
@@ -114,6 +116,7 @@ export default function Transport() {
   const [order, setOrder] = useState('asc');
   const [selected, setSelected] = useState([]);
   const [orderBy, setOrderBy] = useState('name');
+  const [formType, setFormType] = useState('dam');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [selectedLocations, setSelectedLocations] = useState([]);
@@ -222,8 +225,9 @@ export default function Transport() {
     setFilterOpen(false);
   };
 
-  const handleFormOpen = () => {
+  const handleFormOpen = (status) => {
     setFormOpen(true);
+    setFormType(status);
   };
 
   const handleFormClose = () => {
@@ -264,13 +268,24 @@ export default function Transport() {
           <Typography variant="h4" gutterBottom>
             {t('Transport')}
           </Typography>
-          <Button
-            variant="contained"
-            onClick={handleFormOpen}
-            startIcon={<Iconify icon="eva:plus-fill" />}
-          >
-            {t('AddTransport')}
-          </Button>
+          <Box>
+            <Button
+              variant="contained"
+              color={"warning"}
+              sx={{ backgroundColor: red[300], mr: 1 }}
+              onClick={() => handleFormOpen('szukam')}
+              startIcon={<Iconify icon="eva:plus-fill" />}
+            >
+              {t('GetTransport')}
+            </Button>
+            <Button
+              variant="contained"
+              onClick={() => handleFormOpen('dam')}
+              startIcon={<Iconify icon="eva:plus-fill" />}
+            >
+              {t('AddTransport')}
+            </Button>
+          </Box>
         </Stack>
 
         <TransportMap places={filteredUsers} onSelectMarkers={onSelectMarkers} />
@@ -410,6 +425,7 @@ export default function Transport() {
       {formOpen && (
         <TransportForm
           open={formOpen}
+          defaultStatus={formType}
           onClose={handleFormClose}
           onFormSubmitted={onFormSubmitted}
         />

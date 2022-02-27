@@ -165,7 +165,6 @@ export default function HomesDetails(props) {
   const handleClose = () => {
     onClose();
   };
-  console.log(home)
 
   return (
     <Dialog onClose={handleClose} open={open}>

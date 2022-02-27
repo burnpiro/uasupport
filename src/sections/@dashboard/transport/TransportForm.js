@@ -49,7 +49,7 @@ export default function TransportForm(props) {
   const [locale, setLocale] = React.useState('pl');
   const { t, i18n } = useTranslation();
 
-  const { onClose, open, onFormSubmitted } = props;
+  const { onClose, open, onFormSubmitted, defaultStatus = 'dam' } = props;
 
   const TransportSchema = Yup.object().shape({
     name: Yup.string().min(2, t('TooShort')).max(100, 'TooLong').required(t('Field required')),
@@ -74,7 +74,6 @@ export default function TransportForm(props) {
   };
 
   const handleSubmitConfirmed = (values) => {
-    console.log(values);
     onFormSubmitted(values);
   };
 
@@ -88,7 +87,7 @@ export default function TransportForm(props) {
       description: '',
       addressFrom: '',
       addressTo: '',
-      status: 'dam',
+      status: defaultStatus,
       date: new Date(),
       from: [],
       people: 0
@@ -112,13 +111,12 @@ export default function TransportForm(props) {
   };
 
   const handleDateChange = (newDate) => {
-    console.log(newDate);
     setFieldValue('date', newDate);
   };
 
   return (
     <Dialog onClose={handleClose} open={open} maxWidth={false}>
-      <DialogTitle>{t('DodajTransport')}</DialogTitle>
+      <DialogTitle>{t(values.status === 'dam' ? 'DodajTransport' : 'SzukajTransport')}</DialogTitle>
       <DialogContent>
         <FormikProvider value={formik}>
           <Form autoComplete="off" noValidate onSubmit={handleSubmit} style={{ minWidth: '512px' }}>
@@ -291,7 +289,7 @@ export default function TransportForm(props) {
             loading={isSubmitting}
             onClick={submitForm}
           >
-            {t('DodajTransport')}
+            {t(values.status === 'dam' ? 'DodajTransport' : 'SzukajTransport')}
           </LoadingButton>
           {Object.keys(errors).length > 0 && (
             <FormHelperText error>{t('Form Invalid')}</FormHelperText>
