@@ -16,6 +16,11 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import plLocale from 'date-fns/locale/pl';
 import ruLocale from 'date-fns/locale/ru';
 import enLocale from 'date-fns/locale/en-US';
+import {useTranslation} from "react-i18next";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
+import RadioGroup from "@mui/material/RadioGroup";
+import Radio from "@mui/material/Radio";
 
 const localeMap = {
   pl: plLocale,
@@ -31,11 +36,13 @@ const maskMap = {
 
 export default function FilterDialog(props) {
   const [locale, setLocale] = React.useState('pl');
+  const { t, i18n } = useTranslation();
   const [form, setForm] = React.useState({
     from: 0,
     to: 0,
     onlyVerified: false,
-    date: null
+    date: null,
+    status: ''
   });
   const { onClose, selectFilter, open } = props;
 
@@ -49,6 +56,10 @@ export default function FilterDialog(props) {
       [field]: value
     });
   };
+  const handleStatusChange = (event) => {
+    handleFormChange('status', event.target.value);
+  };
+
 
   const handleFilter = () => {
     selectFilter(form);
@@ -107,6 +118,24 @@ export default function FilterDialog(props) {
               renderInput={(params) => <TextField {...params} />}
             />
           </LocalizationProvider>
+          <FormControl>
+            <FormLabel id="status-label">{t('Status')}</FormLabel>
+            <RadioGroup
+              aria-labelledby="status-label"
+              defaultValue={''}
+              value={form.status}
+              onChange={handleStatusChange}
+              name="aid-type-group"
+            >
+              <FormControlLabel
+                value="szukam"
+                control={<Radio />}
+                label={t('szukam')}
+              />
+              <FormControlLabel value="dam" control={<Radio />} label={t('dam')} />
+              <FormControlLabel value={''} control={<Radio />} label={t('all-statuses')} />
+            </RadioGroup>
+          </FormControl>
         </Stack>
       </DialogContent>
       <DialogActions>

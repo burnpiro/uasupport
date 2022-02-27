@@ -27,7 +27,6 @@ import ruLocale from 'date-fns/locale/ru';
 import enLocale from 'date-fns/locale/en-US';
 import { fDateTime } from '../../utils/formatTime';
 import Label from '../../components/Label';
-import { sentenceCase } from 'change-case';
 import { useTranslation } from 'react-i18next';
 
 const localeMap = {
@@ -78,7 +77,7 @@ function HomeItem(props) {
         subheader={t('CheckIn') + fDateTime(date)}
         action={
           <Label variant="ghost" color={(status === 'szukam' && 'info') || 'success'}>
-            {status != null && sentenceCase(t(status || 'dam'))}
+            {status != null && t(status || 'dam')}
           </Label>
         }
       />

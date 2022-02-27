@@ -1,5 +1,4 @@
 import { filter } from 'lodash';
-import { sentenceCase } from 'change-case';
 import { useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 // material
@@ -86,7 +85,7 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-function applyDataFilter(array, { from, to, date, onlyVerified }) {
+function applyDataFilter(array, { from, to, date, onlyVerified, status }) {
   let result = array;
   if (from != null && Number(from) > 0) {
     result = array.filter((el) => el.people >= Number(from));
@@ -99,6 +98,9 @@ function applyDataFilter(array, { from, to, date, onlyVerified }) {
   }
   if (date != null) {
     result = array.filter((el) => isSameDay(el.date, date));
+  }
+  if (status != null && status !== '') {
+    result = array.filter((el) => el.status === status);
   }
 
   return result;
@@ -349,7 +351,7 @@ export default function Homes() {
                               variant="ghost"
                               color={(status === 'szukam' && 'info') || 'success'}
                             >
-                              {sentenceCase(t(status))}
+                              {t(status)}
                             </Label>
                           </TableCell>
 

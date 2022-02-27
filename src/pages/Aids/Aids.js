@@ -1,5 +1,4 @@
 import { filter } from 'lodash';
-import { sentenceCase } from 'change-case';
 import { useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 // material
@@ -332,7 +331,7 @@ export default function Aids() {
                               variant="ghost"
                               color={(aidType === 'health-aid' && 'info') || 'success'}
                             >
-                              {sentenceCase(t(aidType))}
+                              {t(aidType)}
                             </Label>
                           </TableCell>
 

@@ -25,7 +25,6 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import plLocale from 'date-fns/locale/pl';
 import ruLocale from 'date-fns/locale/ru';
 import enLocale from 'date-fns/locale/en-US';
-import { sentenceCase } from 'change-case';
 import { Form, FormikProvider, useFormik } from 'formik';
 import { LoadingButton } from '@mui/lab';
 import { useTranslation } from 'react-i18next';

@@ -27,7 +27,6 @@ import ruLocale from 'date-fns/locale/ru';
 import enLocale from 'date-fns/locale/en-US';
 import { fDateTime } from '../../utils/formatTime';
 import Label from '../../components/Label';
-import { sentenceCase } from 'change-case';
 import { useTranslation } from 'react-i18next';
 
 const localeMap = {
@@ -75,7 +74,7 @@ function AidItem(props) {
         title={name}
         action={
           <Label variant="ghost" color={(aidType === 'health-aid' && 'info') || 'success'}>
-            {aidType != null && sentenceCase(t(aidType || 'standard-aid'))}
+            {aidType != null && t(aidType || 'standard-aid')}
           </Label>
         }
       />
