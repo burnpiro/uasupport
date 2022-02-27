@@ -26,16 +26,16 @@ const sidebarConfig = [
     path: '/dashboard/aids',
     icon: getIcon('bxs:first-aid')
   },
-  {
-    title: 'login',
-    path: '/login',
-    icon: getIcon('eva:lock-fill')
-  },
-  {
-    title: 'register',
-    path: '/register',
-    icon: getIcon('eva:person-add-fill')
-  }
+  // {
+  //   title: 'login',
+  //   path: '/login',
+  //   icon: getIcon('eva:lock-fill')
+  // },
+  // {
+  //   title: 'register',
+  //   path: '/register',
+  //   icon: getIcon('eva:person-add-fill')
+  // }
 ];
 
 export default sidebarConfig;

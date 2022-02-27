@@ -14,6 +14,7 @@ import Scrollbar from '../../components/Scrollbar';
 import NavSection from '../../components/NavSection';
 //
 import sidebarConfig from './SidebarConfig';
+import {useTranslation} from "react-i18next";
 
 // ----------------------------------------------------------------------
 
@@ -43,6 +44,7 @@ DashboardSidebar.propTypes = {
 
 export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
   const { pathname } = useLocation();
+  const { t, i18n } = useTranslation();
 
   const isDesktop = useResponsive('up', 'lg');
 
@@ -61,23 +63,26 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
     >
       <Box sx={{ px: 2.5, py: 3, display: 'inline-flex' }}>
         <Logo />
+        <Typography variant="h4" sx={{ color: 'text.primary', textAlign: 'right', ml: 2 }}>
+          {t('Pomoc UA')}
+        </Typography>
       </Box>
 
-      <Box sx={{ mb: 5, mx: 2.5 }}>
-        <Link underline="none" component={RouterLink} to="#">
-          <AccountStyle>
-            <Avatar src={account.photoURL} alt="photoURL" />
-            <Box sx={{ ml: 2 }}>
-              <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-                {account.displayName}
-              </Typography>
-              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                {account.role}
-              </Typography>
-            </Box>
-          </AccountStyle>
-        </Link>
-      </Box>
+      {/*<Box sx={{ mb: 5, mx: 2.5 }}>*/}
+      {/*  <Link underline="none" component={RouterLink} to="#">*/}
+      {/*    <AccountStyle>*/}
+      {/*      <Avatar src={account.photoURL} alt="photoURL" />*/}
+      {/*      <Box sx={{ ml: 2 }}>*/}
+      {/*        <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>*/}
+      {/*          {account.displayName}*/}
+      {/*        </Typography>*/}
+      {/*        <Typography variant="body2" sx={{ color: 'text.secondary' }}>*/}
+      {/*          {account.role}*/}
+      {/*        </Typography>*/}
+      {/*      </Box>*/}
+      {/*    </AccountStyle>*/}
+      {/*  </Link>*/}
+      {/*</Box>*/}
 
       <NavSection navConfig={sidebarConfig} />
 
