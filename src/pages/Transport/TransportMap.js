@@ -25,15 +25,15 @@ function createLabel(location) {
   return label;
 }
 
+const center = {
+  lat: 50.4118,
+  lng: 23.3635
+};
 export default function TransportMap({ places = [], onSelectMarkers }) {
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: 'AIzaSyB5j64Fb5aE5WJOzkdf0OkmlbOcEMu2iCw'
   });
-  const center = {
-    lat: 50.4118,
-    lng: 23.3635
-  };
 
   const locations = (places || []).map((place) => ({
     ...place,

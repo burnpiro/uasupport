@@ -24,16 +24,16 @@ function createLabel(location) {
   return label;
 }
 
+const center = {
+  lat: 51.759,
+  lng: 19.956
+};
+
 export default function HomesMap({ places = [], onSelectMarkers }) {
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: 'AIzaSyB5j64Fb5aE5WJOzkdf0OkmlbOcEMu2iCw'
   });
-  const center = {
-    lat: 51.759,
-    lng: 19.956
-  };
-
   const locations = (places || []).map((place) => ({
     ...place,
     from: {
