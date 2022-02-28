@@ -9,6 +9,7 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import Button from '@mui/material/Button';
+import Checkbox from '@mui/material/Checkbox';
 import FormHelperText from '@mui/material/FormHelperText';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import DateTimePicker from '@mui/lab/DateTimePicker';
@@ -96,7 +97,9 @@ export default function HomeForm(props) {
           pet: '',
           child: '',
           disability: '',
-          includingTransport: ''
+          includingTransport: '',
+          separateBath: false,
+          kitchen: false
         },
     validationSchema: TransportSchema,
     onSubmit: handleSubmitConfirmed
@@ -118,6 +121,14 @@ export default function HomeForm(props) {
 
   const handleDateChange = (newDate) => {
     setFieldValue('date', newDate);
+  };
+
+  const handleBathChange = (event) => {
+    setFieldValue('separateBath', event.target.checked);
+  };
+
+  const handleKitchenChange = (event) => {
+    setFieldValue('kitchen', event.target.checked);
   };
   const mapCenter = {
     lat: 51.059,
@@ -268,6 +279,20 @@ export default function HomeForm(props) {
                   )
                 }}
               />
+              <FormGroup>
+                <FormControlLabel
+                  control={<Checkbox checked={values.separateBath} onChange={handleBathChange} />}
+                  label={t('Separate Bath')}
+                />
+                {Boolean(errors.separateBath) && (
+                  <FormHelperText error>{errors.separateBath}</FormHelperText>
+                )}
+                <FormControlLabel
+                  control={<Checkbox checked={values.kitchen} onChange={handleKitchenChange} />}
+                  label={t('Kitchen Access')}
+                />
+                {Boolean(errors.kitchen) && <FormHelperText error>{errors.kitchen}</FormHelperText>}
+              </FormGroup>
 
               <TextField
                 fullWidth

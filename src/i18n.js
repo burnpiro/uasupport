@@ -88,7 +88,9 @@ const resources = {
       Filter: 'Filter',
       'Zbiórki Pieniędzy': 'Fundraising',
       Zakwaterowanie: 'Accommodation',
-      'Centra Pomocy': 'Aid Centers'
+      'Centra Pomocy': 'Aid Centers',
+      'Separate Bath': 'Separate Bath',
+      'Kitchen Access': 'Kitchen Access'
     }
   },
   pl: {
@@ -181,7 +183,9 @@ const resources = {
       Filter: 'Filter',
       'Zbiórki Pieniędzy': 'Zbiórki Pieniędzy',
       Zakwaterowanie: 'Zakwaterowanie',
-      'Centra Pomocy': 'Centra Pomocy'
+      'Centra Pomocy': 'Centra Pomocy',
+      'Separate Bath': 'Oddzielna łazienka',
+      'Kitchen Access': 'Dostęp do kuchni'
     }
   },
   ru: {
@@ -274,7 +278,9 @@ const resources = {
       Filter: 'Фільтр',
       'Zbiórki Pieniędzy': 'Збір коштів',
       Zakwaterowanie: 'Проживання',
-      'Centra Pomocy': 'Довідкові центри'
+      'Centra Pomocy': 'Довідкові центри',
+      'Separate Bath': 'Окрема ванна кімната',
+      'Kitchen Access': 'Доступ до кухні'
     }
   }
 };

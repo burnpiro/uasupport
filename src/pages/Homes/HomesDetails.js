@@ -28,6 +28,8 @@ import enLocale from 'date-fns/locale/en-US';
 import { fDateTime } from '../../utils/formatTime';
 import Label from '../../components/Label';
 import { useTranslation } from 'react-i18next';
+import Checkbox from '@mui/material/Checkbox';
+import FormHelperText from '@mui/material/FormHelperText';
 
 const localeMap = {
   pl: plLocale,
@@ -60,7 +62,9 @@ function HomeItem(props) {
       period,
       child,
       disability,
-      includingTransport
+      includingTransport,
+      separateBath,
+      kitchen
     }
   } = props;
   const [displayPhone, setDisplayPhone] = React.useState(false);
@@ -142,7 +146,7 @@ function HomeItem(props) {
               </Typography>
             </Box>
           )}
-          {includingTransport != null && child.includingTransport > 0 && (
+          {includingTransport != null && includingTransport.length > 0 && (
             <Box flexDirection={'row'} display={'flex'}>
               <Typography variant="subtitle2" noWrap>
                 {t('Mieszkanie-transport')}:
@@ -152,6 +156,20 @@ function HomeItem(props) {
               </Typography>
             </Box>
           )}
+          <FormGroup>
+            {separateBath === true && (
+              <FormControlLabel
+                control={<Checkbox checked={true} />}
+                label={t('Separate Bath')}
+              />
+            )}
+            {kitchen === true && (
+              <FormControlLabel
+                control={<Checkbox checked={true} />}
+                label={t('Kitchen Access')}
+              />
+            )}
+          </FormGroup>
         </Stack>
         <Typography variant="body2" color="text.secondary">
           {description}
