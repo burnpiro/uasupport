@@ -49,7 +49,7 @@ import { addHome } from '../../utils/dbService/homes';
 
 const TABLE_HEAD = () => [
   { id: 'name', label: i18next.t('Name'), alignRight: false },
-  { id: 'address', label: i18next.t('Address'), alignRight: false },
+  { id: 'addressFrom', label: i18next.t('Address'), alignRight: false },
   { id: 'date', label: i18next.t('Date'), alignRight: false },
   { id: 'people', label: i18next.t('People'), alignRight: false },
   // { id: 'isVerified', label: i18next.t('Verified'), alignRight: false },

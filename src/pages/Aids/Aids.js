@@ -42,7 +42,7 @@ import AidsForm from '../../sections/@dashboard/aids/AidsForm';
 
 const TABLE_HEAD = () => [
   { id: 'name', label: i18next.t('AidName'), alignRight: false },
-  { id: 'address', label: i18next.t('Address'), alignRight: false },
+  { id: 'addressFrom', label: i18next.t('Address'), alignRight: false },
   // { id: 'isVerified', label: i18next.t('Verified'), alignRight: false },
   { id: 'aidType', label: i18next.t('AidType'), alignRight: false },
   { id: '' }
