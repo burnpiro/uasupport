@@ -80,7 +80,8 @@ export default function HomeForm(props) {
   const formik = useFormik({
     initialValues: editElement
       ? {
-          ...editElement
+          ...editElement,
+        description: editElement.description.replace(/↵/g, "\n").replace("\\n", "\n")
         }
       : {
           name: '',

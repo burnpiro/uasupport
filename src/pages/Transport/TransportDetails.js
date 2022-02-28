@@ -55,7 +55,7 @@ function TransportItem(props) {
       car,
       date,
       people,
-      description,
+      description = '',
       phone,
       fb,
       email
@@ -111,8 +111,9 @@ function TransportItem(props) {
             </Typography>
           </Box>
         </Stack>
-        <Typography variant="body2" color="text.secondary">
-          {description}
+        <Typography variant="body2" color="text.secondary"
+                    style={{whiteSpace: 'pre-line'}}>
+          {description.replace(/↵/g, "\n").replace("\\n", "\n")}
         </Typography>
         {displayPhone && (
           <Box flexDirection={'row'} display={'flex'} sx={{ pt: 1 }}>
