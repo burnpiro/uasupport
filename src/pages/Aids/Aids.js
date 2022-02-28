@@ -43,7 +43,7 @@ import AidsForm from '../../sections/@dashboard/aids/AidsForm';
 const TABLE_HEAD = () => [
   { id: 'name', label: i18next.t('AidName'), alignRight: false },
   { id: 'address', label: i18next.t('Address'), alignRight: false },
-  { id: 'isVerified', label: i18next.t('Verified'), alignRight: false },
+  // { id: 'isVerified', label: i18next.t('Verified'), alignRight: false },
   { id: 'aidType', label: i18next.t('AidType'), alignRight: false },
   { id: '' }
 ];
@@ -334,9 +334,9 @@ export default function Aids() {
                           <TableCell align="left" onClick={() => setDisplayDetails(row)}>
                             {addressFrom}
                           </TableCell>
-                          <TableCell align="left" onClick={() => setDisplayDetails(row)}>
-                            {isVerified ? t('Tak') : t('Nie')}
-                          </TableCell>
+                          {/*<TableCell align="left" onClick={() => setDisplayDetails(row)}>*/}
+                          {/*  {isVerified ? t('Tak') : t('Nie')}*/}
+                          {/*</TableCell>*/}
                           <TableCell align="left">
                             <Label
                               variant="ghost"

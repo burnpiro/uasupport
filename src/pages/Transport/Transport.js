@@ -52,7 +52,7 @@ const TABLE_HEAD = () => [
   { id: 'address', label: i18next.t('Address'), alignRight: false },
   { id: 'date', label: i18next.t('Date'), alignRight: false },
   { id: 'people', label: i18next.t('People'), alignRight: false },
-  { id: 'isVerified', label: i18next.t('Verified'), alignRight: false },
+  // { id: 'isVerified', label: i18next.t('Verified'), alignRight: false },
   { id: 'status', label: i18next.t('Status'), alignRight: false },
   { id: '' }
 ];
@@ -359,7 +359,7 @@ export default function Transport() {
                               onChange={(event) => handleClick(event, id)}
                             />
                           </TableCell>
-                          <TableCell component="th" scope="row" padding="none">
+                          <TableCell component="th" scope="row" padding="none" onClick={() => setDisplayDetails(row)}>
                             <Stack direction="row" alignItems="center" spacing={2}>
                               <Avatar alt={name} src={avatarUrl} />
                               <Typography variant="subtitle2" noWrap>
@@ -367,8 +367,8 @@ export default function Transport() {
                               </Typography>
                             </Stack>
                           </TableCell>
-                          <TableCell align="left">{addressFrom}</TableCell>
-                          <TableCell align="left">
+                          <TableCell align="left" onClick={() => setDisplayDetails(row)}>{addressFrom}</TableCell>
+                          <TableCell align="left" onClick={() => setDisplayDetails(row)}>
                             <Tooltip title={fDateTime(date)}>
                               <Typography>{fToNow(date)}</Typography>
                             </Tooltip>
@@ -378,7 +378,7 @@ export default function Transport() {
                               <Typography>{people}</Typography>
                             </Tooltip>
                           </TableCell>
-                          <TableCell align="left">{isVerified ? t('Tak') : t('Nie')}</TableCell>
+                          {/*<TableCell align="left">{isVerified ? t('Tak') : t('Nie')}</TableCell>*/}
                           <TableCell align="left">
                             <Label
                               variant="ghost"
