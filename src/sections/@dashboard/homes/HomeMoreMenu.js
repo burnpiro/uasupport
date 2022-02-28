@@ -4,12 +4,14 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText } from '@mui/material';
 // component
 import Iconify from '../../../components/Iconify';
+import {useTranslation} from "react-i18next";
 
 // ----------------------------------------------------------------------
 
 export default function HomeMoreMenu({onClickShow, onClickEdit}) {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
+  const { t, i18n } = useTranslation();
 
   return (
     <>
@@ -31,14 +33,14 @@ export default function HomeMoreMenu({onClickShow, onClickEdit}) {
           <ListItemIcon>
             <Iconify icon="eva:book-open-outline" width={24} height={24} />
           </ListItemIcon>
-          <ListItemText primary="Zobacz" primaryTypographyProps={{ variant: 'body2' }} />
+          <ListItemText primary={t('Zobacz')} primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
 
         <MenuItem onClick={onClickEdit} sx={{ color: 'text.secondary' }}>
           <ListItemIcon>
             <Iconify icon="eva:edit-fill" width={24} height={24} />
           </ListItemIcon>
-          <ListItemText primary="Edytuj" primaryTypographyProps={{ variant: 'body2' }} />
+          <ListItemText primary={t('Edytuj')} primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
       </Menu>
     </>

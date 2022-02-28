@@ -365,7 +365,7 @@ export default function Homes() {
                           <TableCell align="left">
                             <Typography>{people}</Typography>
                           </TableCell>
-                          <TableCell align="left">{isVerified ? 'Tak' : 'Nie'}</TableCell>
+                          <TableCell align="left">{isVerified ? t('Tak') : t('Nie')}</TableCell>
                           <TableCell align="left">
                             <Label
                               variant="ghost"

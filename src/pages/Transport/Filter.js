@@ -66,13 +66,13 @@ export default function FilterDialog(props) {
 
   return (
     <Dialog onClose={handleClose} open={open}>
-      <DialogTitle>Filter</DialogTitle>
+      <DialogTitle>{t('Filter')}</DialogTitle>
       <DialogContent>
         <Stack direction={{ xs: 'column' }} sx={{ mt: 2}} spacing={2}>
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
             <TextField
               fullWidth
-              label="Osoby od"
+              label={t('Osoby od')}
               type={'number'}
               value={form.from}
               onChange={(e) => handleFormChange('from', e.target.value)}
@@ -86,7 +86,7 @@ export default function FilterDialog(props) {
             />
             <TextField
               fullWidth
-              label="Osoby do"
+              label={t('Osoby do')}
               type={'number'}
               onChange={(e) => handleFormChange('to', e.target.value)}
               InputProps={{
@@ -101,16 +101,16 @@ export default function FilterDialog(props) {
               helperText={form.to < form.from ? '' : ''}
             />
           </Stack>
-          <FormGroup>
-            <FormControlLabel
-              onChange={(e) => handleFormChange('onlyVerified', e.target.checked)}
-              control={<Switch checked={form.onlyVerified} />}
-              label="Tylko zweryfikowane profile"
-            />
-          </FormGroup>
+          {/*<FormGroup>*/}
+          {/*  <FormControlLabel*/}
+          {/*    onChange={(e) => handleFormChange('onlyVerified', e.target.checked)}*/}
+          {/*    control={<Switch checked={form.onlyVerified} />}*/}
+          {/*    label={t("Tylko zweryfikowane profile")}*/}
+          {/*  />*/}
+          {/*</FormGroup>*/}
           <LocalizationProvider dateAdapter={AdapterDateFns} locale={localeMap[locale]}>
             <DatePicker
-              label="Data"
+              label={t('Date')}
               mask={maskMap[locale]}
               value={form.date}
               onChange={(newValue) => handleFormChange('date', newValue)}
@@ -138,8 +138,8 @@ export default function FilterDialog(props) {
         </Stack>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose}>Cancel</Button>
-        <Button onClick={handleFilter}>Filter</Button>
+        <Button onClick={handleClose}>{t('Cancel')}</Button>
+        <Button onClick={handleFilter}>{t('Filter')}</Button>
       </DialogActions>
     </Dialog>
   );

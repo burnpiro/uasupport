@@ -74,7 +74,7 @@ export default function TransportListToolbar({
 
           <Button variant="contained" onClick={showAllSelected}>
             <Iconify icon="eva:book-open-outline" width={24} height={24} />
-            <Typography>Zobacz wszystkie</Typography>
+            <Typography>{t('Zobacz wszystkie')}</Typography>
           </Button>
         </Box>
       ) : (

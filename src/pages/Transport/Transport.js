@@ -378,7 +378,7 @@ export default function Transport() {
                               <Typography>{people}</Typography>
                             </Tooltip>
                           </TableCell>
-                          <TableCell align="left">{isVerified ? 'Tak' : 'Nie'}</TableCell>
+                          <TableCell align="left">{isVerified ? t('Tak') : t('Nie')}</TableCell>
                           <TableCell align="left">
                             <Label
                               variant="ghost"

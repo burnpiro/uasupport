@@ -335,7 +335,7 @@ export default function Aids() {
                             {addressFrom}
                           </TableCell>
                           <TableCell align="left" onClick={() => setDisplayDetails(row)}>
-                            {isVerified ? 'Tak' : 'Nie'}
+                            {isVerified ? t('Tak') : t('Nie')}
                           </TableCell>
                           <TableCell align="left">
                             <Label

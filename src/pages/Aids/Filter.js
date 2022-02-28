@@ -63,16 +63,16 @@ export default function FilterDialog(props) {
 
   return (
     <Dialog onClose={handleClose} open={open}>
-      <DialogTitle>Filter</DialogTitle>
+      <DialogTitle>{t('Filter')}</DialogTitle>
       <DialogContent>
         <Stack direction={{ xs: 'column' }} sx={{ mt: 2 }} spacing={2}>
-          <FormGroup>
-            <FormControlLabel
-              onChange={(e) => handleFormChange('onlyVerified', e.target.checked)}
-              control={<Switch checked={form.onlyVerified} />}
-              label="Tylko zweryfikowane profile"
-            />
-          </FormGroup>
+          {/*<FormGroup>*/}
+          {/*  <FormControlLabel*/}
+          {/*    onChange={(e) => handleFormChange('onlyVerified', e.target.checked)}*/}
+          {/*    control={<Switch checked={form.onlyVerified} />}*/}
+          {/*    label={t("Tylko zweryfikowane profile")}*/}
+          {/*  />*/}
+          {/*</FormGroup>*/}
           <FormControl>
             <FormLabel id="aid-type-label">{t('AidType')}</FormLabel>
             <RadioGroup
@@ -94,8 +94,8 @@ export default function FilterDialog(props) {
         </Stack>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose}>Cancel</Button>
-        <Button onClick={handleFilter}>Filter</Button>
+        <Button onClick={handleClose}>{t('Cancel')}</Button>
+        <Button onClick={handleFilter}>{t('Filter')}</Button>
       </DialogActions>
     </Dialog>
   );

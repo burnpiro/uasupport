@@ -14,7 +14,7 @@ import Scrollbar from '../../components/Scrollbar';
 import NavSection from '../../components/NavSection';
 //
 import sidebarConfig from './SidebarConfig';
-import {useTranslation} from "react-i18next";
+import { useTranslation } from 'react-i18next';
 
 // ----------------------------------------------------------------------
 
@@ -54,6 +54,11 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
     }
   }, [pathname]);
 
+  const navConfig = sidebarConfig.map((el) => ({
+    ...el,
+    title: t(el.title)
+  }));
+
   const renderContent = (
     <Scrollbar
       sx={{
@@ -84,7 +89,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
       {/*  </Link>*/}
       {/*</Box>*/}
 
-      <NavSection navConfig={sidebarConfig} />
+      <NavSection navConfig={navConfig} />
 
       <Box sx={{ flexGrow: 1 }} />
     </Scrollbar>
