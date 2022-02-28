@@ -99,59 +99,59 @@ function HomeItem(props) {
         </Box>
         <Stack direction="column" spacing={2} sx={{ p: 2 }}>
           <Box flexDirection={'row'} display={'flex'}>
-            <Typography variant="subtitle2" noWrap>
+            <Typography variant="subtitle2">
               {t('Mieszkanie-adres')}:
             </Typography>
-            <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }} noWrap>
+            <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }}>
               {addressFrom}
             </Typography>
           </Box>
           {period != null && period.length > 0 && (
             <Box flexDirection={'row'} display={'flex'}>
-              <Typography variant="subtitle2" noWrap>
+              <Typography variant="subtitle2">
                 {t('Mieszkanie-czas')}:
               </Typography>
-              <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }} noWrap>
+              <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }}>
                 {period}
               </Typography>
             </Box>
           )}
           {pet != null && pet.length > 0 && (
             <Box flexDirection={'row'} display={'flex'}>
-              <Typography variant="subtitle2" noWrap>
+              <Typography variant="subtitle2">
                 {t('Mieszkanie-zwierze')}:
               </Typography>
-              <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }} noWrap>
+              <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }}>
                 {pet}
               </Typography>
             </Box>
           )}
           {child != null && child.length > 0 && (
             <Box flexDirection={'row'} display={'flex'}>
-              <Typography variant="subtitle2" noWrap>
+              <Typography variant="subtitle2">
                 {t('Mieszkanie-dzieci')}:
               </Typography>
-              <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }} noWrap>
+              <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }}>
                 {child}
               </Typography>
             </Box>
           )}
           {disability != null && disability.length > 0 && (
             <Box flexDirection={'row'} display={'flex'}>
-              <Typography variant="subtitle2" noWrap>
+              <Typography variant="subtitle2">
                 {t('Mieszkanie-disability')}:
               </Typography>
-              <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }} noWrap>
+              <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }}>
                 {disability}
               </Typography>
             </Box>
           )}
           {includingTransport != null && includingTransport.length > 0 && (
             <Box flexDirection={'row'} display={'flex'}>
-              <Typography variant="subtitle2" noWrap>
+              <Typography variant="subtitle2">
                 {t('Mieszkanie-transport')}:
               </Typography>
-              <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }} noWrap>
+              <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }}>
                 {includingTransport}
               </Typography>
             </Box>
@@ -179,7 +179,7 @@ function HomeItem(props) {
             <Typography variant="subtitle2" noWrap>
               {t('Phone')}
             </Typography>
-            <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }} noWrap>
+            <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }}>
               {phone}
             </Typography>
           </Box>
@@ -189,7 +189,7 @@ function HomeItem(props) {
             <Typography variant="subtitle2" noWrap>
               {t('Email')}
             </Typography>
-            <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }} noWrap>
+            <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }}>
               {email}
             </Typography>
           </Box>

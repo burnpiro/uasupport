@@ -95,18 +95,18 @@ function TransportItem(props) {
         </Tooltip>
         <Stack direction="column" spacing={2} sx={{ p: 2 }}>
           <Box flexDirection={'row'} display={'flex'}>
-            <Typography variant="subtitle2" noWrap>
+            <Typography variant="subtitle2">
               {t('Jade-z')}:
             </Typography>
-            <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }} noWrap>
+            <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }}>
               {addressFrom}
             </Typography>
           </Box>
           <Box flexDirection={'row'} display={'flex'}>
-            <Typography variant="subtitle2" noWrap>
+            <Typography variant="subtitle2">
               {t('Jade-do')}:
             </Typography>
-            <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }} noWrap>
+            <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }}>
               {addressTo}
             </Typography>
           </Box>
@@ -119,7 +119,7 @@ function TransportItem(props) {
             <Typography variant="subtitle2" noWrap>
               {t('Phone')}:
             </Typography>
-            <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }} noWrap>
+            <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }}>
               {phone}
             </Typography>
           </Box>
@@ -129,7 +129,7 @@ function TransportItem(props) {
             <Typography variant="subtitle2" noWrap>
               {t('Email')}:
             </Typography>
-            <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }} noWrap>
+            <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }}>
               {email}
             </Typography>
           </Box>

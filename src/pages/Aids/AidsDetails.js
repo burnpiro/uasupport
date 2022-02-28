@@ -81,10 +81,10 @@ function AidItem(props) {
       <CardContent>
         <Stack direction="column" spacing={2} sx={{ p: 2 }}>
           <Box flexDirection={'row'} display={'flex'}>
-            <Typography variant="subtitle2" noWrap>
+            <Typography variant="subtitle2">
               {t("Aid-address")}:
             </Typography>
-            <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }} noWrap>
+            <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }}>
               {addressFrom}
             </Typography>
           </Box>
@@ -97,7 +97,7 @@ function AidItem(props) {
             <Typography variant="subtitle2" noWrap>
               {t("Phone")}:
             </Typography>
-            <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }} noWrap>
+            <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }}>
               {phone}
             </Typography>
           </Box>
@@ -107,7 +107,7 @@ function AidItem(props) {
             <Typography variant="subtitle2" noWrap>
               {t("Email")}:
             </Typography>
-            <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }} noWrap>
+            <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }}>
               {email}
             </Typography>
           </Box>
