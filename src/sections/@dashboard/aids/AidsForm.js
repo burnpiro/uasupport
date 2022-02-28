@@ -32,10 +32,10 @@ import Iconify from '../../../components/Iconify';
 import { fDateTime } from '../../../utils/formatTime';
 import * as Yup from 'yup';
 import PositionPicker from '../../../components/PositionPicker';
-import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
-import RadioGroup from "@mui/material/RadioGroup";
-import Radio from "@mui/material/Radio";
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
+import RadioGroup from '@mui/material/RadioGroup';
+import Radio from '@mui/material/Radio';
 
 const localeMap = {
   pl: plLocale,
@@ -53,7 +53,7 @@ export default function AidsForm(props) {
   const [locale, setLocale] = React.useState('pl');
   const { t, i18n } = useTranslation();
 
-  const { onClose, open, onFormSubmitted } = props;
+  const { onClose, open, onFormSubmitted, editElement } = props;
 
   const TransportSchema = Yup.object().shape({
     aidType: Yup.string().required(t('Field required')),
@@ -75,16 +75,20 @@ export default function AidsForm(props) {
   };
 
   const formik = useFormik({
-    initialValues: {
-      name: '',
-      fb: '',
-      email: '',
-      phone: '',
-      description: '',
-      addressFrom: '',
-      from: [],
-      aidType: 'standard-aid'
-    },
+    initialValues: editElement
+      ? {
+          ...editElement
+        }
+      : {
+          name: '',
+          fb: '',
+          email: '',
+          phone: '',
+          description: '',
+          addressFrom: '',
+          from: [],
+          aidType: 'standard-aid'
+        },
     validationSchema: TransportSchema,
     onSubmit: handleSubmitConfirmed
   });
@@ -132,7 +136,11 @@ export default function AidsForm(props) {
                     control={<Radio />}
                     label={t('standard-aid')}
                   />
-                  <FormControlLabel value="health-aid" control={<Radio />} label={t('health-aid')} />
+                  <FormControlLabel
+                    value="health-aid"
+                    control={<Radio />}
+                    label={t('health-aid')}
+                  />
                 </RadioGroup>
                 {Boolean(errors.aidType) && <FormHelperText error>{errors.aidType}</FormHelperText>}
               </FormControl>
@@ -207,7 +215,7 @@ export default function AidsForm(props) {
                   )
                 }}
               />
-              <PositionPicker onPositionChange={handleFromChange} mapCenter={mapCenter}/>
+              <PositionPicker onPositionChange={handleFromChange} mapCenter={mapCenter} defaultMarker={values.from.length > 0 ? values.from : null}/>
               {Boolean(errors.from) && <FormHelperText error>{errors.from}</FormHelperText>}
 
               <TextField

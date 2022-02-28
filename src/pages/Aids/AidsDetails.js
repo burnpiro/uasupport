@@ -143,6 +143,11 @@ function AidItem(props) {
             <Iconify icon="eva:facebook-fill" width={24} height={24} />
           </IconButton>
         </Link>
+        <Link href={`https://www.google.com/maps/dir/?api=1&destination=${from[0]}, ${from[1]}`} target="_blank">
+          <IconButton aria-label="location" color={'info'} disabled={from == null}>
+            <Iconify icon="fa-solid:map-marked-alt" width={24} height={24} />
+          </IconButton>
+        </Link>
       </CardActions>
     </Card>
   );

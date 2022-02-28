@@ -40,9 +40,10 @@ import isSameDay from 'date-fns/isSameDay';
 import TransportMap from './TransportMap';
 import FilterDialog from './Filter';
 import TransportDetails from './TransportDetails';
-import { addTransport, getTransport } from '../../utils/dbService/transport';
+import { addTransport, getTransport, updateTransport } from '../../utils/dbService/transport';
 import TransportForm from '../../sections/@dashboard/transport/TransportForm';
 import { red } from '@mui/material/colors';
+import { addHome } from '../../utils/dbService/homes';
 
 // ----------------------------------------------------------------------
 
@@ -127,6 +128,7 @@ export default function Transport() {
   const [showDetails, setShowDetails] = useState([]);
   const [transportList, setTransportList] = useState([]);
   const { t, i18n } = useTranslation();
+  const [editElement, setEditElement] = useState(null);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -235,9 +237,14 @@ export default function Transport() {
   };
 
   const onFormSubmitted = async (values) => {
-    await addTransport(values);
+    if (values.id != null && values.id.length > 0) {
+      await updateTransport(values);
+    } else {
+      await addTransport(values);
+    }
     handleFormClose();
     setReloadList(true);
+    setEditElement(null);
   };
 
   const handleSelectFilter = (filter) => {
@@ -261,6 +268,11 @@ export default function Transport() {
     }
   };
 
+  const handleEditElement = (element) => {
+    setEditElement(element);
+    setFormOpen(true);
+  };
+
   return (
     <Page title={t('Transport')}>
       <Container>
@@ -271,7 +283,7 @@ export default function Transport() {
           <Box>
             <Button
               variant="contained"
-              color={"warning"}
+              color={'warning'}
               sx={{ backgroundColor: red[300], mr: 1 }}
               onClick={() => handleFormOpen('szukam')}
               startIcon={<Iconify icon="eva:plus-fill" />}
@@ -377,7 +389,10 @@ export default function Transport() {
                           </TableCell>
 
                           <TableCell align="right">
-                            <TransportMoreMenu onClickShow={() => setDisplayDetails(row)} />
+                            <TransportMoreMenu
+                              onClickShow={() => setDisplayDetails(row)}
+                              onClickEdit={() => handleEditElement(row)}
+                            />
                           </TableCell>
                         </TableRow>
                       );
@@ -428,6 +443,7 @@ export default function Transport() {
           defaultStatus={formType}
           onClose={handleFormClose}
           onFormSubmitted={onFormSubmitted}
+          editElement={editElement}
         />
       )}
     </Page>

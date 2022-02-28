@@ -34,7 +34,7 @@ import isSameDay from 'date-fns/isSameDay';
 import AidsMap from './AidsMap';
 import FilterDialog from './Filter';
 import AidsDetails from './AidsDetails';
-import { addAid, getAids } from '../../utils/dbService/aids';
+import { addAid, getAids, updateAid } from '../../utils/dbService/aids';
 import { AidsListHead, AidsListToolbar, AidsMoreMenu } from '../../sections/@dashboard/aids';
 import AidsForm from '../../sections/@dashboard/aids/AidsForm';
 
@@ -109,6 +109,7 @@ export default function Aids() {
   const [showDetails, setShowDetails] = useState([]);
   const [transportList, setTransportList] = useState([]);
   const { t, i18n } = useTranslation();
+  const [editElement, setEditElement] = useState(null);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -216,9 +217,14 @@ export default function Aids() {
   };
 
   const onFormSubmitted = async (values) => {
-    await addAid(values);
+    if (values.id != null && values.id.length > 0) {
+      await updateAid(values);
+    } else {
+      await addAid(values);
+    }
     handleFormClose();
     setReloadList(true);
+    setEditElement(null);
   };
 
   const handleSelectFilter = (filter) => {
@@ -240,6 +246,11 @@ export default function Aids() {
     } else {
       setShowDetails([element]);
     }
+  };
+
+  const handleEditElement = (element) => {
+    setEditElement(element);
+    setFormOpen(true);
   };
 
   return (
@@ -336,7 +347,10 @@ export default function Aids() {
                           </TableCell>
 
                           <TableCell align="right">
-                            <AidsMoreMenu onClickShow={() => setDisplayDetails(row)} />
+                            <AidsMoreMenu
+                              onClickShow={() => setDisplayDetails(row)}
+                              onClickEdit={() => handleEditElement(row)}
+                            />
                           </TableCell>
                         </TableRow>
                       );
@@ -378,7 +392,12 @@ export default function Aids() {
       />
       <AidsDetails onClose={handleCloseDetails} open={showDetails.length > 0} aid={showDetails} />
       {formOpen && (
-        <AidsForm open={formOpen} onClose={handleFormClose} onFormSubmitted={onFormSubmitted} />
+        <AidsForm
+          open={formOpen}
+          onClose={handleFormClose}
+          onFormSubmitted={onFormSubmitted}
+          editElement={editElement}
+        />
       )}
     </Page>
   );

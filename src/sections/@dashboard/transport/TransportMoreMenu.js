@@ -7,7 +7,7 @@ import Iconify from '../../../components/Iconify';
 
 // ----------------------------------------------------------------------
 
-export default function TransportMoreMenu({onClickShow}) {
+export default function TransportMoreMenu({onClickShow, onClickEdit}) {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -34,7 +34,7 @@ export default function TransportMoreMenu({onClickShow}) {
           <ListItemText primary="Zobacz" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
 
-        <MenuItem component={RouterLink} to="#" sx={{ color: 'text.secondary' }}>
+        <MenuItem onClick={onClickEdit} sx={{ color: 'text.secondary' }}>
           <ListItemIcon>
             <Iconify icon="eva:edit-fill" width={24} height={24} />
           </ListItemIcon>

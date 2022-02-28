@@ -19,7 +19,8 @@ export default function PositionPicker({
   mapCenter = {
     lat: 50.4118,
     lng: 23.3635
-  }
+  },
+  defaultMarker = null
 }) {
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
@@ -29,7 +30,14 @@ export default function PositionPicker({
 
   const [map, setMap] = React.useState(null);
   const [marker, setMarker] = React.useState(null);
-  const [location, setLocation] = React.useState(null);
+  const [location, setLocation] = React.useState(
+    defaultMarker
+      ? {
+          lat: defaultMarker[0],
+          lng: defaultMarker[1]
+        }
+      : null
+  );
   const [isDragging, setIsDragging] = React.useState(false);
 
   const onLoad = React.useCallback(function callback(map) {

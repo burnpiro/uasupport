@@ -37,9 +37,10 @@ import isSameDay from 'date-fns/isSameDay';
 import HomesMap from './HomesMap';
 import FilterDialog from './Filter';
 import HomesDetails from './HomesDetails';
-import { addHome, getHomes } from '../../utils/dbService/homes';
+import {addHome, getHomes, updateHome} from '../../utils/dbService/homes';
 import TransportForm from '../../sections/@dashboard/homes/HomeForm';
 import HomeForm from '../../sections/@dashboard/homes/HomeForm';
+import {addAid, updateAid} from "../../utils/dbService/aids";
 
 // ----------------------------------------------------------------------
 
@@ -124,6 +125,7 @@ export default function Homes() {
   const [showDetails, setShowDetails] = useState([]);
   const [transportList, setTransportList] = useState([]);
   const { t, i18n } = useTranslation();
+  const [editElement, setEditElement] = useState(null);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -232,9 +234,14 @@ export default function Homes() {
   };
 
   const onFormSubmitted = async (values) => {
-    await addHome(values);
+    if (values.id != null && values.id.length > 0) {
+      await updateHome(values);
+    } else {
+      await addHome(values);
+    }
     handleFormClose();
     setReloadList(true);
+    setEditElement(null);
   };
 
   const handleSelectFilter = (filter) => {
@@ -257,6 +264,12 @@ export default function Homes() {
       setShowDetails([element]);
     }
   };
+
+  const handleEditElement = (element) => {
+    setEditElement(element);
+    setFormOpen(true);
+  };
+
 
   return (
     <Page title={t('Homes')}>
@@ -363,7 +376,10 @@ export default function Homes() {
                           </TableCell>
 
                           <TableCell align="right">
-                            <HomeMoreMenu onClickShow={() => setDisplayDetails(row)} />
+                            <HomeMoreMenu
+                              onClickShow={() => setDisplayDetails(row)}
+                              onClickEdit={() => handleEditElement(row)}
+                            />
                           </TableCell>
                         </TableRow>
                       );
@@ -410,6 +426,7 @@ export default function Homes() {
           defaultStatus={formType}
           onClose={handleFormClose}
           onFormSubmitted={onFormSubmitted}
+          editElement={editElement}
         />
       )}
     </Page>

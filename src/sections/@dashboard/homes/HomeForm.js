@@ -49,7 +49,7 @@ export default function HomeForm(props) {
   const [locale, setLocale] = React.useState('pl');
   const { t, i18n } = useTranslation();
 
-  const { onClose, open, onFormSubmitted, defaultStatus = 'dam' } = props;
+  const { onClose, open, onFormSubmitted, editElement, defaultStatus = 'dam' } = props;
 
   const TransportSchema = Yup.object().shape({
     name: Yup.string().min(2, t('TooShort')).max(100, 'TooLong').required(t('Field required')),
@@ -77,18 +77,22 @@ export default function HomeForm(props) {
   };
 
   const formik = useFormik({
-    initialValues: {
-      name: '',
-      fb: '',
-      email: '',
-      phone: '',
-      description: '',
-      addressFrom: '',
-      status: defaultStatus,
-      date: new Date(),
-      from: [],
-      people: 0
-    },
+    initialValues: editElement
+      ? {
+          ...editElement
+        }
+      : {
+          name: '',
+          fb: '',
+          email: '',
+          phone: '',
+          description: '',
+          addressFrom: '',
+          status: defaultStatus,
+          date: new Date(),
+          from: [],
+          people: 0
+        },
     validationSchema: TransportSchema,
     onSubmit: handleSubmitConfirmed
   });
@@ -220,7 +224,11 @@ export default function HomeForm(props) {
                   )
                 }}
               />
-              <PositionPicker onPositionChange={handleFromChange} mapCenter={mapCenter} />
+              <PositionPicker
+                onPositionChange={handleFromChange}
+                mapCenter={mapCenter}
+                defaultMarker={values.from.length > 0 ? values.from : null}
+              />
               {Boolean(errors.from) && <FormHelperText error>{errors.from}</FormHelperText>}
 
               <TextField

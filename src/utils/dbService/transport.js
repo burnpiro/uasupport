@@ -1,4 +1,4 @@
-import { collection, getDocs, addDoc } from 'firebase/firestore/lite';
+import {collection, getDocs, addDoc, setDoc, doc} from 'firebase/firestore/lite';
 import { v4 as uuidv4 } from 'uuid';
 import { db } from '../../firebase';
 
@@ -15,5 +15,10 @@ export async function getTransport() {
 
 export async function addTransport(transport) {
   await addDoc(collection(db, "transport"), transport);
+  return true;
+}
+
+export async function updateTransport(data) {
+  await setDoc(doc(db, "transport", data.id), data);
   return true;
 }
