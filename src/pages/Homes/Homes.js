@@ -194,7 +194,7 @@ export default function Homes() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = filteredUsers.map((n) => n.id);
+      const newSelecteds = displayedUsers.map((n) => n.id);
       setSelected(newSelecteds);
       return;
     }
