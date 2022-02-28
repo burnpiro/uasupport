@@ -41,6 +41,7 @@ import {addHome, getHomes, updateHome} from '../../utils/dbService/homes';
 import TransportForm from '../../sections/@dashboard/homes/HomeForm';
 import HomeForm from '../../sections/@dashboard/homes/HomeForm';
 import {addAid, updateAid} from "../../utils/dbService/aids";
+import {isAfter} from "date-fns";
 
 // ----------------------------------------------------------------------
 
@@ -55,6 +56,8 @@ const TABLE_HEAD = () => [
 ];
 
 // ----------------------------------------------------------------------
+
+const nowDate = new Date();
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -359,7 +362,7 @@ export default function Homes() {
                           <TableCell align="left" onClick={() => setDisplayDetails(row)}>{addressFrom}</TableCell>
                           <TableCell align="left" onClick={() => setDisplayDetails(row)}>
                             <Tooltip title={fDateTime(date)}>
-                              <Typography>{fToNow(date)}</Typography>
+                              <Typography>{isAfter(nowDate,date) ? t('Dostępne') : fToNow(date)}</Typography>
                             </Tooltip>
                           </TableCell>
                           <TableCell align="left">

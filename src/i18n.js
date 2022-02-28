@@ -90,7 +90,8 @@ const resources = {
       Zakwaterowanie: 'Accommodation',
       'Centra Pomocy': 'Aid Centers',
       'Separate Bath': 'Separate Bath',
-      'Kitchen Access': 'Kitchen Access'
+      'Kitchen Access': 'Kitchen Access',
+      'Dostępne': 'Available now'
     }
   },
   pl: {
@@ -185,7 +186,8 @@ const resources = {
       Zakwaterowanie: 'Zakwaterowanie',
       'Centra Pomocy': 'Centra Pomocy',
       'Separate Bath': 'Oddzielna łazienka',
-      'Kitchen Access': 'Dostęp do kuchni'
+      'Kitchen Access': 'Dostęp do kuchni',
+      'Dostępne': 'Już Dostępne'
     }
   },
   ru: {
@@ -280,7 +282,8 @@ const resources = {
       Zakwaterowanie: 'Проживання',
       'Centra Pomocy': 'Довідкові центри',
       'Separate Bath': 'Окрема ванна кімната',
-      'Kitchen Access': 'Доступ до кухні'
+      'Kitchen Access': 'Доступ до кухні',
+      'Dostępne': 'Зараз доступний'
     }
   }
 };
