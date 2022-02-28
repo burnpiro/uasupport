@@ -87,7 +87,7 @@ export default function PositionPicker({
       <Typography variant={'caption'}>{t('PickLocation')}</Typography>
       <GoogleMap
         mapContainerStyle={containerStyle}
-        center={mapCenter}
+        center={location != null ? location : mapCenter}
         zoom={7}
         onLoad={onLoad}
         onUnmount={onUnmount}

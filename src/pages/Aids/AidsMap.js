@@ -30,7 +30,7 @@ export default function AidsMap({ places = [], onSelectMarkers }) {
     googleMapsApiKey: 'AIzaSyB5j64Fb5aE5WJOzkdf0OkmlbOcEMu2iCw'
   });
   const center = {
-    lat: 51.059,
+    lat: 52.059,
     lng: 19.956
   };
 
@@ -79,7 +79,7 @@ export default function AidsMap({ places = [], onSelectMarkers }) {
     <GoogleMap
       mapContainerStyle={containerStyle}
       center={center}
-      zoom={7}
+      zoom={6}
       onLoad={onLoad}
       onUnmount={onUnmount}
     >
