@@ -79,7 +79,7 @@ function HomeItem(props) {
       <CardHeader
         avatar={<Avatar aria-label="recipe" src={avatarUrl} />}
         title={name}
-        subheader={t('CheckIn') + fDateTime(date)}
+        subheader={t('CheckIn') + ': ' + fDateTime(date)}
         action={
           <Label variant="ghost" color={(status === 'szukam' && 'info') || 'success'}>
             {status != null && t(status || 'dam')}

@@ -27,7 +27,7 @@ import ruLocale from 'date-fns/locale/ru';
 import enLocale from 'date-fns/locale/en-US';
 import { fDateTime } from '../../utils/formatTime';
 import Label from '../../components/Label';
-import {useTranslation} from "react-i18next";
+import { useTranslation } from 'react-i18next';
 
 const localeMap = {
   pl: plLocale,
@@ -77,7 +77,7 @@ function TransportItem(props) {
       <CardHeader
         avatar={<Avatar aria-label="recipe" src={avatarUrl} />}
         title={name}
-        subheader={t('Wyjazd-od')+ fDateTime(date)}
+        subheader={t('Wyjazd-od') + ': ' + fDateTime(date)}
         action={
           <Label variant="ghost" color={(status === 'szukam' && 'info') || 'success'}>
             {status != null && t(status || 'dam')}
@@ -96,7 +96,7 @@ function TransportItem(props) {
         <Stack direction="column" spacing={2} sx={{ p: 2 }}>
           <Box flexDirection={'row'} display={'flex'}>
             <Typography variant="subtitle2" noWrap>
-              {t("Jade-z")}:
+              {t('Jade-z')}:
             </Typography>
             <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }} noWrap>
               {addressFrom}
@@ -104,7 +104,7 @@ function TransportItem(props) {
           </Box>
           <Box flexDirection={'row'} display={'flex'}>
             <Typography variant="subtitle2" noWrap>
-              {t("Jade-do")}:
+              {t('Jade-do')}:
             </Typography>
             <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }} noWrap>
               {addressTo}
@@ -117,7 +117,7 @@ function TransportItem(props) {
         {displayPhone && (
           <Box flexDirection={'row'} display={'flex'} sx={{ pt: 1 }}>
             <Typography variant="subtitle2" noWrap>
-              {t("Phone")}:
+              {t('Phone')}:
             </Typography>
             <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }} noWrap>
               {phone}
@@ -127,7 +127,7 @@ function TransportItem(props) {
         {displayEmail && (
           <Box flexDirection={'row'} display={'flex'} sx={{ pt: 1 }}>
             <Typography variant="subtitle2" noWrap>
-              {t("Email")}:
+              {t('Email')}:
             </Typography>
             <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }} noWrap>
               {email}
@@ -165,7 +165,10 @@ function TransportItem(props) {
             <Iconify icon="eva:facebook-fill" width={24} height={24} />
           </IconButton>
         </Link>
-        <Link href={`https://www.google.com/maps/dir/?api=1&destination=${from[0]}, ${from[1]}`} target="_blank">
+        <Link
+          href={`https://www.google.com/maps/dir/?api=1&destination=${from[0]}, ${from[1]}`}
+          target="_blank"
+        >
           <IconButton aria-label="location" color={'info'} disabled={from == null}>
             <Iconify icon="fa-solid:map-marked-alt" width={24} height={24} />
           </IconButton>
