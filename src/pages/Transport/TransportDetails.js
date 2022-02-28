@@ -96,7 +96,7 @@ function TransportItem(props) {
         <Stack direction="column" spacing={2} sx={{ p: 2 }}>
           <Box flexDirection={'row'} display={'flex'}>
             <Typography variant="subtitle2" noWrap>
-              {t("Jade-z")}
+              {t("Jade-z")}:
             </Typography>
             <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }} noWrap>
               {addressFrom}
@@ -104,7 +104,7 @@ function TransportItem(props) {
           </Box>
           <Box flexDirection={'row'} display={'flex'}>
             <Typography variant="subtitle2" noWrap>
-              {t("Jade-do")}
+              {t("Jade-do")}:
             </Typography>
             <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }} noWrap>
               {addressTo}
@@ -117,7 +117,7 @@ function TransportItem(props) {
         {displayPhone && (
           <Box flexDirection={'row'} display={'flex'} sx={{ pt: 1 }}>
             <Typography variant="subtitle2" noWrap>
-              {t("Phone")}
+              {t("Phone")}:
             </Typography>
             <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }} noWrap>
               {phone}
@@ -127,7 +127,7 @@ function TransportItem(props) {
         {displayEmail && (
           <Box flexDirection={'row'} display={'flex'} sx={{ pt: 1 }}>
             <Typography variant="subtitle2" noWrap>
-              {t("Email")}
+              {t("Email")}:
             </Typography>
             <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }} noWrap>
               {email}

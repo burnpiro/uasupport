@@ -116,7 +116,7 @@ export default function AidsForm(props) {
   };
 
   return (
-    <Dialog onClose={handleClose} open={open} maxWidth={false}>
+    <Dialog onClose={handleClose} fullWidth open={open} maxWidth={false}>
       <DialogTitle>{t('AddAid')}</DialogTitle>
       <DialogContent>
         <FormikProvider value={formik}>

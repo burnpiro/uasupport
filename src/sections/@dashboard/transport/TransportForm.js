@@ -119,7 +119,7 @@ export default function TransportForm(props) {
   };
 
   return (
-    <Dialog onClose={handleClose} open={open} maxWidth={false}>
+    <Dialog onClose={handleClose} open={open} fullWidth maxWidth={false}>
       <DialogTitle>{t(values.status === 'dam' ? 'DodajTransport' : 'SzukajTransport')}</DialogTitle>
       <DialogContent>
         <FormikProvider value={formik}>

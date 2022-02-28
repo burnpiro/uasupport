@@ -55,13 +55,17 @@ function HomeItem(props) {
       description,
       phone,
       fb,
-      email
+      email,
+      pet,
+      period,
+      child,
+      disability,
+      includingTransport
     }
   } = props;
   const [displayPhone, setDisplayPhone] = React.useState(false);
   const [displayEmail, setDisplayEmail] = React.useState(false);
   const { t, i18n } = useTranslation();
-  console.log(props)
 
   const handlePhoneClick = () => {
     setDisplayPhone(!displayPhone);
@@ -92,12 +96,62 @@ function HomeItem(props) {
         <Stack direction="column" spacing={2} sx={{ p: 2 }}>
           <Box flexDirection={'row'} display={'flex'}>
             <Typography variant="subtitle2" noWrap>
-              {t("Mieszkanie-adres")}
+              {t('Mieszkanie-adres')}:
             </Typography>
             <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }} noWrap>
               {addressFrom}
             </Typography>
           </Box>
+          {period != null && period.length > 0 && (
+            <Box flexDirection={'row'} display={'flex'}>
+              <Typography variant="subtitle2" noWrap>
+                {t('Mieszkanie-czas')}:
+              </Typography>
+              <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }} noWrap>
+                {period}
+              </Typography>
+            </Box>
+          )}
+          {pet != null && pet.length > 0 && (
+            <Box flexDirection={'row'} display={'flex'}>
+              <Typography variant="subtitle2" noWrap>
+                {t('Mieszkanie-zwierze')}:
+              </Typography>
+              <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }} noWrap>
+                {pet}
+              </Typography>
+            </Box>
+          )}
+          {child != null && child.length > 0 && (
+            <Box flexDirection={'row'} display={'flex'}>
+              <Typography variant="subtitle2" noWrap>
+                {t('Mieszkanie-dzieci')}:
+              </Typography>
+              <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }} noWrap>
+                {child}
+              </Typography>
+            </Box>
+          )}
+          {disability != null && disability.length > 0 && (
+            <Box flexDirection={'row'} display={'flex'}>
+              <Typography variant="subtitle2" noWrap>
+                {t('Mieszkanie-disability')}:
+              </Typography>
+              <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }} noWrap>
+                {disability}
+              </Typography>
+            </Box>
+          )}
+          {includingTransport != null && child.includingTransport > 0 && (
+            <Box flexDirection={'row'} display={'flex'}>
+              <Typography variant="subtitle2" noWrap>
+                {t('Mieszkanie-transport')}:
+              </Typography>
+              <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }} noWrap>
+                {includingTransport}
+              </Typography>
+            </Box>
+          )}
         </Stack>
         <Typography variant="body2" color="text.secondary">
           {description}
@@ -105,7 +159,7 @@ function HomeItem(props) {
         {displayPhone && (
           <Box flexDirection={'row'} display={'flex'} sx={{ pt: 1 }}>
             <Typography variant="subtitle2" noWrap>
-              {t("Phone")}
+              {t('Phone')}
             </Typography>
             <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }} noWrap>
               {phone}
@@ -115,7 +169,7 @@ function HomeItem(props) {
         {displayEmail && (
           <Box flexDirection={'row'} display={'flex'} sx={{ pt: 1 }}>
             <Typography variant="subtitle2" noWrap>
-              {t("Email")}
+              {t('Email')}
             </Typography>
             <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }} noWrap>
               {email}
@@ -153,7 +207,10 @@ function HomeItem(props) {
             <Iconify icon="eva:facebook-fill" width={24} height={24} />
           </IconButton>
         </Link>
-        <Link href={`https://www.google.com/maps/dir/?api=1&destination=${from[0]}, ${from[1]}`} target="_blank">
+        <Link
+          href={`https://www.google.com/maps/dir/?api=1&destination=${from[0]}, ${from[1]}`}
+          target="_blank"
+        >
           <IconButton aria-label="location" color={'info'} disabled={from == null}>
             <Iconify icon="fa-solid:map-marked-alt" width={24} height={24} />
           </IconButton>
@@ -171,7 +228,6 @@ export default function HomesDetails(props) {
   const handleClose = () => {
     onClose();
   };
-
 
   return (
     <Dialog onClose={handleClose} open={open}>

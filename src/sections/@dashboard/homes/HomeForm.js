@@ -90,8 +90,13 @@ export default function HomeForm(props) {
           addressFrom: '',
           status: defaultStatus,
           date: new Date(),
+          period: '',
           from: [],
-          people: 0
+          people: 0,
+          pet: '',
+          child: '',
+          disability: '',
+          includingTransport: ''
         },
     validationSchema: TransportSchema,
     onSubmit: handleSubmitConfirmed
@@ -120,7 +125,7 @@ export default function HomeForm(props) {
   };
 
   return (
-    <Dialog onClose={handleClose} open={open} maxWidth={false}>
+    <Dialog onClose={handleClose} open={open} fullWidth maxWidth={false}>
       <DialogTitle>{t(values.status === 'dam' ? 'AddHome' : 'GetHome')}</DialogTitle>
       <DialogContent>
         <FormikProvider value={formik}>
@@ -196,6 +201,22 @@ export default function HomeForm(props) {
 
               <TextField
                 fullWidth
+                type={'text'}
+                label={t('Mieszkanie-czas')}
+                {...getFieldProps('period')}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <Iconify icon={'eva:clock-outline'} />
+                    </InputAdornment>
+                  )
+                }}
+                error={Boolean(touched.period && errors.period)}
+                helperText={touched.period && errors.period}
+              />
+
+              <TextField
+                fullWidth
                 type={'number'}
                 label={t('People') + '*'}
                 {...getFieldProps('people')}
@@ -246,6 +267,70 @@ export default function HomeForm(props) {
                     </InputAdornment>
                   )
                 }}
+              />
+
+              <TextField
+                fullWidth
+                type={'text'}
+                label={t('Mieszkanie-zwierze')}
+                {...getFieldProps('pet')}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <Iconify icon={'map:pet-store'} />
+                    </InputAdornment>
+                  )
+                }}
+                error={Boolean(touched.pet && errors.pet)}
+                helperText={touched.pet && errors.pet}
+              />
+
+              <TextField
+                fullWidth
+                type={'text'}
+                label={t('Mieszkanie-dzieci')}
+                {...getFieldProps('child')}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <Iconify icon={'cil:child'} />
+                    </InputAdornment>
+                  )
+                }}
+                error={Boolean(touched.child && errors.child)}
+                helperText={touched.child && errors.child}
+              />
+
+              <TextField
+                fullWidth
+                type={'text'}
+                label={t('Mieszkanie-disability')}
+                {...getFieldProps('disability')}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <Iconify icon={'fontisto:paralysis-disability'} />
+                    </InputAdornment>
+                  )
+                }}
+                error={Boolean(touched.disability && errors.disability)}
+                helperText={touched.disability && errors.disability}
+              />
+
+              <TextField
+                fullWidth
+                type={'text'}
+                label={t('Mieszkanie-transport')}
+                {...getFieldProps('includingTransport')}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <Iconify icon={'ant-design:car-outlined'} />
+                    </InputAdornment>
+                  )
+                }}
+                error={Boolean(touched.includingTransport && errors.includingTransport)}
+                helperText={touched.includingTransport && errors.includingTransport}
               />
             </Stack>
           </Form>
