@@ -86,7 +86,13 @@ const resources = {
       SzczegolyPomocy: 'Szczegóły Pomocy',
       AddressHomeDesc: 'Adres Mieszkania - opis',
       AddressAidDesc: 'Adres Centrum - opis',
-      'Pomoc UA': 'Pomoc UA'
+      'Pomoc UA': 'Pomoc UA',
+      'Search for fundraising': 'Wyszukaj Zbiórki...',
+      Fundraising: 'Lista Zbiórek',
+      'Fund-address': 'Adres funduszu: ',
+      Latest: 'Najnowsze',
+      Oldest: 'Najstarsze',
+      SzczegolyZbiorki: 'Szczegóły Zbiórki',
     }
   },
   ru: {

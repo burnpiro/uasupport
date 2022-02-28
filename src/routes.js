@@ -13,6 +13,7 @@ import NotFound from './pages/Page404';
 import Transport from './pages/Transport/Transport';
 import Homes from "./pages/Homes/Homes";
 import Aids from "./pages/Aids/Aids";
+import Fundraising from "./pages/Fundraising/Fundraising";
 
 // ----------------------------------------------------------------------
 
@@ -23,7 +24,7 @@ export default function Router() {
       element: <DashboardLayout />,
       children: [
         // { path: 'app', element: <DashboardApp /> },
-        // { path: 'user', element: <User /> },
+        { path: 'fundraising', element: <Fundraising /> },
         { path: 'transport', element: <Transport /> },
         { path: 'homes', element: <Homes /> },
         { path: 'aids', element: <Aids /> },

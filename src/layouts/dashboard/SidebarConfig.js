@@ -12,6 +12,11 @@ const sidebarConfig = [
   //   icon: getIcon('ic:round-perm-device-information')
   // },
   {
+    title: 'Zbiórki Pieniędzy',
+    path: '/dashboard/fundraising',
+    icon: getIcon('mdi:account-cash-outline')
+  },
+  {
     title: 'Zakwaterowanie',
     path: '/dashboard/homes',
     icon: getIcon('eva:home-fill')
