@@ -64,8 +64,10 @@ export const getTypeIcon = (type) => {
       return '/static/icons/psych-marker.png';
     case 'translate-aid':
       return '/static/icons/translate-marker.png';
+    case 'food-aid':
+      return '/static/icons/warmfood-marker.png';
     default:
-      return '/static/icons/food-marker.png';
+      return '/static/icons/standard-marker.png';
   }
 };
 

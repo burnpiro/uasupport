@@ -209,6 +209,21 @@ export default function AidsForm(props) {
                     }
                   />
                   <FormControlLabel
+                    value="food-aid"
+                    sx={{pb: 1, pt: 1}}
+                    control={<Radio />}
+                    label={
+                      <span style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                        <img
+                          style={{ marginRight: '8px' }}
+                          alt="food-aid"
+                          src={getTypeIcon('food-aid')}
+                        />
+                        {t('food-aid')}{' '}
+                      </span>
+                    }
+                  />
+                  <FormControlLabel
                     value="animal-aid"
                     sx={{pb: 1, pt: 1}}
                     control={<Radio />}
