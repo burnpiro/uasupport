@@ -37,11 +37,11 @@ import isSameDay from 'date-fns/isSameDay';
 import HomesMap from './HomesMap';
 import FilterDialog from './Filter';
 import HomesDetails from './HomesDetails';
-import {addHome, getHomes, updateHome} from '../../utils/dbService/homes';
+import { addHome, getHomes, updateHome } from '../../utils/dbService/homes';
 import TransportForm from '../../sections/@dashboard/homes/HomeForm';
 import HomeForm from '../../sections/@dashboard/homes/HomeForm';
-import {addAid, updateAid} from "../../utils/dbService/aids";
-import {isAfter} from "date-fns";
+import { addAid, updateAid } from '../../utils/dbService/aids';
+import { isAfter } from 'date-fns';
 
 // ----------------------------------------------------------------------
 
@@ -91,22 +91,29 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-function applyDataFilter(array, { from, to, date, onlyVerified, status }) {
+function applyDataFilter(array, { from, to, date, onlyVerified, status, phone }) {
   let result = array;
   if (from != null && Number(from) > 0) {
-    result = array.filter((el) => el.people >= Number(from));
+    result = result.filter((el) => el.people >= Number(from));
   }
   if (to != null && Number(to) > 0) {
-    result = array.filter((el) => el.people <= Number(to));
+    result = result.filter((el) => el.people <= Number(to));
   }
   if (onlyVerified != null && onlyVerified) {
-    result = array.filter((el) => el.isVerified);
+    result = result.filter((el) => el.isVerified);
   }
   if (date != null) {
-    result = array.filter((el) => isSameDay(el.date, date));
+    result = result.filter((el) => isSameDay(el.date, date));
   }
   if (status != null && status !== '') {
-    result = array.filter((el) => el.status === status);
+    result = result.filter((el) => el.status === status);
+  }
+  if (phone != null && phone !== '') {
+    result = result.filter(
+      (el) =>
+        el.phone != null &&
+        el.phone.toLowerCase().replace(/\s/g, '').includes(phone.toLowerCase().replace(/\s/g, ''))
+    );
   }
 
   return result;
@@ -273,7 +280,6 @@ export default function Homes() {
     setFormOpen(true);
   };
 
-
   return (
     <Page title={t('Homes')}>
       <Container>
@@ -314,6 +320,8 @@ export default function Homes() {
             onClearLocation={handleClearLocation}
             onFilterClick={handleFilterClick}
             showAllSelected={handleShowSelected}
+            filter={filter}
+            onFilterChange={handleSelectFilter}
           />
 
           <Scrollbar>
@@ -351,7 +359,12 @@ export default function Homes() {
                               onChange={(event) => handleClick(event, id)}
                             />
                           </TableCell>
-                          <TableCell component="th" scope="row" padding="none" onClick={() => setDisplayDetails(row)}>
+                          <TableCell
+                            component="th"
+                            scope="row"
+                            padding="none"
+                            onClick={() => setDisplayDetails(row)}
+                          >
                             <Stack direction="row" alignItems="center" spacing={2}>
                               <Avatar alt={name} src={avatarUrl} />
                               <Typography variant="subtitle2" noWrap>
@@ -359,10 +372,14 @@ export default function Homes() {
                               </Typography>
                             </Stack>
                           </TableCell>
-                          <TableCell align="left" onClick={() => setDisplayDetails(row)}>{addressFrom}</TableCell>
+                          <TableCell align="left" onClick={() => setDisplayDetails(row)}>
+                            {addressFrom}
+                          </TableCell>
                           <TableCell align="left" onClick={() => setDisplayDetails(row)}>
                             <Tooltip title={fDateTime(date)}>
-                              <Typography>{isAfter(nowDate,date) ? t('Dostępne') : fToNow(date)}</Typography>
+                              <Typography>
+                                {isAfter(nowDate, date) ? t('Dostępne') : fToNow(date)}
+                              </Typography>
                             </Tooltip>
                           </TableCell>
                           <TableCell align="left">
@@ -421,6 +438,7 @@ export default function Homes() {
         open={filterOpen}
         onClose={handleFilterClose}
         selectFilter={handleSelectFilter}
+        filter={filter}
       />
       <HomesDetails onClose={handleCloseDetails} open={showDetails.length > 0} home={showDetails} />
       {formOpen && (

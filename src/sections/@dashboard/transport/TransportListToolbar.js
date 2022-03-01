@@ -13,7 +13,9 @@ import {
 } from '@mui/material';
 // component
 import Iconify from '../../../components/Iconify';
-import {useTranslation} from "react-i18next";
+import { useTranslation } from 'react-i18next';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import ToggleButton from '@mui/material/ToggleButton';
 
 // ----------------------------------------------------------------------
 
@@ -54,9 +56,25 @@ export default function TransportListToolbar({
   onClearFilter,
   onClearLocation,
   onFilterClick,
-  showAllSelected
+  showAllSelected,
+  filter,
+  onFilterChange
 }) {
   const { t, i18n } = useTranslation();
+
+  const handleStatusFilterChange = (event, newStatus) => {
+    if (newStatus != null) {
+      onFilterChange({
+        ...filter,
+        status: newStatus
+      });
+    } else {
+      onFilterChange({
+        ...filter,
+        status: undefined
+      });
+    }
+  };
   return (
     <RootStyle
       sx={{
@@ -81,7 +99,7 @@ export default function TransportListToolbar({
         <SearchStyle
           value={filterName}
           onChange={onFilterName}
-          placeholder={t("Szukaj transport")}
+          placeholder={t('Szukaj transport')}
           startAdornment={
             <InputAdornment position="start">
               <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled' }} />
@@ -89,6 +107,15 @@ export default function TransportListToolbar({
           }
         />
       )}
+      <ToggleButtonGroup
+        color="primary"
+        exclusive
+        value={filter['status'] != null ? filter['status'] : null}
+        onChange={handleStatusFilterChange}
+      >
+        <ToggleButton value="dam">{t('dam')}</ToggleButton>
+        <ToggleButton value="szukam">{t('szukam')}</ToggleButton>
+      </ToggleButtonGroup>
 
       <div>
         {numSelected === 0 && (

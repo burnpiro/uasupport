@@ -16,11 +16,12 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import plLocale from 'date-fns/locale/pl';
 import ruLocale from 'date-fns/locale/ru';
 import enLocale from 'date-fns/locale/en-US';
-import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
-import RadioGroup from "@mui/material/RadioGroup";
-import Radio from "@mui/material/Radio";
-import {useTranslation} from "react-i18next";
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
+import RadioGroup from '@mui/material/RadioGroup';
+import Radio from '@mui/material/Radio';
+import { useTranslation } from 'react-i18next';
+import { useEffect } from 'react';
 
 const localeMap = {
   pl: plLocale,
@@ -37,14 +38,12 @@ const maskMap = {
 export default function FilterDialog(props) {
   const [locale, setLocale] = React.useState('pl');
   const { t, i18n } = useTranslation();
-  const [form, setForm] = React.useState({
-    from: 0,
-    to: 0,
-    onlyVerified: false,
-    date: null,
-    status: ''
-  });
-  const { onClose, selectFilter, open } = props;
+  const { onClose, selectFilter, open, filter } = props;
+  const [form, setForm] = React.useState({});
+
+  useEffect(() => {
+    setForm(filter);
+  }, [filter]);
 
   const handleClose = () => {
     onClose();
@@ -68,7 +67,7 @@ export default function FilterDialog(props) {
     <Dialog onClose={handleClose} open={open}>
       <DialogTitle>{t('Filter')}</DialogTitle>
       <DialogContent>
-        <Stack direction={{ xs: 'column' }} sx={{ mt: 2}} spacing={2}>
+        <Stack direction={{ xs: 'column' }} sx={{ mt: 2 }} spacing={2}>
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
             <TextField
               fullWidth
@@ -101,6 +100,20 @@ export default function FilterDialog(props) {
               helperText={form.to < form.from ? '' : ''}
             />
           </Stack>
+          <TextField
+            fullWidth
+            label={t('Phone')}
+            type={'text'}
+            onChange={(e) => handleFormChange('phone', e.target.value)}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <Iconify icon={'eva:phone-call-fill'} />
+                </InputAdornment>
+              )
+            }}
+            value={form.phone}
+          />
           {/*<FormGroup>*/}
           {/*  <FormControlLabel*/}
           {/*    onChange={(e) => handleFormChange('onlyVerified', e.target.checked)}*/}
@@ -126,11 +139,7 @@ export default function FilterDialog(props) {
               onChange={handleStatusChange}
               name="aid-type-group"
             >
-              <FormControlLabel
-                value="szukam"
-                control={<Radio />}
-                label={t('szukam')}
-              />
+              <FormControlLabel value="szukam" control={<Radio />} label={t('szukam')} />
               <FormControlLabel value="dam" control={<Radio />} label={t('dam')} />
               <FormControlLabel value={''} control={<Radio />} label={t('all-statuses')} />
             </RadioGroup>

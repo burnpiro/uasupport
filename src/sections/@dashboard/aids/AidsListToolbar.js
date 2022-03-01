@@ -13,7 +13,11 @@ import {
 } from '@mui/material';
 // component
 import Iconify from '../../../components/Iconify';
-import {useTranslation} from "react-i18next";
+import { useTranslation } from 'react-i18next';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import ToggleButton from '@mui/material/ToggleButton';
+import { getTypeIcon } from '../../../pages/Aids/Aids';
+import * as React from 'react';
 
 // ----------------------------------------------------------------------
 
@@ -54,9 +58,25 @@ export default function AidsListToolbar({
   onClearFilter,
   onClearLocation,
   onFilterClick,
-  showAllSelected
+  showAllSelected,
+  filter,
+  onFilterChange
 }) {
   const { t, i18n } = useTranslation();
+
+  const handleStatusFilterChange = (event, newStatus) => {
+    if (newStatus != null) {
+      onFilterChange({
+        ...filter,
+        aidType: newStatus
+      });
+    } else {
+      onFilterChange({
+        ...filter,
+        aidType: undefined
+      });
+    }
+  };
   return (
     <RootStyle
       sx={{
@@ -81,7 +101,7 @@ export default function AidsListToolbar({
         <SearchStyle
           value={filterName}
           onChange={onFilterName}
-          placeholder={t("Szukaj pomocy")}
+          placeholder={t('Szukaj pomocy')}
           startAdornment={
             <InputAdornment position="start">
               <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled' }} />
@@ -90,16 +110,86 @@ export default function AidsListToolbar({
         />
       )}
 
+      <ToggleButtonGroup
+        exclusive
+        value={filter['aidType'] != null ? filter['aidType'] : null}
+        onChange={handleStatusFilterChange}
+      >
+        <ToggleButton value="standard-aid" sx={{p:0, pl: 1}}>
+          <Tooltip title={t('health-aid')}>
+            <img
+              style={{ marginRight: '8px', width: '32px' }}
+              alt="standard-aid"
+              src={getTypeIcon('standard-aid')}
+            />
+          </Tooltip>
+        </ToggleButton>
+        <ToggleButton value="health-aid" sx={{p:0, pl: 1}}>
+          <Tooltip title={t('health-aid')}>
+            <img
+              style={{ marginRight: '8px', width: '32px' }}
+              alt="health-aid"
+              src={getTypeIcon('health-aid')}
+            />
+          </Tooltip>
+        </ToggleButton>
+        <ToggleButton value="medical-aid" sx={{p:0, pl: 1}}>
+          <Tooltip title={t('medical-aid')}>
+            <img
+              style={{ marginRight: '8px', width: '32px' }}
+              alt="medical-aid"
+              src={getTypeIcon('medical-aid')}
+            />
+          </Tooltip>
+        </ToggleButton>
+        <ToggleButton value="psych-aid" sx={{p:0, pl: 1}}>
+          <Tooltip title={t('psych-aid')}>
+            <img
+              style={{ marginRight: '8px', width: '32px' }}
+              alt="psych-aid"
+              src={getTypeIcon('psych-aid')}
+            />
+          </Tooltip>
+        </ToggleButton>
+        <ToggleButton value="blood-aid">
+          <Tooltip title={t('blood-aid')}>
+            <img
+              style={{ marginRight: '8px', width: '32px' }}
+              alt="blood-aid"
+              src={getTypeIcon('blood-aid')}
+            />
+          </Tooltip>
+        </ToggleButton>
+        <ToggleButton value="animal-aid" sx={{p:0, pl: 1}}>
+          <Tooltip title={t('animal-aid')}>
+            <img
+              style={{ marginRight: '8px', width: '32px' }}
+              alt="animal-aid"
+              src={getTypeIcon('animal-aid')}
+            />
+          </Tooltip>
+        </ToggleButton>
+        <ToggleButton value="law-aid" sx={{p:0, pl: 1}}>
+          <Tooltip title={t('law-aid')}>
+            <img
+              style={{ marginRight: '8px', width: '32px' }}
+              alt="law-aid"
+              src={getTypeIcon('law-aid')}
+            />
+          </Tooltip>
+        </ToggleButton>
+      </ToggleButtonGroup>
+
       <div>
         {numSelected === 0 && (
-          <Tooltip title={t("Filter list")}>
+          <Tooltip title={t('Filter list')}>
             <IconButton onClick={onFilterClick}>
               <Iconify icon="ic:round-filter-list" />
             </IconButton>
           </Tooltip>
         )}
         {isFiltered > 0 && (
-          <Tooltip title={t("Clear filter")}>
+          <Tooltip title={t('Clear filter')}>
             <IconButton onClick={onClearFilter} color={'error'}>
               <Iconify icon="carbon:filter-remove" />
             </IconButton>
@@ -107,7 +197,7 @@ export default function AidsListToolbar({
         )}
 
         {isLocationFiltered && (
-          <Tooltip title={t("Clear location")}>
+          <Tooltip title={t('Clear location')}>
             <IconButton onClick={onClearLocation} color={'error'}>
               <Iconify icon="uil:map-marker-slash" />
             </IconButton>

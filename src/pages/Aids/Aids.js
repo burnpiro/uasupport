@@ -48,6 +48,27 @@ const TABLE_HEAD = () => [
   { id: '' }
 ];
 
+export const getTypeIcon = (type) => {
+  switch (type) {
+    case 'health-aid':
+      return '/static/icons/aid-marker.png';
+    case 'animal-aid':
+      return '/static/icons/animal-marker.png';
+    case 'law-aid':
+      return '/static/icons/law-marker.png';
+    case 'blood-aid':
+      return '/static/icons/blood-marker.png';
+    case 'medical-aid':
+      return '/static/icons/medical-marker.png';
+    case 'psych-aid':
+      return '/static/icons/psych-marker.png';
+    case 'translate-aid':
+      return '/static/icons/translate-marker.png';
+    default:
+      return '/static/icons/food-marker.png';
+  }
+};
+
 // ----------------------------------------------------------------------
 
 function descendingComparator(a, b, orderBy) {
@@ -85,10 +106,10 @@ function applySortFilter(array, comparator, query) {
 function applyDataFilter(array, { aidType, onlyVerified }) {
   let result = array;
   if (onlyVerified != null && onlyVerified) {
-    result = array.filter((el) => el.isVerified);
+    result = result.filter((el) => el.isVerified);
   }
   if (aidType != null && aidType !== '') {
-    result = array.filter((el) => el.aidType === aidType);
+    result = result.filter((el) => el.aidType === aidType);
   }
 
   return result;
@@ -282,6 +303,8 @@ export default function Aids() {
             onClearLocation={handleClearLocation}
             onFilterClick={handleFilterClick}
             showAllSelected={handleShowSelected}
+            filter={filter}
+            onFilterChange={handleSelectFilter}
           />
 
           <Scrollbar>
@@ -325,7 +348,7 @@ export default function Aids() {
                             onClick={() => setDisplayDetails(row)}
                           >
                             <Stack direction="row" alignItems="center" spacing={2}>
-                              <Avatar alt={name} src={avatarUrl} />
+                              <Avatar alt={name} src={getTypeIcon(aidType)} />
                               <Typography variant="subtitle2" noWrap>
                                 {name}
                               </Typography>
@@ -389,6 +412,7 @@ export default function Aids() {
         open={filterOpen}
         onClose={handleFilterClose}
         selectFilter={handleSelectFilter}
+        filter={filter}
       />
       <AidsDetails onClose={handleCloseDetails} open={showDetails.length > 0} aid={showDetails} />
       {formOpen && (

@@ -28,6 +28,7 @@ import enLocale from 'date-fns/locale/en-US';
 import { fDateTime } from '../../utils/formatTime';
 import Label from '../../components/Label';
 import { useTranslation } from 'react-i18next';
+import {getTypeIcon} from "./Aids";
 
 const localeMap = {
   pl: plLocale,
@@ -70,7 +71,7 @@ function AidItem(props) {
   return (
     <Card sx={{ min: 345 }}>
       <CardHeader
-        avatar={<Avatar aria-label="recipe" src={avatarUrl} />}
+        avatar={<Avatar aria-label="recipe" src={getTypeIcon(aidType)} />}
         title={name}
         action={
           <Label variant="ghost" color={(aidType === 'health-aid' && 'info') || 'success'}>

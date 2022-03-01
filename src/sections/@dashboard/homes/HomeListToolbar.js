@@ -11,9 +11,11 @@ import {
   Box,
   Button
 } from '@mui/material';
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 // component
 import Iconify from '../../../components/Iconify';
-import {useTranslation} from "react-i18next";
+import { useTranslation } from 'react-i18next';
 
 // ----------------------------------------------------------------------
 
@@ -54,9 +56,25 @@ export default function HomeListToolbar({
   onClearFilter,
   onClearLocation,
   onFilterClick,
-  showAllSelected
+  showAllSelected,
+  filter,
+  onFilterChange
 }) {
   const { t, i18n } = useTranslation();
+
+  const handleStatusFilterChange = (event, newStatus) => {
+    if (newStatus != null) {
+      onFilterChange({
+        ...filter,
+        status: newStatus
+      });
+    } else {
+      onFilterChange({
+        ...filter,
+        status: undefined
+      });
+    }
+  };
   return (
     <RootStyle
       sx={{
@@ -81,7 +99,7 @@ export default function HomeListToolbar({
         <SearchStyle
           value={filterName}
           onChange={onFilterName}
-          placeholder={t("Szukaj zakwaterowania")}
+          placeholder={t('Szukaj zakwaterowania')}
           startAdornment={
             <InputAdornment position="start">
               <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled' }} />
@@ -90,16 +108,26 @@ export default function HomeListToolbar({
         />
       )}
 
+      <ToggleButtonGroup
+        color="primary"
+        exclusive
+        value={filter['status'] != null ? filter['status'] : null}
+        onChange={handleStatusFilterChange}
+      >
+        <ToggleButton value="dam">{t('dam')}</ToggleButton>
+        <ToggleButton value="szukam">{t('szukam')}</ToggleButton>
+      </ToggleButtonGroup>
+
       <div>
         {numSelected === 0 && (
-          <Tooltip title={t("Filter list")}>
+          <Tooltip title={t('Filter list')}>
             <IconButton onClick={onFilterClick}>
               <Iconify icon="ic:round-filter-list" />
             </IconButton>
           </Tooltip>
         )}
         {isFiltered > 0 && (
-          <Tooltip title={t("Clear filter")}>
+          <Tooltip title={t('Clear filter')}>
             <IconButton onClick={onClearFilter} color={'error'}>
               <Iconify icon="carbon:filter-remove" />
             </IconButton>
@@ -107,7 +135,7 @@ export default function HomeListToolbar({
         )}
 
         {isLocationFiltered && (
-          <Tooltip title={t("Clear location")}>
+          <Tooltip title={t('Clear location')}>
             <IconButton onClick={onClearLocation} color={'error'}>
               <Iconify icon="uil:map-marker-slash" />
             </IconButton>

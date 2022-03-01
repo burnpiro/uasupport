@@ -91,22 +91,29 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-function applyDataFilter(array, { from, to, date, onlyVerified, status }) {
+function applyDataFilter(array, { from, to, date, onlyVerified, status, phone }) {
   let result = array;
   if (from != null && Number(from) > 0) {
-    result = array.filter((el) => el.people >= Number(from));
+    result = result.filter((el) => el.people >= Number(from));
   }
   if (to != null && Number(to) > 0) {
-    result = array.filter((el) => el.people <= Number(to));
+    result = result.filter((el) => el.people <= Number(to));
   }
   if (onlyVerified != null && onlyVerified) {
-    result = array.filter((el) => el.isVerified);
+    result = result.filter((el) => el.isVerified);
   }
   if (date != null) {
-    result = array.filter((el) => isSameDay(el.date, date));
+    result = result.filter((el) => isSameDay(el.date, date));
   }
   if (status != null && status !== '') {
-    result = array.filter((el) => el.status === status);
+    result = result.filter((el) => el.status === status);
+  }
+  if (phone != null && phone !== '') {
+    result = result.filter(
+      (el) =>
+        el.phone != null &&
+        el.phone.toLowerCase().replace(/\s/g, '').includes(phone.toLowerCase().replace(/\s/g, ''))
+    );
   }
 
   return result;
@@ -313,6 +320,8 @@ export default function Transport() {
             onClearLocation={handleClearLocation}
             onFilterClick={handleFilterClick}
             showAllSelected={handleShowSelected}
+            filter={filter}
+            onFilterChange={handleSelectFilter}
           />
 
           <Scrollbar>
@@ -359,7 +368,12 @@ export default function Transport() {
                               onChange={(event) => handleClick(event, id)}
                             />
                           </TableCell>
-                          <TableCell component="th" scope="row" padding="none" onClick={() => setDisplayDetails(row)}>
+                          <TableCell
+                            component="th"
+                            scope="row"
+                            padding="none"
+                            onClick={() => setDisplayDetails(row)}
+                          >
                             <Stack direction="row" alignItems="center" spacing={2}>
                               <Avatar alt={name} src={avatarUrl} />
                               <Typography variant="subtitle2" noWrap>
@@ -367,7 +381,9 @@ export default function Transport() {
                               </Typography>
                             </Stack>
                           </TableCell>
-                          <TableCell align="left" onClick={() => setDisplayDetails(row)}>{addressFrom}</TableCell>
+                          <TableCell align="left" onClick={() => setDisplayDetails(row)}>
+                            {addressFrom}
+                          </TableCell>
                           <TableCell align="left" onClick={() => setDisplayDetails(row)}>
                             <Tooltip title={fDateTime(date)}>
                               <Typography>{fToNow(date)}</Typography>
@@ -431,6 +447,7 @@ export default function Transport() {
         open={filterOpen}
         onClose={handleFilterClose}
         selectFilter={handleSelectFilter}
+        filter={filter}
       />
       <TransportDetails
         onClose={handleCloseDetails}

@@ -21,6 +21,8 @@ import plLocale from 'date-fns/locale/pl';
 import ruLocale from 'date-fns/locale/ru';
 import enLocale from 'date-fns/locale/en-US';
 import {useTranslation} from "react-i18next";
+import {useEffect} from "react";
+import {getTypeIcon} from "./Aids";
 
 const localeMap = {
   pl: plLocale,
@@ -37,11 +39,12 @@ const maskMap = {
 export default function FilterDialog(props) {
   const [locale, setLocale] = React.useState('pl');
   const { t, i18n } = useTranslation();
-  const [form, setForm] = React.useState({
-    onlyVerified: false,
-    aidType: ''
-  });
-  const { onClose, selectFilter, open } = props;
+  const { onClose, selectFilter, open, filter } = props;
+  const [form, setForm] = React.useState({});
+
+  useEffect(() => {
+    setForm(filter);
+  }, [filter]);
 
   const handleClose = () => {
     onClose();
@@ -82,13 +85,129 @@ export default function FilterDialog(props) {
               onChange={handleAidChange}
               name="aid-type-group"
             >
+
               <FormControlLabel
                 value="standard-aid"
+                sx={{pb: 1, pt: 1}}
                 control={<Radio />}
-                label={t('standard-aid')}
+                label={
+                  <span style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                        <img
+                          style={{ marginRight: '8px' }}
+                          alt="standard-aid"
+                          src={getTypeIcon('standard-aid')}
+                        />
+                    {t('standard-aid')}{' '}
+                      </span>
+                }
               />
-              <FormControlLabel value="health-aid" control={<Radio />} label={t('health-aid')} />
-              <FormControlLabel value={''} control={<Radio />} label={t('all-aid')} />
+              <FormControlLabel
+                value="health-aid"
+                sx={{pb: 1, pt: 1}}
+                control={<Radio />}
+                label={
+                  <span style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                        <img
+                          style={{ marginRight: '8px' }}
+                          alt="health-aid"
+                          src={getTypeIcon('health-aid')}
+                        />
+                    {t('health-aid')}{' '}
+                      </span>
+                }
+              />
+              <FormControlLabel
+                value="medical-aid"
+                sx={{pb: 1, pt: 1}}
+                control={<Radio />}
+                label={
+                  <span style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                        <img
+                          style={{ marginRight: '8px' }}
+                          alt="medical-aid"
+                          src={getTypeIcon('medical-aid')}
+                        />
+                    {t('medical-aid')}{' '}
+                      </span>
+                }
+              />
+              <FormControlLabel
+                value="psych-aid"
+                sx={{pb: 1, pt: 1}}
+                control={<Radio />}
+                label={
+                  <span style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                        <img
+                          style={{ marginRight: '8px' }}
+                          alt="psych-aid"
+                          src={getTypeIcon('psych-aid')}
+                        />
+                    {t('psych-aid')}{' '}
+                      </span>
+                }
+              />
+              <FormControlLabel
+                value="blood-aid"
+                sx={{pb: 1, pt: 1}}
+                control={<Radio />}
+                label={
+                  <span style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                        <img
+                          style={{ marginRight: '8px' }}
+                          alt="blood-aid"
+                          src={getTypeIcon('blood-aid')}
+                        />
+                    {t('blood-aid')}{' '}
+                      </span>
+                }
+              />
+              <FormControlLabel
+                value="animal-aid"
+                sx={{pb: 1, pt: 1}}
+                control={<Radio />}
+                label={
+                  <span style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                        <img
+                          style={{ marginRight: '8px' }}
+                          alt="animal-aid"
+                          src={getTypeIcon('animal-aid')}
+                        />
+                    {t('animal-aid')}{' '}
+                      </span>
+                }
+              />
+              <FormControlLabel
+                value="law-aid"
+                sx={{pb: 1, pt: 1}}
+                control={<Radio />}
+                label={
+                  <span style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                        <img
+                          style={{ marginRight: '8px' }}
+                          alt="law-aid"
+                          src={getTypeIcon('law-aid')}
+                        />
+                    {t('law-aid')}{' '}
+                      </span>
+                }
+              />
+              <FormControlLabel
+                value="translate-aid"
+                sx={{pb: 1, pt: 1}}
+                control={<Radio />}
+                label={
+                  <span style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                        <img
+                          style={{ marginRight: '8px' }}
+                          alt="translate-aid"
+                          src={getTypeIcon('translate-aid')}
+                        />
+                    {t('translate-aid')}{' '}
+                      </span>
+                }
+              />
+              <FormControlLabel
+                sx={{pb: 1, pt: 1}} value={''} control={<Radio />} label={t('all-aid')} />
             </RadioGroup>
           </FormControl>
         </Stack>

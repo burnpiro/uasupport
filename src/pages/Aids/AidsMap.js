@@ -3,6 +3,7 @@ import React from 'react';
 import { GoogleMap, useJsApiLoader, MarkerClusterer, Marker } from '@react-google-maps/api';
 import { fDayTime } from '../../utils/formatTime';
 import Iconify from '../../components/Iconify';
+import {getTypeIcon} from "./Aids";
 
 const containerStyle = {
   width: '100%',
@@ -10,6 +11,7 @@ const containerStyle = {
 };
 
 const options = {
+  batchSize: 20,
   imagePath:
     'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' // so you must have m1.png, m2.png, m3.png, m4.png, m5.png and m6.png in that folder
 };
@@ -33,20 +35,6 @@ export default function AidsMap({ places = [], onSelectMarkers }) {
     id: 'google-map-script',
     googleMapsApiKey: 'AIzaSyB5j64Fb5aE5WJOzkdf0OkmlbOcEMu2iCw'
   });
-
-  const locations = (places || []).map((place) => ({
-    ...place,
-    from: {
-      lat: Number(place.from[0]),
-      lng: Number(place.from[1])
-    },
-    to: place?.to
-      ? {
-          lat: Number(place?.to[0]),
-          lng: Number(place?.to[1])
-        }
-      : {}
-  }));
 
   const [map, setMap] = React.useState(null);
 
@@ -74,36 +62,51 @@ export default function AidsMap({ places = [], onSelectMarkers }) {
       }
     ]);
   };
-
-  return isLoaded ? (
-    <GoogleMap
-      mapContainerStyle={containerStyle}
-      center={center}
-      zoom={6}
-      onLoad={onLoad}
-      onUnmount={onUnmount}
-    >
-      {/* Child components, such as markers, info windows, etc. */}
-      <>
-        <MarkerClusterer options={options} onClick={handleSelectCluster} zoomOnClick={false}>
-          {(clusterer) =>
-            locations.map((location) => (
-              <Marker
-                key={location.id}
-                position={location.from}
-                clusterer={clusterer}
-                label={''}
-                title={createLabel(location)}
-                icon={location.aidType === 'health-aid' ? '/static/icons/aid-marker.png' : '/static/icons/food-marker.png'}
-                onClick={() => handleSelectMarker(location)}
-                options={{ id: location.id }}
-              />
-            ))
+  const renderClusters = React.useMemo(() => {
+    const locations = (places || []).map((place) => ({
+      ...place,
+      from: {
+        lat: Number(place.from[0]),
+        lng: Number(place.from[1])
+      },
+      to: place?.to
+        ? {
+            lat: Number(place?.to[0]),
+            lng: Number(place?.to[1])
           }
-        </MarkerClusterer>
-      </>
-    </GoogleMap>
-  ) : (
-    <></>
-  );
+        : {}
+    }));
+
+    return (
+      <GoogleMap
+        mapContainerStyle={containerStyle}
+        center={center}
+        zoom={6}
+        onLoad={onLoad}
+        onUnmount={onUnmount}
+      >
+        {/* Child components, such as markers, info windows, etc. */}
+        <>
+          <MarkerClusterer options={options} onClick={handleSelectCluster} zoomOnClick={false}>
+            {(clusterer) =>
+              locations.map((location) => (
+                <Marker
+                  key={location.id}
+                  position={location.from}
+                  clusterer={clusterer}
+                  label={''}
+                  title={createLabel(location)}
+                  icon={getTypeIcon(location.aidType)}
+                  onClick={() => handleSelectMarker(location)}
+                  options={{ id: location.id }}
+                />
+              ))
+            }
+          </MarkerClusterer>
+        </>
+      </GoogleMap>
+    );
+  }, [places]);
+
+  return isLoaded ? <>{renderClusters}</> : <></>;
 }

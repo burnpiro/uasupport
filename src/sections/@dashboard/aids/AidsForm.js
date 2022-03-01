@@ -36,6 +36,7 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import RadioGroup from '@mui/material/RadioGroup';
 import Radio from '@mui/material/Radio';
+import { getTypeIcon } from '../../../pages/Aids/Aids';
 
 const localeMap = {
   pl: plLocale,
@@ -78,7 +79,7 @@ export default function AidsForm(props) {
     initialValues: editElement
       ? {
           ...editElement,
-        description: editElement.description.replace(/↵/g, "\n").replace("\\n", "\n")
+          description: editElement.description.replace(/↵/g, '\n').replace('\\n', '\n')
         }
       : {
           name: '',
@@ -134,13 +135,123 @@ export default function AidsForm(props) {
                 >
                   <FormControlLabel
                     value="standard-aid"
+                    sx={{pb: 1, pt: 1}}
                     control={<Radio />}
-                    label={t('standard-aid')}
+                    label={
+                      <span style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                        <img
+                          style={{ marginRight: '8px' }}
+                          alt="standard-aid"
+                          src={getTypeIcon('standard-aid')}
+                        />
+                        {t('standard-aid')}{' '}
+                      </span>
+                    }
                   />
                   <FormControlLabel
                     value="health-aid"
+                    sx={{pb: 1, pt: 1}}
                     control={<Radio />}
-                    label={t('health-aid')}
+                    label={
+                      <span style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                        <img
+                          style={{ marginRight: '8px' }}
+                          alt="health-aid"
+                          src={getTypeIcon('health-aid')}
+                        />
+                        {t('health-aid')}{' '}
+                      </span>
+                    }
+                  />
+                  <FormControlLabel
+                    value="medical-aid"
+                    sx={{pb: 1, pt: 1}}
+                    control={<Radio />}
+                    label={
+                      <span style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                        <img
+                          style={{ marginRight: '8px' }}
+                          alt="medical-aid"
+                          src={getTypeIcon('medical-aid')}
+                        />
+                        {t('medical-aid')}{' '}
+                      </span>
+                    }
+                  />
+                  <FormControlLabel
+                    value="psych-aid"
+                    sx={{pb: 1, pt: 1}}
+                    control={<Radio />}
+                    label={
+                      <span style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                        <img
+                          style={{ marginRight: '8px' }}
+                          alt="psych-aid"
+                          src={getTypeIcon('psych-aid')}
+                        />
+                        {t('psych-aid')}{' '}
+                      </span>
+                    }
+                  />
+                  <FormControlLabel
+                    value="blood-aid"
+                    sx={{pb: 1, pt: 1}}
+                    control={<Radio />}
+                    label={
+                      <span style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                        <img
+                          style={{ marginRight: '8px' }}
+                          alt="blood-aid"
+                          src={getTypeIcon('blood-aid')}
+                        />
+                        {t('blood-aid')}{' '}
+                      </span>
+                    }
+                  />
+                  <FormControlLabel
+                    value="animal-aid"
+                    sx={{pb: 1, pt: 1}}
+                    control={<Radio />}
+                    label={
+                      <span style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                        <img
+                          style={{ marginRight: '8px' }}
+                          alt="animal-aid"
+                          src={getTypeIcon('animal-aid')}
+                        />
+                        {t('animal-aid')}{' '}
+                      </span>
+                    }
+                  />
+                  <FormControlLabel
+                    value="law-aid"
+                    sx={{pb: 1, pt: 1}}
+                    control={<Radio />}
+                    label={
+                      <span style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                        <img
+                          style={{ marginRight: '8px' }}
+                          alt="law-aid"
+                          src={getTypeIcon('law-aid')}
+                        />
+                        {t('law-aid')}{' '}
+                      </span>
+                    }
+                  />
+                  <FormControlLabel
+                    value="translate-aid"
+                    sx={{pb: 1, pt: 1}}
+                    control={<Radio />}
+                    label={
+                      <span style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                        <img
+                          style={{ marginRight: '8px' }}
+                          alt="translate-aid"
+                          src={getTypeIcon('translate-aid')}
+                        />
+                        {t('translate-aid')}{' '}
+                      </span>
+                    }
                   />
                 </RadioGroup>
                 {Boolean(errors.aidType) && <FormHelperText error>{errors.aidType}</FormHelperText>}
@@ -216,7 +327,11 @@ export default function AidsForm(props) {
                   )
                 }}
               />
-              <PositionPicker onPositionChange={handleFromChange} mapCenter={mapCenter} defaultMarker={values.from.length > 0 ? values.from : null}/>
+              <PositionPicker
+                onPositionChange={handleFromChange}
+                mapCenter={mapCenter}
+                defaultMarker={values.from.length > 0 ? values.from : null}
+              />
               {Boolean(errors.from) && <FormHelperText error>{errors.from}</FormHelperText>}
 
               <TextField
