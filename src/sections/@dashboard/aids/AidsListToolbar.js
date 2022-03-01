@@ -116,7 +116,7 @@ export default function AidsListToolbar({
         onChange={handleStatusFilterChange}
       >
         <ToggleButton value="standard-aid" sx={{p:0, pl: 1}}>
-          <Tooltip title={t('health-aid')}>
+          <Tooltip title={t('standard-aid')}>
             <img
               style={{ marginRight: '8px', width: '32px' }}
               alt="standard-aid"

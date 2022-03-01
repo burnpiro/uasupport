@@ -44,6 +44,7 @@ export default function AidsForm(props) {
     name: Yup.string().min(2, t('TooShort')).max(100, 'TooLong').required(t('Field required')),
     email: Yup.string().email(t('Invalid Email')),
     fb: Yup.string().url(t('Invalid URL')),
+    website: Yup.string().url(t('Invalid URL')),
     phone: Yup.string(),
     description: Yup.string().required(t('Field required')),
     addressFrom: Yup.string().required(t('Field required')),
@@ -62,12 +63,14 @@ export default function AidsForm(props) {
     initialValues: editElement
       ? {
           ...editElement,
-          description: editElement.description.replace(/↵/g, '\n').replace('\\n', '\n')
+          description: editElement.description.replace(/↵/g, '\n').replace('\\n', '\n'),
+          website: editElement.website || ''
         }
       : {
           name: '',
           fb: '',
           email: '',
+          website: '',
           phone: '',
           description: '',
           addressFrom: '',
@@ -118,7 +121,7 @@ export default function AidsForm(props) {
                 >
                   <FormControlLabel
                     value="standard-aid"
-                    sx={{pb: 1, pt: 1}}
+                    sx={{ pb: 1, pt: 1 }}
                     control={<Radio />}
                     label={
                       <span style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
@@ -133,7 +136,7 @@ export default function AidsForm(props) {
                   />
                   <FormControlLabel
                     value="health-aid"
-                    sx={{pb: 1, pt: 1}}
+                    sx={{ pb: 1, pt: 1 }}
                     control={<Radio />}
                     label={
                       <span style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
@@ -148,7 +151,7 @@ export default function AidsForm(props) {
                   />
                   <FormControlLabel
                     value="medical-aid"
-                    sx={{pb: 1, pt: 1}}
+                    sx={{ pb: 1, pt: 1 }}
                     control={<Radio />}
                     label={
                       <span style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
@@ -163,7 +166,7 @@ export default function AidsForm(props) {
                   />
                   <FormControlLabel
                     value="psych-aid"
-                    sx={{pb: 1, pt: 1}}
+                    sx={{ pb: 1, pt: 1 }}
                     control={<Radio />}
                     label={
                       <span style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
@@ -178,7 +181,7 @@ export default function AidsForm(props) {
                   />
                   <FormControlLabel
                     value="blood-aid"
-                    sx={{pb: 1, pt: 1}}
+                    sx={{ pb: 1, pt: 1 }}
                     control={<Radio />}
                     label={
                       <span style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
@@ -193,7 +196,7 @@ export default function AidsForm(props) {
                   />
                   <FormControlLabel
                     value="food-aid"
-                    sx={{pb: 1, pt: 1}}
+                    sx={{ pb: 1, pt: 1 }}
                     control={<Radio />}
                     label={
                       <span style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
@@ -208,7 +211,7 @@ export default function AidsForm(props) {
                   />
                   <FormControlLabel
                     value="animal-aid"
-                    sx={{pb: 1, pt: 1}}
+                    sx={{ pb: 1, pt: 1 }}
                     control={<Radio />}
                     label={
                       <span style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
@@ -223,7 +226,7 @@ export default function AidsForm(props) {
                   />
                   <FormControlLabel
                     value="law-aid"
-                    sx={{pb: 1, pt: 1}}
+                    sx={{ pb: 1, pt: 1 }}
                     control={<Radio />}
                     label={
                       <span style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
@@ -238,7 +241,7 @@ export default function AidsForm(props) {
                   />
                   <FormControlLabel
                     value="translate-aid"
-                    sx={{pb: 1, pt: 1}}
+                    sx={{ pb: 1, pt: 1 }}
                     control={<Radio />}
                     label={
                       <span style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
@@ -293,6 +296,22 @@ export default function AidsForm(props) {
                 }}
                 error={Boolean(touched.fb && errors.fb)}
                 helperText={touched.fb && errors.fb}
+              />
+
+              <TextField
+                fullWidth
+                type={'text'}
+                label={t('Website')}
+                {...getFieldProps('website')}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <Iconify icon={'eva:globe-outline'} />
+                    </InputAdornment>
+                  )
+                }}
+                error={Boolean(touched.website && errors.website)}
+                helperText={touched.website && errors.website}
               />
 
               <TextField

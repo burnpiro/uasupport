@@ -101,7 +101,8 @@ const resources = {
       'Centra Pomocy': 'Aid Centers',
       'Separate Bath': 'Separate Bath',
       'Kitchen Access': 'Kitchen Access',
-      Dostępne: 'Available now'
+      Dostępne: 'Available now',
+      Website: 'Website'
     }
   },
   pl: {
@@ -204,7 +205,8 @@ const resources = {
       'Centra Pomocy': 'Centra Pomocy',
       'Separate Bath': 'Oddzielna łazienka',
       'Kitchen Access': 'Dostęp do kuchni',
-      Dostępne: 'Już Dostępne'
+      Dostępne: 'Już Dostępne',
+      Website: 'Strona WWW'
     }
   },
   ua: {
@@ -307,7 +309,8 @@ const resources = {
       'Centra Pomocy': 'Довідкові центри',
       'Separate Bath': 'Окрема ванна кімната',
       'Kitchen Access': 'Доступ до кухні',
-      Dostępne: 'Зараз доступний'
+      Dostępne: 'Зараз доступний',
+      Website: 'Веб-сайт'
     }
   },
   ru: {
@@ -410,7 +413,8 @@ const resources = {
       'Centra Pomocy': 'Справочные центры',
       'Separate Bath': 'Отдельная ванная',
       'Kitchen Access': 'Доступ на кухню',
-      Dostępne: 'Теперь доступно'
+      Dostępne: 'Теперь доступно',
+      Website: 'Веб-сайт'
     }
   }
 };

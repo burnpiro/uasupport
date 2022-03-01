@@ -23,7 +23,7 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Label from '../../components/Label';
 import { useTranslation } from 'react-i18next';
-import {getTypeIcon} from "./Aids";
+import { getTypeIcon } from './Aids';
 
 function AidItem(props) {
   const {
@@ -37,7 +37,8 @@ function AidItem(props) {
       aidType,
       phone,
       fb,
-      email
+      email,
+      website
     }
   } = props;
   const [displayPhone, setDisplayPhone] = React.useState(false);
@@ -65,22 +66,19 @@ function AidItem(props) {
       <CardContent>
         <Stack direction="column" spacing={2} sx={{ p: 2 }}>
           <Box flexDirection={'row'} display={'flex'}>
-            <Typography variant="subtitle2">
-              {t("Aid-address")}:
-            </Typography>
+            <Typography variant="subtitle2">{t('Aid-address')}:</Typography>
             <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }}>
               {addressFrom}
             </Typography>
           </Box>
         </Stack>
-        <Typography variant="body2" color="text.secondary"
-                    style={{whiteSpace: 'pre-line'}}>
-          {description.replace(/↵/g, "\n").replace("\\n", "\n")}
+        <Typography variant="body2" color="text.secondary" style={{ whiteSpace: 'pre-line' }}>
+          {description.replace(/↵/g, '\n').replace('\\n', '\n')}
         </Typography>
         {displayPhone && (
           <Box flexDirection={'row'} display={'flex'} sx={{ pt: 1 }}>
             <Typography variant="subtitle2" noWrap>
-              {t("Phone")}:
+              {t('Phone')}:
             </Typography>
             <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }}>
               {phone}
@@ -90,7 +88,7 @@ function AidItem(props) {
         {displayEmail && (
           <Box flexDirection={'row'} display={'flex'} sx={{ pt: 1 }}>
             <Typography variant="subtitle2" noWrap>
-              {t("Email")}:
+              {t('Email')}:
             </Typography>
             <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }}>
               {email}
@@ -128,9 +126,21 @@ function AidItem(props) {
             <Iconify icon="eva:facebook-fill" width={24} height={24} />
           </IconButton>
         </Link>
-        <Link href={`https://www.google.com/maps/dir/?api=1&destination=${from[0]}, ${from[1]}`} target="_blank">
+        <Link
+          href={`https://www.google.com/maps/dir/?api=1&destination=${from[0]}, ${from[1]}`}
+          target="_blank"
+        >
           <IconButton aria-label="location" color={'info'} disabled={from == null}>
             <Iconify icon="fa-solid:map-marked-alt" width={24} height={24} />
+          </IconButton>
+        </Link>
+        <Link href={website} target="_blank">
+          <IconButton
+            aria-label="website"
+            color={'warning'}
+            disabled={website == null || website === ''}
+          >
+            <Iconify icon="eva:globe-outline" width={24} height={24} />
           </IconButton>
         </Link>
       </CardActions>
