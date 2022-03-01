@@ -21,15 +21,10 @@ import Collapse from '@mui/material/Collapse';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import plLocale from 'date-fns/locale/pl';
-import ruLocale from 'date-fns/locale/ru';
-import enLocale from 'date-fns/locale/en-US';
 import { Form, FormikProvider, useFormik } from 'formik';
 import { LoadingButton } from '@mui/lab';
 import { useTranslation } from 'react-i18next';
 import Iconify from '../../../components/Iconify';
-import { fDateTime } from '../../../utils/formatTime';
 import * as Yup from 'yup';
 import PositionPicker from '../../../components/PositionPicker';
 import FormControl from '@mui/material/FormControl';
@@ -37,18 +32,6 @@ import FormLabel from '@mui/material/FormLabel';
 import RadioGroup from '@mui/material/RadioGroup';
 import Radio from '@mui/material/Radio';
 import { getTypeIcon } from '../../../pages/Aids/Aids';
-
-const localeMap = {
-  pl: plLocale,
-  ru: ruLocale,
-  en: enLocale
-};
-
-const maskMap = {
-  pl: '__/__/____',
-  ru: '__.__.____',
-  en: '__/__/____'
-};
 
 export default function AidsForm(props) {
   const [locale, setLocale] = React.useState('pl');

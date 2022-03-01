@@ -29,18 +29,6 @@ import { fDateTime } from '../../utils/formatTime';
 import Label from '../../components/Label';
 import { useTranslation } from 'react-i18next';
 
-const localeMap = {
-  pl: plLocale,
-  ru: ruLocale,
-  en: enLocale
-};
-
-const maskMap = {
-  pl: '__/__/____',
-  ru: '__.__.____',
-  en: '__/__/____'
-};
-
 function TransportItem(props) {
   const {
     item: {

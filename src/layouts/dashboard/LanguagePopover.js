@@ -1,10 +1,11 @@
-import { useRef, useState } from 'react';
+import {useEffect, useRef, useState} from 'react';
 // material
 import { alpha } from '@mui/material/styles';
 import i18next from '../../i18n';
 import { Box, MenuItem, ListItemIcon, ListItemText, IconButton } from '@mui/material';
 // components
 import MenuPopover from '../../components/MenuPopover';
+import {useLocalStorage} from "../../hooks/useLocalStorage";
 
 // ----------------------------------------------------------------------
 
@@ -15,15 +16,20 @@ const LANGS = [
     icon: '/static/icons/poland-svgrepo-com.svg'
   },
   {
-    value: 'ru',
+    value: 'ua',
     label: 'український',
     icon: '/static/icons/ukraine-svgrepo-com.svg'
+  },
+  {
+    value: 'ru',
+    label: 'русский',
+    icon: '/static/icons/russia-svgrepo-com.svg'
   },
   {
     value: 'en',
     label: 'English',
     icon: '/static/icons/united-kingdom-svgrepo-com.svg'
-  }
+  },
 ];
 
 // ----------------------------------------------------------------------
@@ -31,7 +37,11 @@ const LANGS = [
 export default function LanguagePopover() {
   const anchorRef = useRef(null);
   const [open, setOpen] = useState(false);
-  const [selectedLang, setSelectedLang] = useState(LANGS[0].value);
+  const [selectedLang, setSelectedLang] = useLocalStorage("lang", LANGS[0].value);
+
+  useEffect(() => {
+    i18next.changeLanguage(selectedLang);
+  }, [selectedLang])
 
   const handleOpen = () => {
     setOpen(true);
@@ -43,7 +53,6 @@ export default function LanguagePopover() {
 
   const handleChangeLang = (lang) => {
     setSelectedLang(lang);
-    i18next.changeLanguage(lang);
     handleClose();
   };
 

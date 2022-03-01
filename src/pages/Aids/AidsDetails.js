@@ -21,26 +21,9 @@ import Collapse from '@mui/material/Collapse';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import plLocale from 'date-fns/locale/pl';
-import ruLocale from 'date-fns/locale/ru';
-import enLocale from 'date-fns/locale/en-US';
-import { fDateTime } from '../../utils/formatTime';
 import Label from '../../components/Label';
 import { useTranslation } from 'react-i18next';
 import {getTypeIcon} from "./Aids";
-
-const localeMap = {
-  pl: plLocale,
-  ru: ruLocale,
-  en: enLocale
-};
-
-const maskMap = {
-  pl: '__/__/____',
-  ru: '__.__.____',
-  en: '__/__/____'
-};
 
 function AidItem(props) {
   const {

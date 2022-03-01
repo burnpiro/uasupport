@@ -17,27 +17,11 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
-import plLocale from 'date-fns/locale/pl';
-import ruLocale from 'date-fns/locale/ru';
-import enLocale from 'date-fns/locale/en-US';
 import {useTranslation} from "react-i18next";
 import {useEffect} from "react";
 import {getTypeIcon} from "./Aids";
 
-const localeMap = {
-  pl: plLocale,
-  ru: ruLocale,
-  en: enLocale
-};
-
-const maskMap = {
-  pl: '__/__/____',
-  ru: '__.__.____',
-  en: '__/__/____'
-};
-
 export default function FilterDialog(props) {
-  const [locale, setLocale] = React.useState('pl');
   const { t, i18n } = useTranslation();
   const { onClose, selectFilter, open, filter } = props;
   const [form, setForm] = React.useState({});

@@ -33,12 +33,14 @@ import FormHelperText from '@mui/material/FormHelperText';
 
 const localeMap = {
   pl: plLocale,
+  ua: ruLocale,
   ru: ruLocale,
   en: enLocale
 };
 
 const maskMap = {
   pl: '__/__/____',
+  ua: '__.__.____',
   ru: '__.__.____',
   en: '__/__/____'
 };

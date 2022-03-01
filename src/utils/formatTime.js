@@ -8,6 +8,8 @@ const getLocale = () => {
   switch (i18next.language) {
     case 'en':
       return enLocale;
+    case 'ua':
+      return ruLocale;
     case 'ru':
       return ruLocale;
     default:
