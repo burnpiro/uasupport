@@ -160,6 +160,15 @@ export default function AidsListToolbar({
             />
           </Tooltip>
         </ToggleButton>
+        <ToggleButton value="food-aid">
+          <Tooltip title={t('food-aid')}>
+            <img
+              style={{ marginRight: '8px', width: '32px' }}
+              alt="food-aid"
+              src={getTypeIcon('food-aid')}
+            />
+          </Tooltip>
+        </ToggleButton>
         <ToggleButton value="animal-aid" sx={{p:0, pl: 1}}>
           <Tooltip title={t('animal-aid')}>
             <img
@@ -175,6 +184,15 @@ export default function AidsListToolbar({
               style={{ marginRight: '8px', width: '32px' }}
               alt="law-aid"
               src={getTypeIcon('law-aid')}
+            />
+          </Tooltip>
+        </ToggleButton>
+        <ToggleButton value="translate-aid" sx={{p:0, pl: 1}}>
+          <Tooltip title={t('translate-aid')}>
+            <img
+              style={{ marginRight: '8px', width: '32px' }}
+              alt="translate-aid"
+              src={getTypeIcon('translate-aid')}
             />
           </Tooltip>
         </ToggleButton>
