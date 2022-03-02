@@ -32,6 +32,9 @@ import Iconify from '../../../components/Iconify';
 import { fDateTime } from '../../../utils/formatTime';
 import * as Yup from 'yup';
 import PositionPicker from '../../../components/PositionPicker';
+import ReCAPTCHA from "react-google-recaptcha";
+import {SITE_KEY} from "../../../utils/settings";
+import {useRef, useState} from "react";
 
 const localeMap = {
   pl: plLocale,
@@ -49,6 +52,9 @@ const maskMap = {
 
 export default function TransportForm(props) {
   const [locale, setLocale] = React.useState('pl');
+  const recaptchaRef = useRef(null);
+  const [captchaError, setCaptchaError] = useState(false);
+  const [token, setToken] = useState(null);
   const { t, i18n } = useTranslation();
 
   const { onClose, open, onFormSubmitted, editElement, defaultStatus = 'dam' } = props;
@@ -79,11 +85,33 @@ export default function TransportForm(props) {
     onFormSubmitted(values);
   };
 
+  const onCaptchaSubmit = (token) => {
+    setToken(token);
+    setCaptchaError(false);
+  };
+
+  const handleCaptchaExpired = () => {
+    setToken(null);
+  };
+
+  const handleCaptchaError = () => {
+    setCaptchaError(true);
+  };
+
+  const postFormSubmit = (values) => {
+    const recaptchaValue = recaptchaRef.current.getValue();
+    if (recaptchaValue.length > 3) {
+      handleSubmitConfirmed(values);
+    } else {
+      handleCaptchaError(true);
+    }
+  };
+
   const formik = useFormik({
     initialValues: editElement
       ? {
           ...editElement,
-        description: editElement.description.replace(/↵/g, "\n").replace("\\n", "\n")
+          description: editElement.description.replace(/↵/g, '\n').replace('\\n', '\n')
         }
       : {
           name: '',
@@ -100,7 +128,7 @@ export default function TransportForm(props) {
           people: 0
         },
     validationSchema: TransportSchema,
-    onSubmit: handleSubmitConfirmed
+    onSubmit: postFormSubmit
   });
   const {
     errors,
@@ -123,7 +151,7 @@ export default function TransportForm(props) {
 
   return (
     <Dialog onClose={handleClose} open={open} fullWidth maxWidth={false}>
-      <DialogTitle>{t(values.status === 'dam' ? 'DodajTransport' : 'SzukajTransport')}</DialogTitle>
+      <DialogTitle>{editElement != null && editElement.id != null ? t('EdytujTransport') : t(values.status === 'dam' ? 'DodajTransport' : 'SzukajTransport')}</DialogTitle>
       <DialogContent>
         <FormikProvider value={formik}>
           <Form autoComplete="off" noValidate onSubmit={handleSubmit} style={{ minWidth: '512px' }}>
@@ -226,7 +254,10 @@ export default function TransportForm(props) {
                   )
                 }}
               />
-              <PositionPicker onPositionChange={handleFromChange}  defaultMarker={values.from.length > 0 ? values.from : null} />
+              <PositionPicker
+                onPositionChange={handleFromChange}
+                defaultMarker={values.from.length > 0 ? values.from : null}
+              />
               {Boolean(errors.from) && <FormHelperText error>{errors.from}</FormHelperText>}
 
               <TextField
@@ -276,6 +307,15 @@ export default function TransportForm(props) {
             </Stack>
           </Form>
         </FormikProvider>
+        <Box sx={{ mt: 2 }}>
+          <ReCAPTCHA
+            ref={recaptchaRef}
+            sitekey={SITE_KEY}
+            onChange={onCaptchaSubmit}
+            onErrored={handleCaptchaError}
+            onExpired={handleCaptchaExpired}
+          />
+        </Box>
       </DialogContent>
       <DialogActions sx={{ justifyContent: 'space-between', alignItems: 'start' }}>
         <Button color={'error'} onClick={handleClose}>
@@ -292,11 +332,15 @@ export default function TransportForm(props) {
                 ? 'primary'
                 : 'success'
             }
-            disabled={values.fb === '' && values.email === '' && values.phone === ''}
+            disabled={
+              (values.fb === '' && values.email === '' && values.phone === '') ||
+              captchaError ||
+              token == null
+            }
             loading={isSubmitting}
             onClick={submitForm}
           >
-            {t(values.status === 'dam' ? 'DodajTransport' : 'SzukajTransport')}
+            {editElement != null && editElement.id != null ? t('EdytujTransport') : t(values.status === 'dam' ? 'DodajTransport' : 'SzukajTransport')}
           </LoadingButton>
           {Object.keys(errors).length > 0 && (
             <FormHelperText error>{t('Form Invalid')}</FormHelperText>
@@ -304,6 +348,7 @@ export default function TransportForm(props) {
           {values.fb === '' && values.email === '' && values.phone === '' && (
             <FormHelperText error>{t('Form Invalid - Social')}</FormHelperText>
           )}
+          {captchaError && <FormHelperText error>{t('CAPTCHA Error')}</FormHelperText>}
         </Stack>
       </DialogActions>
     </Dialog>

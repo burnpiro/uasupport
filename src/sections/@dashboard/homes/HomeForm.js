@@ -33,6 +33,9 @@ import Iconify from '../../../components/Iconify';
 import { fDateTime } from '../../../utils/formatTime';
 import * as Yup from 'yup';
 import PositionPicker from '../../../components/PositionPicker';
+import ReCAPTCHA from "react-google-recaptcha";
+import {SITE_KEY} from "../../../utils/settings";
+import {useRef, useState} from "react";
 
 const localeMap = {
   pl: plLocale,
@@ -50,6 +53,9 @@ const maskMap = {
 
 export default function HomeForm(props) {
   const [locale, setLocale] = React.useState('pl');
+  const recaptchaRef = useRef(null);
+  const [captchaError, setCaptchaError] = useState(false);
+  const [token, setToken] = useState(null);
   const { t, i18n } = useTranslation();
 
   const { onClose, open, onFormSubmitted, editElement, defaultStatus = 'dam' } = props;
@@ -79,11 +85,33 @@ export default function HomeForm(props) {
     onFormSubmitted(values);
   };
 
+  const onCaptchaSubmit = (token) => {
+    setToken(token);
+    setCaptchaError(false);
+  };
+
+  const handleCaptchaExpired = () => {
+    setToken(null);
+  };
+
+  const handleCaptchaError = () => {
+    setCaptchaError(true);
+  };
+
+  const postFormSubmit = (values) => {
+    const recaptchaValue = recaptchaRef.current.getValue();
+    if (recaptchaValue.length > 3) {
+      handleSubmitConfirmed(values);
+    } else {
+      handleCaptchaError(true);
+    }
+  };
+
   const formik = useFormik({
     initialValues: editElement
       ? {
           ...editElement,
-        description: editElement.description.replace(/↵/g, "\n").replace("\\n", "\n")
+          description: editElement.description.replace(/↵/g, '\n').replace('\\n', '\n')
         }
       : {
           name: '',
@@ -105,7 +133,7 @@ export default function HomeForm(props) {
           kitchen: false
         },
     validationSchema: TransportSchema,
-    onSubmit: handleSubmitConfirmed
+    onSubmit: postFormSubmit
   });
   const {
     errors,
@@ -140,7 +168,7 @@ export default function HomeForm(props) {
 
   return (
     <Dialog onClose={handleClose} open={open} fullWidth maxWidth={false}>
-      <DialogTitle>{t(values.status === 'dam' ? 'AddHome' : 'GetHome')}</DialogTitle>
+      <DialogTitle>{editElement != null && editElement.id != null ? t('EditHome') : t(values.status === 'dam' ? 'AddHome' : 'GetHome')}</DialogTitle>
       <DialogContent>
         <FormikProvider value={formik}>
           <Form autoComplete="off" noValidate onSubmit={handleSubmit} style={{ minWidth: '512px' }}>
@@ -363,6 +391,15 @@ export default function HomeForm(props) {
             </Stack>
           </Form>
         </FormikProvider>
+        <Box sx={{ mt: 2 }}>
+          <ReCAPTCHA
+            ref={recaptchaRef}
+            sitekey={SITE_KEY}
+            onChange={onCaptchaSubmit}
+            onErrored={handleCaptchaError}
+            onExpired={handleCaptchaExpired}
+          />
+        </Box>
       </DialogContent>
       <DialogActions sx={{ justifyContent: 'space-between', alignItems: 'start' }}>
         <Button color={'error'} onClick={handleClose}>
@@ -379,11 +416,15 @@ export default function HomeForm(props) {
                 ? 'primary'
                 : 'success'
             }
-            disabled={values.fb === '' && values.email === '' && values.phone === ''}
+            disabled={
+              (values.fb === '' && values.email === '' && values.phone === '') ||
+              captchaError ||
+              token == null
+            }
             loading={isSubmitting}
             onClick={submitForm}
           >
-            {t(values.status === 'dam' ? 'AddHome' : 'GetHome')}
+            {editElement != null && editElement.id != null ? t('EditHome') : t(values.status === 'dam' ? 'AddHome' : 'GetHome')}
           </LoadingButton>
           {Object.keys(errors).length > 0 && (
             <FormHelperText error>{t('Form Invalid')}</FormHelperText>
@@ -391,6 +432,7 @@ export default function HomeForm(props) {
           {values.fb === '' && values.email === '' && values.phone === '' && (
             <FormHelperText error>{t('Form Invalid - Social')}</FormHelperText>
           )}
+          {captchaError && <FormHelperText error>{t('CAPTCHA Error')}</FormHelperText>}
         </Stack>
       </DialogActions>
     </Dialog>

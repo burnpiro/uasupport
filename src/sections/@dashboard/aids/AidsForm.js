@@ -24,6 +24,7 @@ import Typography from '@mui/material/Typography';
 import { Form, FormikProvider, useFormik } from 'formik';
 import { LoadingButton } from '@mui/lab';
 import { useTranslation } from 'react-i18next';
+import ReCAPTCHA from 'react-google-recaptcha';
 import Iconify from '../../../components/Iconify';
 import * as Yup from 'yup';
 import PositionPicker from '../../../components/PositionPicker';
@@ -32,9 +33,14 @@ import FormLabel from '@mui/material/FormLabel';
 import RadioGroup from '@mui/material/RadioGroup';
 import Radio from '@mui/material/Radio';
 import { getTypeIcon } from '../../../pages/Aids/Aids';
+import { useRef, useState } from 'react';
+import { SITE_KEY } from '../../../utils/settings';
 
 export default function AidsForm(props) {
   const [locale, setLocale] = React.useState('pl');
+  const recaptchaRef = useRef(null);
+  const [captchaError, setCaptchaError] = useState(false);
+  const [token, setToken] = useState(null);
   const { t, i18n } = useTranslation();
 
   const { onClose, open, onFormSubmitted, editElement } = props;
@@ -60,6 +66,28 @@ export default function AidsForm(props) {
     onFormSubmitted(values);
   };
 
+  const onCaptchaSubmit = (token) => {
+    setToken(token);
+    setCaptchaError(false);
+  };
+
+  const handleCaptchaExpired = () => {
+    setToken(null);
+  };
+
+  const handleCaptchaError = () => {
+    setCaptchaError(true);
+  };
+
+  const postFormSubmit = (values) => {
+    const recaptchaValue = recaptchaRef.current.getValue();
+    if (recaptchaValue.length > 3) {
+      handleSubmitConfirmed(values);
+    } else {
+      handleCaptchaError(true);
+    }
+  };
+
   const formik = useFormik({
     initialValues: editElement
       ? {
@@ -81,7 +109,7 @@ export default function AidsForm(props) {
           aidSubType: ''
         },
     validationSchema: TransportSchema,
-    onSubmit: handleSubmitConfirmed
+    onSubmit: postFormSubmit
   });
   const {
     errors,
@@ -108,7 +136,7 @@ export default function AidsForm(props) {
 
   return (
     <Dialog onClose={handleClose} fullWidth open={open} maxWidth={false}>
-      <DialogTitle>{t('AddAid')}</DialogTitle>
+      <DialogTitle>{editElement != null && editElement.id != null ? t('EditAid') : t('AddAid')}</DialogTitle>
       <DialogContent>
         <FormikProvider value={formik}>
           <Form autoComplete="off" noValidate onSubmit={handleSubmit} style={{ minWidth: '512px' }}>
@@ -382,6 +410,15 @@ export default function AidsForm(props) {
             </Stack>
           </Form>
         </FormikProvider>
+        <Box sx={{ mt: 2 }}>
+          <ReCAPTCHA
+            ref={recaptchaRef}
+            sitekey={SITE_KEY}
+            onChange={onCaptchaSubmit}
+            onErrored={handleCaptchaError}
+            onExpired={handleCaptchaExpired}
+          />
+        </Box>
       </DialogContent>
       <DialogActions sx={{ justifyContent: 'space-between', alignItems: 'start' }}>
         <Button color={'error'} onClick={handleClose}>
@@ -398,11 +435,15 @@ export default function AidsForm(props) {
                 ? 'primary'
                 : 'success'
             }
-            disabled={values.fb === '' && values.email === '' && values.phone === ''}
+            disabled={
+              (values.fb === '' && values.email === '' && values.phone === '') ||
+              captchaError ||
+              token == null
+            }
             loading={isSubmitting}
             onClick={submitForm}
           >
-            {t('AddAid')}
+            {editElement != null && editElement.id != null ? t('EditAid') : t('AddAid')}
           </LoadingButton>
           {Object.keys(errors).length > 0 && (
             <FormHelperText error>{t('Form Invalid')}</FormHelperText>
@@ -410,6 +451,7 @@ export default function AidsForm(props) {
           {values.fb === '' && values.email === '' && values.phone === '' && (
             <FormHelperText error>{t('Form Invalid - Social')}</FormHelperText>
           )}
+          {captchaError && <FormHelperText error>{t('CAPTCHA Error')}</FormHelperText>}
         </Stack>
       </DialogActions>
     </Dialog>

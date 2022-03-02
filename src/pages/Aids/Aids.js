@@ -242,6 +242,7 @@ export default function Aids() {
 
   const handleFormClose = () => {
     setFormOpen(false);
+    setEditElement(null);
   };
 
   const onFormSubmitted = async (values) => {
@@ -252,7 +253,6 @@ export default function Aids() {
     }
     handleFormClose();
     setReloadList(true);
-    setEditElement(null);
   };
 
   const handleSelectFilter = (filter) => {

@@ -240,6 +240,7 @@ export default function Homes() {
 
   const handleFormClose = () => {
     setFormOpen(false);
+    setEditElement(null);
   };
 
   const onFormSubmitted = async (values) => {
@@ -250,7 +251,6 @@ export default function Homes() {
     }
     handleFormClose();
     setReloadList(true);
-    setEditElement(null);
   };
 
   const handleSelectFilter = (filter) => {
