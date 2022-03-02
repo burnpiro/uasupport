@@ -1,4 +1,4 @@
-import {collection, getDocs, addDoc, setDoc, doc} from 'firebase/firestore/lite';
+import {collection, getDocs, addDoc, setDoc, doc, deleteDoc} from 'firebase/firestore/lite';
 import { v4 as uuidv4 } from 'uuid';
 import { db } from '../../firebase';
 
@@ -11,6 +11,11 @@ export async function getTransport() {
       id: doc.id,
     }))
     .map((doc) => ({ ...doc, date: doc.date.toDate() }));
+}
+
+export async function removeTransport(data) {
+  await deleteDoc(doc(db, "transport", data.id));
+  return true;
 }
 
 export async function addTransport(transport) {

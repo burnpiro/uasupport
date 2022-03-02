@@ -40,10 +40,13 @@ import isSameDay from 'date-fns/isSameDay';
 import TransportMap from './TransportMap';
 import FilterDialog from './Filter';
 import TransportDetails from './TransportDetails';
-import { addTransport, getTransport, updateTransport } from '../../utils/dbService/transport';
+import {addTransport, getTransport, removeTransport, updateTransport} from '../../utils/dbService/transport';
 import TransportForm from '../../sections/@dashboard/transport/TransportForm';
 import { red } from '@mui/material/colors';
 import { addHome } from '../../utils/dbService/homes';
+import {removeAid} from "../../utils/dbService/aids";
+import AidsDeleteForm from "../../sections/@dashboard/aids/AidsDeleteForm";
+import TransportDeleteForm from "../../sections/@dashboard/transport/TransportDeleteForm";
 
 // ----------------------------------------------------------------------
 
@@ -136,6 +139,7 @@ export default function Transport() {
   const [transportList, setTransportList] = useState([]);
   const { t, i18n } = useTranslation();
   const [editElement, setEditElement] = useState(null);
+  const [deleteElement, setDeleteElement] = useState(null);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -280,6 +284,22 @@ export default function Transport() {
     setFormOpen(true);
   };
 
+  const handleDeleteElement = (element) => {
+    setDeleteElement(element);
+  }
+
+  const handleDeleteFormClose = () => {
+    setDeleteElement(null);
+  }
+
+  const onDeleteFormSubmitted = async (element) => {
+    if (element.id != null && element.id.length > 0) {
+      await removeTransport(element);
+    }
+    handleDeleteFormClose();
+    setReloadList(true);
+  }
+
   return (
     <Page title={t('Transport')}>
       <Container>
@@ -408,6 +428,7 @@ export default function Transport() {
                             <TransportMoreMenu
                               onClickShow={() => setDisplayDetails(row)}
                               onClickEdit={() => handleEditElement(row)}
+                              onClickDelete={() => handleDeleteElement(row)}
                             />
                           </TableCell>
                         </TableRow>
@@ -461,6 +482,14 @@ export default function Transport() {
           onClose={handleFormClose}
           onFormSubmitted={onFormSubmitted}
           editElement={editElement}
+        />
+      )}
+      {deleteElement != null && (
+        <TransportDeleteForm
+          open={true}
+          onClose={handleDeleteFormClose}
+          onFormSubmitted={onDeleteFormSubmitted}
+          deleteElement={deleteElement}
         />
       )}
     </Page>

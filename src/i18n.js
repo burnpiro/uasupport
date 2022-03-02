@@ -102,7 +102,16 @@ const resources = {
       'Separate Bath': 'Separate Bath',
       'Kitchen Access': 'Kitchen Access',
       Dostępne: 'Available now',
-      Website: 'Website'
+      Website: 'Website',
+      'Usuń': 'Remove',
+      'RemoveAid': 'Remove Aid Center',
+      'RemoveHome': 'Remove Accommodation',
+      'RemoveTransport': 'Remove Transport',
+      'TypeTheName': 'To delete, retype the name correctly...',
+      'TypeTheName2': 'To delete, retype the name correctly...',
+      'TypedNameIncorrect': 'Typed name doesn\t match the original name',
+      'TypedNameIncorrect2': 'Typed name doesn\t match the original name',
+      'CAPTCHA Error': 'Invalid CAPTCHA'
     }
   },
   pl: {
@@ -206,7 +215,16 @@ const resources = {
       'Separate Bath': 'Oddzielna łazienka',
       'Kitchen Access': 'Dostęp do kuchni',
       Dostępne: 'Już Dostępne',
-      Website: 'Strona WWW'
+      Website: 'Strona WWW',
+      'Usuń': 'Usuń',
+      'RemoveAid': 'Usuń Centrum Pomoc',
+      'RemoveHome': 'Usuń Zakwaterowanie',
+      'RemoveTransport': 'Usuń Transport',
+      'TypeTheName': 'Aby usunąć, przepisz poprawnie nazwę...',
+      'TypeTheName2': 'Aby usunąć, przepisz poprawnie imię...',
+      'TypedNameIncorrect': 'Wpisana nazwa nie zgadza się z nazwą usuwanego elementu',
+      'TypedNameIncorrect2': 'Wpisane imię nie zgadza się z imieniem z usuwanego elementu',
+      'CAPTCHA Error': 'Nieprawidłowa CAPTCHA'
     }
   },
   ua: {
@@ -310,7 +328,16 @@ const resources = {
       'Separate Bath': 'Окрема ванна кімната',
       'Kitchen Access': 'Доступ до кухні',
       Dostępne: 'Зараз доступний',
-      Website: 'Веб-сайт'
+      Website: 'Веб-сайт',
+      'Usuń': 'Видалити',
+      'RemoveAid': 'Видаліть довідковий центр',
+      'RemoveHome': 'Видалити розміщення',
+      'RemoveTransport': 'Видаліть транспорт',
+      'TypeTheName': 'Щоб видалити, перепишіть назву правильно...',
+      'TypeTheName2': 'Щоб видалити, перепишіть назву правильно...',
+      'TypedNameIncorrect': 'Введена назва не відповідає назві видаленого елемента',
+      'TypedNameIncorrect2': 'Введена назва не відповідає назві видаленого елемента',
+      'CAPTCHA Error': 'Недійсна CAPTCHA'
     }
   },
   ru: {
@@ -414,7 +441,16 @@ const resources = {
       'Separate Bath': 'Отдельная ванная',
       'Kitchen Access': 'Доступ на кухню',
       Dostępne: 'Теперь доступно',
-      Website: 'Веб-сайт'
+      Website: 'Веб-сайт',
+      'Usuń': 'Удалить',
+      'RemoveAid': 'Удалить Справочный центр',
+      'RemoveHome': 'Удалить размещение',
+      'RemoveTransport': 'Удалить транспорт',
+      'TypeTheName': 'Чтобы удалить, перепишите имя правильно...',
+      'TypeTheName2': 'Чтобы удалить, перепишите имя правильно...',
+      'TypedNameIncorrect': 'Введенное имя не совпадает с названием удаленного элемента',
+      'TypedNameIncorrect2': 'Введенное имя не соответствует имени на удаленном элементе',
+      'CAPTCHA Error': 'Неверная капча'
     }
   }
 };

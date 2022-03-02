@@ -1,4 +1,4 @@
-import {collection, getDocs, addDoc, setDoc, doc} from 'firebase/firestore/lite';
+import {collection, getDocs, addDoc, setDoc, doc, deleteDoc} from 'firebase/firestore/lite';
 import { v4 as uuidv4 } from 'uuid';
 import { db } from '../../firebase';
 
@@ -15,6 +15,11 @@ export async function getHomes() {
 
 export async function addHome(transport) {
   await addDoc(collection(db, "homes"), transport);
+  return true;
+}
+
+export async function removeHome(data) {
+  await deleteDoc(doc(db, "homes", data.id));
   return true;
 }
 

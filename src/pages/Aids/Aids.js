@@ -34,9 +34,10 @@ import isSameDay from 'date-fns/isSameDay';
 import AidsMap from './AidsMap';
 import FilterDialog from './Filter';
 import AidsDetails from './AidsDetails';
-import { addAid, getAids, updateAid } from '../../utils/dbService/aids';
+import {addAid, getAids, removeAid, updateAid} from '../../utils/dbService/aids';
 import { AidsListHead, AidsListToolbar, AidsMoreMenu } from '../../sections/@dashboard/aids';
 import AidsForm from '../../sections/@dashboard/aids/AidsForm';
+import AidsDeleteForm from "../../sections/@dashboard/aids/AidsDeleteForm";
 
 // ----------------------------------------------------------------------
 
@@ -133,6 +134,7 @@ export default function Aids() {
   const [transportList, setTransportList] = useState([]);
   const { t, i18n } = useTranslation();
   const [editElement, setEditElement] = useState(null);
+  const [deleteElement, setDeleteElement] = useState(null);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -276,8 +278,24 @@ export default function Aids() {
     setFormOpen(true);
   };
 
+  const handleDeleteElement = (element) => {
+    setDeleteElement(element);
+  }
+
+  const handleDeleteFormClose = () => {
+    setDeleteElement(null);
+  }
+
+  const onDeleteFormSubmitted = async (element) => {
+    if (element.id != null && element.id.length > 0) {
+      await removeAid(element);
+    }
+    handleDeleteFormClose();
+    setReloadList(true);
+  }
+
   return (
-    <Page title={t('Transport')}>
+    <Page title={t('Centra Pomocy')}>
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
@@ -375,6 +393,7 @@ export default function Aids() {
                             <AidsMoreMenu
                               onClickShow={() => setDisplayDetails(row)}
                               onClickEdit={() => handleEditElement(row)}
+                              onClickDelete={() => handleDeleteElement(row)}
                             />
                           </TableCell>
                         </TableRow>
@@ -423,6 +442,14 @@ export default function Aids() {
           onClose={handleFormClose}
           onFormSubmitted={onFormSubmitted}
           editElement={editElement}
+        />
+      )}
+      {deleteElement != null && (
+        <AidsDeleteForm
+          open={true}
+          onClose={handleDeleteFormClose}
+          onFormSubmitted={onDeleteFormSubmitted}
+          deleteElement={deleteElement}
         />
       )}
     </Page>

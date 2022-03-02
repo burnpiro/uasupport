@@ -9,7 +9,7 @@ import {useLocalStorage} from "../../hooks/useLocalStorage";
 
 // ----------------------------------------------------------------------
 
-const LANGS = [
+export const LANGS = [
   {
     value: 'pl',
     label: 'Polski',

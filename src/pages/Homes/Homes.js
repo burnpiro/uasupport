@@ -31,17 +31,15 @@ import { red } from '@mui/material/colors';
 //
 import i18next from './../../i18n';
 
-import USERLIST from '../../_mocks_/transport';
 import { fDateTime, fToNow } from '../../utils/formatTime';
 import isSameDay from 'date-fns/isSameDay';
 import HomesMap from './HomesMap';
 import FilterDialog from './Filter';
 import HomesDetails from './HomesDetails';
-import { addHome, getHomes, updateHome } from '../../utils/dbService/homes';
-import TransportForm from '../../sections/@dashboard/homes/HomeForm';
+import {addHome, getHomes, removeHome, updateHome} from '../../utils/dbService/homes';
 import HomeForm from '../../sections/@dashboard/homes/HomeForm';
-import { addAid, updateAid } from '../../utils/dbService/aids';
 import { isAfter } from 'date-fns';
+import HomeDeleteForm from "../../sections/@dashboard/homes/HomeDeleteForm";
 
 // ----------------------------------------------------------------------
 
@@ -136,6 +134,7 @@ export default function Homes() {
   const [transportList, setTransportList] = useState([]);
   const { t, i18n } = useTranslation();
   const [editElement, setEditElement] = useState(null);
+  const [deleteElement, setDeleteElement] = useState(null);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -280,6 +279,22 @@ export default function Homes() {
     setFormOpen(true);
   };
 
+  const handleDeleteElement = (element) => {
+    setDeleteElement(element);
+  }
+
+  const handleDeleteFormClose = () => {
+    setDeleteElement(null);
+  }
+
+  const onDeleteFormSubmitted = async (element) => {
+    if (element.id != null && element.id.length > 0) {
+      await removeHome(element);
+    }
+    handleDeleteFormClose();
+    setReloadList(true);
+  }
+
   return (
     <Page title={t('Homes')}>
       <Container>
@@ -399,6 +414,7 @@ export default function Homes() {
                             <HomeMoreMenu
                               onClickShow={() => setDisplayDetails(row)}
                               onClickEdit={() => handleEditElement(row)}
+                              onClickDelete={() => handleDeleteElement(row)}
                             />
                           </TableCell>
                         </TableRow>
@@ -448,6 +464,14 @@ export default function Homes() {
           onClose={handleFormClose}
           onFormSubmitted={onFormSubmitted}
           editElement={editElement}
+        />
+      )}
+      {deleteElement != null && (
+        <HomeDeleteForm
+          open={true}
+          onClose={handleDeleteFormClose}
+          onFormSubmitted={onDeleteFormSubmitted}
+          deleteElement={deleteElement}
         />
       )}
     </Page>
