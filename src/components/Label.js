@@ -4,7 +4,7 @@ import { alpha, styled } from '@mui/material/styles';
 
 // ----------------------------------------------------------------------
 
-const RootStyle = styled('span')(({ theme, ownerState }) => {
+const RootStyle = styled('div')(({ theme, ownerState }) => {
   const { color, variant } = ownerState;
 
   const styleFilled = (color) => ({
@@ -24,16 +24,18 @@ const RootStyle = styled('span')(({ theme, ownerState }) => {
   });
 
   return {
-    height: 22,
+    minHeight: 22,
     minWidth: 22,
+    maxWidth: '100%',
+    height: 'auto',
     lineHeight: 0,
     borderRadius: 8,
     cursor: 'default',
     alignItems: 'center',
-    whiteSpace: 'nowrap',
+    whiteSpace: 'normal',
     display: 'inline-flex',
     justifyContent: 'center',
-    padding: theme.spacing(0, 1),
+    padding: theme.spacing(0.3, 1),
     color: theme.palette.grey[800],
     fontSize: theme.typography.pxToRem(12),
     fontFamily: theme.typography.fontFamily,

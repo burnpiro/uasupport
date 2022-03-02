@@ -34,6 +34,7 @@ function AidItem(props) {
       from,
       isVerified,
       description = '',
+      aidSubType,
       aidType,
       phone,
       fb,
@@ -71,6 +72,14 @@ function AidItem(props) {
               {addressFrom}
             </Typography>
           </Box>
+          {aidSubType && aidType === 'medical-aid' && (
+            <Box flexDirection={'row'} display={'flex'}>
+              <Typography variant="subtitle2">{t('MedicalAidType')}:</Typography>
+              <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }}>
+                {aidSubType}
+              </Typography>
+            </Box>
+          )}
         </Stack>
         <Typography variant="body2" color="text.secondary" style={{ whiteSpace: 'pre-line' }}>
           {description.replace(/↵/g, '\n').replace('\\n', '\n')}

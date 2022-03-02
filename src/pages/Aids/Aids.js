@@ -34,10 +34,10 @@ import isSameDay from 'date-fns/isSameDay';
 import AidsMap from './AidsMap';
 import FilterDialog from './Filter';
 import AidsDetails from './AidsDetails';
-import {addAid, getAids, removeAid, updateAid} from '../../utils/dbService/aids';
+import { addAid, getAids, removeAid, updateAid } from '../../utils/dbService/aids';
 import { AidsListHead, AidsListToolbar, AidsMoreMenu } from '../../sections/@dashboard/aids';
 import AidsForm from '../../sections/@dashboard/aids/AidsForm';
-import AidsDeleteForm from "../../sections/@dashboard/aids/AidsDeleteForm";
+import AidsDeleteForm from '../../sections/@dashboard/aids/AidsDeleteForm';
 
 // ----------------------------------------------------------------------
 
@@ -100,7 +100,10 @@ function applySortFilter(array, comparator, query) {
   if (query) {
     return filter(
       array,
-      (_user) => _user.addressFrom.toLowerCase().indexOf(query.toLowerCase()) !== -1
+      (_user) =>
+        _user.addressFrom.toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
+        _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
+        (_user.aidSubType || '').toLowerCase().indexOf(query.toLowerCase()) !== -1
     );
   }
   return stabilizedThis.map((el) => el[0]);
@@ -280,11 +283,11 @@ export default function Aids() {
 
   const handleDeleteElement = (element) => {
     setDeleteElement(element);
-  }
+  };
 
   const handleDeleteFormClose = () => {
     setDeleteElement(null);
-  }
+  };
 
   const onDeleteFormSubmitted = async (element) => {
     if (element.id != null && element.id.length > 0) {
@@ -292,7 +295,7 @@ export default function Aids() {
     }
     handleDeleteFormClose();
     setReloadList(true);
-  }
+  };
 
   return (
     <Page title={t('Centra Pomocy')}>
@@ -343,7 +346,7 @@ export default function Aids() {
                   {displayedUsers
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => {
-                      const { id, name, addressFrom, aidType, avatarUrl, isVerified } = row;
+                      const { id, name, addressFrom, aidType, aidSubType } = row;
                       const isItemSelected = selected.indexOf(id) !== -1;
 
                       return (
@@ -380,13 +383,19 @@ export default function Aids() {
                           {/*<TableCell align="left" onClick={() => setDisplayDetails(row)}>*/}
                           {/*  {isVerified ? t('Tak') : t('Nie')}*/}
                           {/*</TableCell>*/}
-                          <TableCell align="left">
-                            <Label
-                              variant="ghost"
-                              color={(aidType === 'health-aid' && 'info') || 'success'}
-                            >
-                              {t(aidType)}
+                          <TableCell align="left" style={{ maxWidth: '140px' }}>
+                            <Label variant="ghost" color={'success'}>
+                              <span style={{ display: 'block', lineHeight: 'initial' }}>
+                                {t(aidType)}
+                              </span>
                             </Label>
+                            {aidSubType && (
+                              <Label variant="ghost" color={'info'}>
+                                <span style={{ display: 'block', lineHeight: 'initial' }}>
+                                  {aidSubType}
+                                </span>
+                              </Label>
+                            )}
                           </TableCell>
 
                           <TableCell align="right">

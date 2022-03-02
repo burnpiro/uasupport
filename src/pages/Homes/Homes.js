@@ -36,10 +36,10 @@ import isSameDay from 'date-fns/isSameDay';
 import HomesMap from './HomesMap';
 import FilterDialog from './Filter';
 import HomesDetails from './HomesDetails';
-import {addHome, getHomes, removeHome, updateHome} from '../../utils/dbService/homes';
+import { addHome, getHomes, removeHome, updateHome } from '../../utils/dbService/homes';
 import HomeForm from '../../sections/@dashboard/homes/HomeForm';
 import { isAfter } from 'date-fns';
-import HomeDeleteForm from "../../sections/@dashboard/homes/HomeDeleteForm";
+import HomeDeleteForm from '../../sections/@dashboard/homes/HomeDeleteForm';
 
 // ----------------------------------------------------------------------
 
@@ -281,11 +281,11 @@ export default function Homes() {
 
   const handleDeleteElement = (element) => {
     setDeleteElement(element);
-  }
+  };
 
   const handleDeleteFormClose = () => {
     setDeleteElement(null);
-  }
+  };
 
   const onDeleteFormSubmitted = async (element) => {
     if (element.id != null && element.id.length > 0) {
@@ -293,7 +293,7 @@ export default function Homes() {
     }
     handleDeleteFormClose();
     setReloadList(true);
-  }
+  };
 
   return (
     <Page title={t('Homes')}>
@@ -406,7 +406,9 @@ export default function Homes() {
                               variant="ghost"
                               color={(status === 'szukam' && 'info') || 'success'}
                             >
-                              {t(status)}
+                              <span style={{ display: 'block', lineHeight: 'initial' }}>
+                                {t(status)}
+                              </span>
                             </Label>
                           </TableCell>
 

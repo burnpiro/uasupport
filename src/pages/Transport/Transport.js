@@ -40,13 +40,18 @@ import isSameDay from 'date-fns/isSameDay';
 import TransportMap from './TransportMap';
 import FilterDialog from './Filter';
 import TransportDetails from './TransportDetails';
-import {addTransport, getTransport, removeTransport, updateTransport} from '../../utils/dbService/transport';
+import {
+  addTransport,
+  getTransport,
+  removeTransport,
+  updateTransport
+} from '../../utils/dbService/transport';
 import TransportForm from '../../sections/@dashboard/transport/TransportForm';
 import { red } from '@mui/material/colors';
 import { addHome } from '../../utils/dbService/homes';
-import {removeAid} from "../../utils/dbService/aids";
-import AidsDeleteForm from "../../sections/@dashboard/aids/AidsDeleteForm";
-import TransportDeleteForm from "../../sections/@dashboard/transport/TransportDeleteForm";
+import { removeAid } from '../../utils/dbService/aids';
+import AidsDeleteForm from '../../sections/@dashboard/aids/AidsDeleteForm';
+import TransportDeleteForm from '../../sections/@dashboard/transport/TransportDeleteForm';
 
 // ----------------------------------------------------------------------
 
@@ -286,11 +291,11 @@ export default function Transport() {
 
   const handleDeleteElement = (element) => {
     setDeleteElement(element);
-  }
+  };
 
   const handleDeleteFormClose = () => {
     setDeleteElement(null);
-  }
+  };
 
   const onDeleteFormSubmitted = async (element) => {
     if (element.id != null && element.id.length > 0) {
@@ -298,7 +303,7 @@ export default function Transport() {
     }
     handleDeleteFormClose();
     setReloadList(true);
-  }
+  };
 
   return (
     <Page title={t('Transport')}>
@@ -420,7 +425,9 @@ export default function Transport() {
                               variant="ghost"
                               color={(status === 'szukam' && 'info') || 'success'}
                             >
-                              {t(status)}
+                              <span style={{ display: 'block', lineHeight: 'initial' }}>
+                                {t(status)}
+                              </span>
                             </Label>
                           </TableCell>
 

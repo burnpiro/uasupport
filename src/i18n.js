@@ -111,7 +111,8 @@ const resources = {
       'TypeTheName2': 'To delete, retype the name correctly...',
       'TypedNameIncorrect': 'Typed name doesn\t match the original name',
       'TypedNameIncorrect2': 'Typed name doesn\t match the original name',
-      'CAPTCHA Error': 'Invalid CAPTCHA'
+      'CAPTCHA Error': 'Invalid CAPTCHA',
+      'MedicalAidType': 'Medical aid type'
     }
   },
   pl: {
@@ -224,7 +225,8 @@ const resources = {
       'TypeTheName2': 'Aby usunąć, przepisz poprawnie imię...',
       'TypedNameIncorrect': 'Wpisana nazwa nie zgadza się z nazwą usuwanego elementu',
       'TypedNameIncorrect2': 'Wpisane imię nie zgadza się z imieniem z usuwanego elementu',
-      'CAPTCHA Error': 'Nieprawidłowa CAPTCHA'
+      'CAPTCHA Error': 'Nieprawidłowa CAPTCHA',
+      'MedicalAidType': 'Typ pomocy medycznej'
     }
   },
   ua: {
@@ -337,7 +339,8 @@ const resources = {
       'TypeTheName2': 'Щоб видалити, перепишіть назву правильно...',
       'TypedNameIncorrect': 'Введена назва не відповідає назві видаленого елемента',
       'TypedNameIncorrect2': 'Введена назва не відповідає назві видаленого елемента',
-      'CAPTCHA Error': 'Недійсна CAPTCHA'
+      'CAPTCHA Error': 'Недійсна CAPTCHA',
+      'MedicalAidType': 'Вид медичної допомоги'
     }
   },
   ru: {
@@ -450,7 +453,8 @@ const resources = {
       'TypeTheName2': 'Чтобы удалить, перепишите имя правильно...',
       'TypedNameIncorrect': 'Введенное имя не совпадает с названием удаленного элемента',
       'TypedNameIncorrect2': 'Введенное имя не соответствует имени на удаленном элементе',
-      'CAPTCHA Error': 'Неверная капча'
+      'CAPTCHA Error': 'Неверная капча',
+      'MedicalAidType': 'Вид медицинской помощи'
     }
   }
 };

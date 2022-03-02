@@ -41,6 +41,7 @@ export default function AidsForm(props) {
 
   const TransportSchema = Yup.object().shape({
     aidType: Yup.string().required(t('Field required')),
+    aidSubType: Yup.string(),
     name: Yup.string().min(2, t('TooShort')).max(100, 'TooLong').required(t('Field required')),
     email: Yup.string().email(t('Invalid Email')),
     fb: Yup.string().url(t('Invalid URL')),
@@ -64,7 +65,8 @@ export default function AidsForm(props) {
       ? {
           ...editElement,
           description: editElement.description.replace(/↵/g, '\n').replace('\\n', '\n'),
-          website: editElement.website || ''
+          website: editElement.website || '',
+          aidSubType: editElement.aidSubType || ''
         }
       : {
           name: '',
@@ -75,7 +77,8 @@ export default function AidsForm(props) {
           description: '',
           addressFrom: '',
           from: [],
-          aidType: 'standard-aid'
+          aidType: 'standard-aid',
+          aidSubType: ''
         },
     validationSchema: TransportSchema,
     onSubmit: handleSubmitConfirmed
@@ -264,6 +267,15 @@ export default function AidsForm(props) {
                 error={Boolean(touched.name && errors.name)}
                 helperText={touched.name && errors.name}
               />
+              {values.aidType === 'medical-aid' && (
+                <TextField
+                  fullWidth
+                  label={t('MedicalAidType')}
+                  {...getFieldProps('aidSubType')}
+                  error={Boolean(touched.aidSubType && errors.aidSubType)}
+                  helperText={touched.aidSubType && errors.aidSubType}
+                />
+              )}
 
               <TextField
                 fullWidth
