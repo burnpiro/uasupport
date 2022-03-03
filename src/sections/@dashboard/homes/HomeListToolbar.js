@@ -16,6 +16,8 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 // component
 import Iconify from '../../../components/Iconify';
 import { useTranslation } from 'react-i18next';
+import { useState } from 'react';
+import useDebouncedEffect from '../../../hooks/useDebounceEffect';
 
 // ----------------------------------------------------------------------
 
@@ -61,6 +63,7 @@ export default function HomeListToolbar({
   onFilterChange
 }) {
   const { t, i18n } = useTranslation();
+  const [query, setQuery] = useState(filterName);
 
   const handleStatusFilterChange = (event, newStatus) => {
     if (newStatus != null) {
@@ -75,6 +78,19 @@ export default function HomeListToolbar({
       });
     }
   };
+
+  useDebouncedEffect(
+    () => {
+      onFilterName(query);
+    },
+    300,
+    [query]
+  );
+
+  const handleQueryChange = (e) => {
+    setQuery(e.target.value);
+  };
+
   return (
     <RootStyle
       sx={{
@@ -97,8 +113,8 @@ export default function HomeListToolbar({
         </Box>
       ) : (
         <SearchStyle
-          value={filterName}
-          onChange={onFilterName}
+          value={query}
+          onChange={handleQueryChange}
           placeholder={t('Szukaj zakwaterowania')}
           startAdornment={
             <InputAdornment position="start">

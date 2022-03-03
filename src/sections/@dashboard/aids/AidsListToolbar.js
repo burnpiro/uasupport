@@ -18,6 +18,8 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import ToggleButton from '@mui/material/ToggleButton';
 import { getTypeIcon } from '../../../pages/Aids/Aids';
 import * as React from 'react';
+import useDebouncedEffect from '../../../hooks/useDebounceEffect';
+import { useState } from 'react';
 
 // ----------------------------------------------------------------------
 
@@ -63,6 +65,7 @@ export default function AidsListToolbar({
   onFilterChange
 }) {
   const { t, i18n } = useTranslation();
+  const [query, setQuery] = useState(filterName);
 
   const handleStatusFilterChange = (event, newStatus) => {
     if (newStatus != null) {
@@ -77,6 +80,19 @@ export default function AidsListToolbar({
       });
     }
   };
+
+  useDebouncedEffect(
+    () => {
+      onFilterName(query);
+    },
+    300,
+    [query]
+  );
+
+  const handleQueryChange = (e) => {
+    setQuery(e.target.value);
+  };
+
   return (
     <RootStyle
       sx={{
@@ -99,8 +115,8 @@ export default function AidsListToolbar({
         </Box>
       ) : (
         <SearchStyle
-          value={filterName}
-          onChange={onFilterName}
+          value={query}
+          onChange={handleQueryChange}
           placeholder={t('Szukaj pomocy')}
           startAdornment={
             <InputAdornment position="start">
@@ -115,7 +131,7 @@ export default function AidsListToolbar({
         value={filter['aidType'] != null ? filter['aidType'] : null}
         onChange={handleStatusFilterChange}
       >
-        <ToggleButton value="standard-aid" sx={{p:0, pl: 1}}>
+        <ToggleButton value="standard-aid" sx={{ p: 0, pl: 1 }}>
           <Tooltip title={t('standard-aid')}>
             <img
               style={{ marginRight: '8px', width: '32px' }}
@@ -124,7 +140,7 @@ export default function AidsListToolbar({
             />
           </Tooltip>
         </ToggleButton>
-        <ToggleButton value="health-aid" sx={{p:0, pl: 1}}>
+        <ToggleButton value="health-aid" sx={{ p: 0, pl: 1 }}>
           <Tooltip title={t('health-aid')}>
             <img
               style={{ marginRight: '8px', width: '32px' }}
@@ -133,7 +149,7 @@ export default function AidsListToolbar({
             />
           </Tooltip>
         </ToggleButton>
-        <ToggleButton value="medical-aid" sx={{p:0, pl: 1}}>
+        <ToggleButton value="medical-aid" sx={{ p: 0, pl: 1 }}>
           <Tooltip title={t('medical-aid')}>
             <img
               style={{ marginRight: '8px', width: '32px' }}
@@ -142,7 +158,7 @@ export default function AidsListToolbar({
             />
           </Tooltip>
         </ToggleButton>
-        <ToggleButton value="psych-aid" sx={{p:0, pl: 1}}>
+        <ToggleButton value="psych-aid" sx={{ p: 0, pl: 1 }}>
           <Tooltip title={t('psych-aid')}>
             <img
               style={{ marginRight: '8px', width: '32px' }}
@@ -169,7 +185,7 @@ export default function AidsListToolbar({
             />
           </Tooltip>
         </ToggleButton>
-        <ToggleButton value="animal-aid" sx={{p:0, pl: 1}}>
+        <ToggleButton value="animal-aid" sx={{ p: 0, pl: 1 }}>
           <Tooltip title={t('animal-aid')}>
             <img
               style={{ marginRight: '8px', width: '32px' }}
@@ -178,7 +194,7 @@ export default function AidsListToolbar({
             />
           </Tooltip>
         </ToggleButton>
-        <ToggleButton value="law-aid" sx={{p:0, pl: 1}}>
+        <ToggleButton value="law-aid" sx={{ p: 0, pl: 1 }}>
           <Tooltip title={t('law-aid')}>
             <img
               style={{ marginRight: '8px', width: '32px' }}
@@ -187,7 +203,7 @@ export default function AidsListToolbar({
             />
           </Tooltip>
         </ToggleButton>
-        <ToggleButton value="translate-aid" sx={{p:0, pl: 1}}>
+        <ToggleButton value="translate-aid" sx={{ p: 0, pl: 1 }}>
           <Tooltip title={t('translate-aid')}>
             <img
               style={{ marginRight: '8px', width: '32px' }}

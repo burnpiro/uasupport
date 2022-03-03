@@ -16,6 +16,8 @@ import Iconify from '../../../components/Iconify';
 import { useTranslation } from 'react-i18next';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import ToggleButton from '@mui/material/ToggleButton';
+import useDebouncedEffect from '../../../hooks/useDebounceEffect';
+import { useState } from 'react';
 
 // ----------------------------------------------------------------------
 
@@ -61,6 +63,7 @@ export default function TransportListToolbar({
   onFilterChange
 }) {
   const { t, i18n } = useTranslation();
+  const [query, setQuery] = useState(filterName);
 
   const handleStatusFilterChange = (event, newStatus) => {
     if (newStatus != null) {
@@ -75,6 +78,19 @@ export default function TransportListToolbar({
       });
     }
   };
+
+  useDebouncedEffect(
+    () => {
+      onFilterName(query);
+    },
+    300,
+    [query]
+  );
+
+  const handleQueryChange = (e) => {
+    setQuery(e.target.value);
+  };
+
   return (
     <RootStyle
       sx={{
@@ -97,8 +113,8 @@ export default function TransportListToolbar({
         </Box>
       ) : (
         <SearchStyle
-          value={filterName}
-          onChange={onFilterName}
+          value={query}
+          onChange={handleQueryChange}
           placeholder={t('Szukaj transport')}
           startAdornment={
             <InputAdornment position="start">
