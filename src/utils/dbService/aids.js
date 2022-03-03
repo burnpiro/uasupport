@@ -14,35 +14,35 @@ import { v4 as uuidv4 } from 'uuid';
 import { db } from '../../firebase';
 
 export async function getAids() {
-  const transportCol = collection(db, 'aids');
-  const transportSnapshot = await getDocs(transportCol);
-  return transportSnapshot.docs
-    .map((doc) => ({
-      ...doc.data(),
-      id: doc.id,
-    }))
-    .map((doc) => ({ ...doc }));
-  // const storage = getStorage();
-  // const pathReference = ref(storage, 'aids-data');
-  // const url = await getDownloadURL(pathReference);
-  // const bundleData = await fetch(url, {
-  //   method: 'GET', // *GET, POST, PUT, DELETE, etc.
-  //   mode: 'cors' // no-cors, *cors, same-origin
-  // });
-  // // // Load the bundle contents into the Firestore SDK
-  // await loadBundle(db, bundleData.body);
-  // //
-  // const query = await namedQuery(db, 'latest-aids-query');
-  // const storiesSnap = await getDocsFromCache(query);
-  // //
-  // return (
-  //   storiesSnap.docs
-  //     .map((doc) => ({
-  //       ...doc.data(),
-  //       id: doc.id
-  //     }))
-  //     .map((doc) => ({ ...doc })) || []
-  // );
+  // const transportCol = collection(db, 'aids');
+  // const transportSnapshot = await getDocs(transportCol);
+  // return transportSnapshot.docs
+  //   .map((doc) => ({
+  //     ...doc.data(),
+  //     id: doc.id,
+  //   }))
+  //   .map((doc) => ({ ...doc }));
+  const storage = getStorage();
+  const pathReference = ref(storage, 'aids-data');
+  const url = await getDownloadURL(pathReference);
+  const bundleData = await fetch(url, {
+    method: 'GET', // *GET, POST, PUT, DELETE, etc.
+    mode: 'cors' // no-cors, *cors, same-origin
+  });
+  // // Load the bundle contents into the Firestore SDK
+  await loadBundle(db, bundleData.body);
+  //
+  const query = await namedQuery(db, 'latest-aids-query');
+  const storiesSnap = await getDocsFromCache(query);
+  //
+  return (
+    storiesSnap.docs
+      .map((doc) => ({
+        ...doc.data(),
+        id: doc.id
+      }))
+      .map((doc) => ({ ...doc })) || []
+  );
 }
 
 export async function addAid(data) {
