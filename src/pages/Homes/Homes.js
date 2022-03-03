@@ -274,20 +274,21 @@ export default function Homes() {
 
   const onFormSubmitted = async (values) => {
     if (values.id != null && values.id.length > 0) {
-      await updateHome(values);
+      const newDoc = await updateHome(values);
+      setTransportList(transportList.map((el) => (el.id === newDoc.id ? newDoc : el)));
       navigate(
         values.id + (searchParams.toString().length > 0 ? `?${searchParams.toString()}` : '')
       );
     } else {
-      const ref = await addHome(values);
-      if (ref.id) {
+      const newDoc = await addHome(values);
+      if (newDoc.id) {
         navigate(
-          ref.id + (searchParams.toString().length > 0 ? `?${searchParams.toString()}` : '')
+          newDoc.id + (searchParams.toString().length > 0 ? `?${searchParams.toString()}` : '')
         );
+        setTransportList([...transportList, newDoc]);
       }
     }
     handleFormClose();
-    setReloadList(true);
   };
 
   const handleSelectFilter = (filter) => {
@@ -332,10 +333,10 @@ export default function Homes() {
 
   const onDeleteFormSubmitted = async (element) => {
     if (element.id != null && element.id.length > 0) {
-      await removeHome(element);
+      const removedId = await removeHome(element);
+      setTransportList(transportList.filter((el) => el.id !== removedId));
     }
     handleDeleteFormClose();
-    setReloadList(true);
   };
 
   return (

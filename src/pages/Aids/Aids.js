@@ -35,10 +35,7 @@ import { addAid, getAids, removeAid, updateAid } from '../../utils/dbService/aid
 import { AidsListHead, AidsListToolbar, AidsMoreMenu } from '../../sections/@dashboard/aids';
 import AidsForm from '../../sections/@dashboard/aids/AidsForm';
 import AidsDeleteForm from '../../sections/@dashboard/aids/AidsDeleteForm';
-import {
-  getFilterFromQuery,
-  getSerializedQueryParam
-} from '../../utils/filters';
+import { getFilterFromQuery, getSerializedQueryParam } from '../../utils/filters';
 
 // ----------------------------------------------------------------------
 
@@ -208,8 +205,8 @@ export default function Aids() {
     setPage(0);
   };
 
-  const handleFilterByName = (event) => {
-    setFilterName(event.target.value);
+  const handleFilterByName = (value) => {
+    setFilterName(value);
   };
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - transportList.length) : 0;
@@ -268,20 +265,21 @@ export default function Aids() {
 
   const onFormSubmitted = async (values) => {
     if (values.id != null && values.id.length > 0) {
-      await updateAid(values);
+      const newDoc = await updateAid(values);
+      setTransportList(transportList.map((el) => (el.id === newDoc.id ? newDoc : el)));
       navigate(
         values.id + (searchParams.toString().length > 0 ? `?${searchParams.toString()}` : '')
       );
     } else {
-      const ref = await addAid(values);
-      if (ref.id) {
+      const newDoc = await addAid(values);
+      if (newDoc.id) {
         navigate(
-          ref.id + (searchParams.toString().length > 0 ? `?${searchParams.toString()}` : '')
+          newDoc.id + (searchParams.toString().length > 0 ? `?${searchParams.toString()}` : '')
         );
+        setTransportList([...transportList, newDoc]);
       }
     }
     handleFormClose();
-    setReloadList(true);
   };
 
   const handleSelectFilter = (filter) => {
@@ -326,10 +324,10 @@ export default function Aids() {
 
   const onDeleteFormSubmitted = async (element) => {
     if (element.id != null && element.id.length > 0) {
-      await removeAid(element);
+      const removedId = await removeAid(element);
+      setTransportList(transportList.filter((el) => el.id !== removedId));
     }
     handleDeleteFormClose();
-    setReloadList(true);
   };
 
   return (

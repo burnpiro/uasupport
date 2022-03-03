@@ -214,8 +214,8 @@ export default function Transport() {
     setPage(0);
   };
 
-  const handleFilterByName = (event) => {
-    setFilterName(event.target.value);
+  const handleFilterByName = (value) => {
+    setFilterName(value);
   };
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - transportList.length) : 0;
@@ -275,20 +275,21 @@ export default function Transport() {
 
   const onFormSubmitted = async (values) => {
     if (values.id != null && values.id.length > 0) {
-      await updateTransport(values);
+      const newDoc = await updateTransport(values);
+      setTransportList(transportList.map((el) => (el.id === newDoc.id ? newDoc : el)));
       navigate(
         values.id + (searchParams.toString().length > 0 ? `?${searchParams.toString()}` : '')
       );
     } else {
-      const ref = await addTransport(values);
-      if (ref.id) {
+      const newDoc = await addTransport(values);
+      if (newDoc.id) {
         navigate(
-          ref.id + (searchParams.toString().length > 0 ? `?${searchParams.toString()}` : '')
+          newDoc.id + (searchParams.toString().length > 0 ? `?${searchParams.toString()}` : '')
         );
+        setTransportList([...transportList, newDoc]);
       }
     }
     handleFormClose();
-    setReloadList(true);
   };
 
   const handleSelectFilter = (filter) => {
@@ -334,10 +335,10 @@ export default function Transport() {
 
   const onDeleteFormSubmitted = async (element) => {
     if (element.id != null && element.id.length > 0) {
-      await removeTransport(element);
+      const removedId = await removeTransport(element);
+      setTransportList(transportList.filter((el) => el.id !== removedId));
     }
     handleDeleteFormClose();
-    setReloadList(true);
   };
 
   return (
