@@ -1,6 +1,6 @@
 import { filter } from 'lodash';
 import { useEffect, useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { useParams, useSearchParams, useNavigate } from 'react-router-dom';
 // material
 import {
   Card,
@@ -34,7 +34,6 @@ import {
 //
 import i18next from './../../i18n';
 
-import USERLIST from '../../_mocks_/transport';
 import { fDateTime, fToNow } from '../../utils/formatTime';
 import isSameDay from 'date-fns/isSameDay';
 import TransportMap from './TransportMap';
@@ -48,10 +47,8 @@ import {
 } from '../../utils/dbService/transport';
 import TransportForm from '../../sections/@dashboard/transport/TransportForm';
 import { red } from '@mui/material/colors';
-import { addHome } from '../../utils/dbService/homes';
-import { removeAid } from '../../utils/dbService/aids';
-import AidsDeleteForm from '../../sections/@dashboard/aids/AidsDeleteForm';
 import TransportDeleteForm from '../../sections/@dashboard/transport/TransportDeleteForm';
+import { getFilterFromQuery, getSerializedQueryParam } from '../../utils/filters';
 
 // ----------------------------------------------------------------------
 
@@ -93,11 +90,16 @@ function applySortFilter(array, comparator, query) {
   if (query) {
     return filter(
       array,
-      (_user) => _user.addressFrom.toLowerCase().indexOf(query.toLowerCase()) !== -1
+      (_user) =>
+        _user.addressFrom.toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
+        _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
+        (_user.description || '').toLowerCase().indexOf(query.toLowerCase()) !== -1
     );
   }
   return stabilizedThis.map((el) => el[0]);
 }
+
+const ALLOWED_FILTER_KEYS = ['from', 'to', 'onlyVerified', 'status', 'phone'];
 
 function applyDataFilter(array, { from, to, date, onlyVerified, status, phone }) {
   let result = array;
@@ -128,18 +130,27 @@ function applyDataFilter(array, { from, to, date, onlyVerified, status, phone })
 }
 
 export default function Transport() {
+  const params = useParams();
+  const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const initialParams =
+    searchParams.toString().length > 0
+      ? getFilterFromQuery(searchParams.toString(), ALLOWED_FILTER_KEYS)
+      : {};
+  const initialQuery = searchParams.get('query') || '';
+
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
   const [selected, setSelected] = useState([]);
   const [orderBy, setOrderBy] = useState('name');
   const [formType, setFormType] = useState('dam');
-  const [filterName, setFilterName] = useState('');
+  const [filterName, setFilterName] = useState(initialQuery);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [selectedLocations, setSelectedLocations] = useState([]);
   const [filterOpen, setFilterOpen] = useState(false);
   const [formOpen, setFormOpen] = useState(false);
   const [reloadList, setReloadList] = useState(true);
-  const [filter, setFilter] = useState({});
+  const [filter, setFilter] = useState(initialParams);
   const [showDetails, setShowDetails] = useState([]);
   const [transportList, setTransportList] = useState([]);
   const { t, i18n } = useTranslation();
@@ -158,12 +169,21 @@ export default function Transport() {
 
       setReloadList(false);
       setTransportList(response);
+      const initialItems = params['*'] === '' ? [] : params['*'].split('/');
+      if (initialItems.length > 0) {
+        setShowDetails(response.filter((el) => initialItems.includes(el.id)));
+      }
     };
 
     if (reloadList) {
       dbCall();
     }
   }, [reloadList]);
+
+  useEffect(() => {
+    const serialized = getSerializedQueryParam(filter, ALLOWED_FILTER_KEYS, filterName);
+    setSearchParams(serialized);
+  }, [filter, filterName]);
 
   const TableHead = TABLE_HEAD();
 
@@ -256,8 +276,16 @@ export default function Transport() {
   const onFormSubmitted = async (values) => {
     if (values.id != null && values.id.length > 0) {
       await updateTransport(values);
+      navigate(
+        values.id + (searchParams.toString().length > 0 ? `?${searchParams.toString()}` : '')
+      );
     } else {
-      await addTransport(values);
+      const ref = await addTransport(values);
+      if (ref.id) {
+        navigate(
+          ref.id + (searchParams.toString().length > 0 ? `?${searchParams.toString()}` : '')
+        );
+      }
     }
     handleFormClose();
     setReloadList(true);
@@ -269,6 +297,10 @@ export default function Transport() {
   };
 
   const handleCloseDetails = () => {
+    navigate(
+      '/dashboard/transport' +
+        (searchParams.toString().length > 0 ? `?${searchParams.toString()}` : '')
+    );
     setShowDetails([]);
   };
 
@@ -280,6 +312,9 @@ export default function Transport() {
     if (Array.isArray(element)) {
       setShowDetails(element);
     } else {
+      navigate(
+        element.id + (searchParams.toString().length > 0 ? `?${searchParams.toString()}` : '')
+      );
       setShowDetails([element]);
     }
   };

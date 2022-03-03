@@ -1,6 +1,6 @@
 import { filter } from 'lodash';
 import { useEffect, useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { useParams, useSearchParams, useNavigate } from 'react-router-dom';
 // material
 import {
   Card,
@@ -40,6 +40,10 @@ import { addHome, getHomes, removeHome, updateHome } from '../../utils/dbService
 import HomeForm from '../../sections/@dashboard/homes/HomeForm';
 import { isAfter } from 'date-fns';
 import HomeDeleteForm from '../../sections/@dashboard/homes/HomeDeleteForm';
+import {
+  getFilterFromQuery,
+  getSerializedQueryParam
+} from '../../utils/filters';
 
 // ----------------------------------------------------------------------
 
@@ -83,11 +87,18 @@ function applySortFilter(array, comparator, query) {
   if (query) {
     return filter(
       array,
-      (_user) => _user.addressFrom.toLowerCase().indexOf(query.toLowerCase()) !== -1
+      (_user) => _user.addressFrom.toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
+        _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
+        (_user.period || '').toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
+        (_user.pet || '').toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
+        (_user.description || '').toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
+        (_user.disability || '').toLowerCase().indexOf(query.toLowerCase()) !== -1
     );
   }
   return stabilizedThis.map((el) => el[0]);
 }
+
+const ALLOWED_FILTER_KEYS = ['from', 'to', 'onlyVerified', 'status', 'phone'];
 
 function applyDataFilter(array, { from, to, date, onlyVerified, status, phone }) {
   let result = array;
@@ -118,18 +129,27 @@ function applyDataFilter(array, { from, to, date, onlyVerified, status, phone })
 }
 
 export default function Homes() {
+  const params = useParams();
+  const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const initialParams =
+    searchParams.toString().length > 0
+      ? getFilterFromQuery(searchParams.toString(), ALLOWED_FILTER_KEYS)
+      : {};
+  const initialQuery = searchParams.get('query') || '';
+
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
   const [selected, setSelected] = useState([]);
   const [orderBy, setOrderBy] = useState('name');
-  const [filterName, setFilterName] = useState('');
+  const [filterName, setFilterName] = useState(initialQuery);
   const [formType, setFormType] = useState('dam');
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [selectedLocations, setSelectedLocations] = useState([]);
   const [filterOpen, setFilterOpen] = useState(false);
   const [formOpen, setFormOpen] = useState(false);
   const [reloadList, setReloadList] = useState(true);
-  const [filter, setFilter] = useState({});
+  const [filter, setFilter] = useState(initialParams);
   const [showDetails, setShowDetails] = useState([]);
   const [transportList, setTransportList] = useState([]);
   const { t, i18n } = useTranslation();
@@ -148,12 +168,21 @@ export default function Homes() {
 
       setReloadList(false);
       setTransportList(response);
+      const initialItems = params['*'] === '' ? [] : params['*'].split('/');
+      if (initialItems.length > 0) {
+        setShowDetails(response.filter((el) => initialItems.includes(el.id)));
+      }
     };
 
     if (reloadList) {
       dbCall();
     }
   }, [reloadList]);
+
+  useEffect(() => {
+    const serialized = getSerializedQueryParam(filter, ALLOWED_FILTER_KEYS, filterName);
+    setSearchParams(serialized);
+  }, [filter, filterName]);
 
   const TableHead = TABLE_HEAD();
 
@@ -184,8 +213,8 @@ export default function Homes() {
     setPage(0);
   };
 
-  const handleFilterByName = (event) => {
-    setFilterName(event.target.value);
+  const handleFilterByName = (value) => {
+    setFilterName(value);
   };
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - transportList.length) : 0;
@@ -246,8 +275,16 @@ export default function Homes() {
   const onFormSubmitted = async (values) => {
     if (values.id != null && values.id.length > 0) {
       await updateHome(values);
+      navigate(
+        values.id + (searchParams.toString().length > 0 ? `?${searchParams.toString()}` : '')
+      );
     } else {
-      await addHome(values);
+      const ref = await addHome(values);
+      if (ref.id) {
+        navigate(
+          ref.id + (searchParams.toString().length > 0 ? `?${searchParams.toString()}` : '')
+        );
+      }
     }
     handleFormClose();
     setReloadList(true);
@@ -259,6 +296,9 @@ export default function Homes() {
   };
 
   const handleCloseDetails = () => {
+    navigate(
+      '/dashboard/homes' + (searchParams.toString().length > 0 ? `?${searchParams.toString()}` : '')
+    );
     setShowDetails([]);
   };
 
@@ -270,6 +310,9 @@ export default function Homes() {
     if (Array.isArray(element)) {
       setShowDetails(element);
     } else {
+      navigate(
+        element.id + (searchParams.toString().length > 0 ? `?${searchParams.toString()}` : '')
+      );
       setShowDetails([element]);
     }
   };

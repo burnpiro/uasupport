@@ -11,9 +11,9 @@ import Blog from './pages/Blog';
 import User from './pages/User';
 import NotFound from './pages/Page404';
 import Transport from './pages/Transport/Transport';
-import Homes from "./pages/Homes/Homes";
-import Aids from "./pages/Aids/Aids";
-import Fundraising from "./pages/Fundraising/Fundraising";
+import Homes from './pages/Homes/Homes';
+import Aids from './pages/Aids/Aids';
+import Fundraising from './pages/Fundraising/Fundraising';
 
 // ----------------------------------------------------------------------
 
@@ -24,12 +24,12 @@ export default function Router() {
       element: <DashboardLayout />,
       children: [
         // { path: 'app', element: <DashboardApp /> },
-        { path: 'fundraising', element: <Fundraising /> },
-        { path: 'transport', element: <Transport /> },
-        { path: 'homes', element: <Homes /> },
-        { path: 'aids', element: <Aids /> },
+        { path: 'fundraising*', element: <Fundraising /> },
+        { path: 'transport*', element: <Transport /> },
+        { path: 'homes*', element: <Homes /> },
+        { path: 'aids*', element: <Aids /> }
         // { path: 'products', element: <Products /> },
-        { path: 'blog', element: <Blog /> }
+        // { path: 'blog', element: <Blog /> }
       ]
     },
     {

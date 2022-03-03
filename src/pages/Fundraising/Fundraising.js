@@ -85,7 +85,7 @@ export default function Fundraising() {
   };
 
   const filteredData = applySortFilter(fundList, getComparator(order, orderBy), filterName);
-  console.log(filteredData)
+
   const SORT_OPTIONS = [
     { value: 'desc', label: t('Latest') },
     { value: 'asc', label: t('Oldest') }

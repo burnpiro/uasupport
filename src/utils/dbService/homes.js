@@ -14,8 +14,8 @@ export async function getHomes() {
 }
 
 export async function addHome(transport) {
-  await addDoc(collection(db, "homes"), transport);
-  return true;
+  const ref = await addDoc(collection(db, "homes"), transport);
+  return ref;
 }
 
 export async function removeHome(data) {

@@ -19,8 +19,8 @@ export async function removeTransport(data) {
 }
 
 export async function addTransport(transport) {
-  await addDoc(collection(db, "transport"), transport);
-  return true;
+  const ref = await addDoc(collection(db, "transport"), transport);
+  return ref;
 }
 
 export async function updateTransport(data) {

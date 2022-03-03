@@ -14,8 +14,8 @@ export async function getAids() {
 }
 
 export async function addAid(data) {
-  await addDoc(collection(db, "aids"), data);
-  return true;
+  const ref = await addDoc(collection(db, "aids"), data);
+  return ref;
 }
 
 export async function removeAid(data) {

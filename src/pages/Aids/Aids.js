@@ -1,6 +1,6 @@
 import { filter } from 'lodash';
 import { useEffect, useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { useParams, useSearchParams, useNavigate } from 'react-router-dom';
 // material
 import {
   Card,
@@ -28,9 +28,6 @@ import SearchNotFound from '../../components/SearchNotFound';
 //
 import i18next from './../../i18n';
 
-import USERLIST from '../../_mocks_/transport';
-import { fDateTime, fToNow } from '../../utils/formatTime';
-import isSameDay from 'date-fns/isSameDay';
 import AidsMap from './AidsMap';
 import FilterDialog from './Filter';
 import AidsDetails from './AidsDetails';
@@ -38,6 +35,10 @@ import { addAid, getAids, removeAid, updateAid } from '../../utils/dbService/aid
 import { AidsListHead, AidsListToolbar, AidsMoreMenu } from '../../sections/@dashboard/aids';
 import AidsForm from '../../sections/@dashboard/aids/AidsForm';
 import AidsDeleteForm from '../../sections/@dashboard/aids/AidsDeleteForm';
+import {
+  getFilterFromQuery,
+  getSerializedQueryParam
+} from '../../utils/filters';
 
 // ----------------------------------------------------------------------
 
@@ -109,6 +110,8 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
+const ALLOWED_FILTER_KEYS = ['onlyVerified', 'aidType'];
+
 function applyDataFilter(array, { aidType, onlyVerified }) {
   let result = array;
   if (onlyVerified != null && onlyVerified) {
@@ -122,17 +125,26 @@ function applyDataFilter(array, { aidType, onlyVerified }) {
 }
 
 export default function Aids() {
+  const params = useParams();
+  const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const initialParams =
+    searchParams.toString().length > 0
+      ? getFilterFromQuery(searchParams.toString(), ALLOWED_FILTER_KEYS)
+      : {};
+  const initialQuery = searchParams.get('query') || '';
+
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
   const [selected, setSelected] = useState([]);
   const [orderBy, setOrderBy] = useState('name');
-  const [filterName, setFilterName] = useState('');
+  const [filterName, setFilterName] = useState(initialQuery);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [selectedLocations, setSelectedLocations] = useState([]);
   const [filterOpen, setFilterOpen] = useState(false);
   const [formOpen, setFormOpen] = useState(false);
   const [reloadList, setReloadList] = useState(true);
-  const [filter, setFilter] = useState({});
+  const [filter, setFilter] = useState(initialParams);
   const [showDetails, setShowDetails] = useState([]);
   const [transportList, setTransportList] = useState([]);
   const { t, i18n } = useTranslation();
@@ -151,12 +163,21 @@ export default function Aids() {
 
       setReloadList(false);
       setTransportList(response);
+      const initialItems = params['*'] === '' ? [] : params['*'].split('/');
+      if (initialItems.length > 0) {
+        setShowDetails(response.filter((el) => initialItems.includes(el.id)));
+      }
     };
 
     if (reloadList) {
       dbCall();
     }
   }, [reloadList]);
+
+  useEffect(() => {
+    const serialized = getSerializedQueryParam(filter, ALLOWED_FILTER_KEYS, filterName);
+    setSearchParams(serialized);
+  }, [filter, filterName]);
 
   const TableHead = TABLE_HEAD();
 
@@ -248,8 +269,16 @@ export default function Aids() {
   const onFormSubmitted = async (values) => {
     if (values.id != null && values.id.length > 0) {
       await updateAid(values);
+      navigate(
+        values.id + (searchParams.toString().length > 0 ? `?${searchParams.toString()}` : '')
+      );
     } else {
-      await addAid(values);
+      const ref = await addAid(values);
+      if (ref.id) {
+        navigate(
+          ref.id + (searchParams.toString().length > 0 ? `?${searchParams.toString()}` : '')
+        );
+      }
     }
     handleFormClose();
     setReloadList(true);
@@ -261,6 +290,9 @@ export default function Aids() {
   };
 
   const handleCloseDetails = () => {
+    navigate(
+      '/dashboard/aids' + (searchParams.toString().length > 0 ? `?${searchParams.toString()}` : '')
+    );
     setShowDetails([]);
   };
 
@@ -272,6 +304,9 @@ export default function Aids() {
     if (Array.isArray(element)) {
       setShowDetails(element);
     } else {
+      navigate(
+        element.id + (searchParams.toString().length > 0 ? `?${searchParams.toString()}` : '')
+      );
       setShowDetails([element]);
     }
   };
