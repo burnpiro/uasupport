@@ -280,6 +280,7 @@ export default function Transport() {
       navigate(
         values.id + (searchParams.toString().length > 0 ? `?${searchParams.toString()}` : '')
       );
+      setDisplayDetails(newDoc);
     } else {
       const newDoc = await addTransport(values);
       if (newDoc.id) {
@@ -287,6 +288,7 @@ export default function Transport() {
           newDoc.id + (searchParams.toString().length > 0 ? `?${searchParams.toString()}` : '')
         );
         setTransportList([...transportList, newDoc]);
+        setDisplayDetails(newDoc);
       }
     }
     handleFormClose();

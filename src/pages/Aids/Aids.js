@@ -270,6 +270,7 @@ export default function Aids() {
       navigate(
         values.id + (searchParams.toString().length > 0 ? `?${searchParams.toString()}` : '')
       );
+      setDisplayDetails(newDoc);
     } else {
       const newDoc = await addAid(values);
       if (newDoc.id) {
@@ -277,6 +278,7 @@ export default function Aids() {
           newDoc.id + (searchParams.toString().length > 0 ? `?${searchParams.toString()}` : '')
         );
         setTransportList([...transportList, newDoc]);
+        setDisplayDetails(newDoc);
       }
     }
     handleFormClose();
