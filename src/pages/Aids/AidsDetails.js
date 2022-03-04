@@ -168,7 +168,7 @@ export default function AidsDetails(props) {
 
   return (
     <Dialog onClose={handleClose} open={open}>
-      <DialogTitle>{t('SzczegolyZakwaterowania')}</DialogTitle>
+      <DialogTitle>{t('SzczegolyPomocy')}</DialogTitle>
       <DialogContent>
         <Stack spacing={3} sx={{ p: 3, pr: 0, pl: 0 }}>
           {aid.map((aidItem) => (
