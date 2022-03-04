@@ -17,6 +17,7 @@ import {
   Typography,
   TableContainer,
   TablePagination,
+  CircularProgress,
   Tooltip
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
@@ -40,10 +41,7 @@ import { addHome, getHomes, removeHome, updateHome } from '../../utils/dbService
 import HomeForm from '../../sections/@dashboard/homes/HomeForm';
 import { isAfter } from 'date-fns';
 import HomeDeleteForm from '../../sections/@dashboard/homes/HomeDeleteForm';
-import {
-  getFilterFromQuery,
-  getSerializedQueryParam
-} from '../../utils/filters';
+import { getFilterFromQuery, getSerializedQueryParam } from '../../utils/filters';
 
 // ----------------------------------------------------------------------
 
@@ -87,7 +85,8 @@ function applySortFilter(array, comparator, query) {
   if (query) {
     return filter(
       array,
-      (_user) => _user.addressFrom.toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
+      (_user) =>
+        _user.addressFrom.toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
         _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
         (_user.period || '').toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
         (_user.pet || '').toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
@@ -155,6 +154,7 @@ export default function Homes() {
   const { t, i18n } = useTranslation();
   const [editElement, setEditElement] = useState(null);
   const [deleteElement, setDeleteElement] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -164,6 +164,7 @@ export default function Homes() {
 
   useEffect(() => {
     const dbCall = async () => {
+      setIsLoading(true);
       const response = await getHomes();
 
       setReloadList(false);
@@ -172,6 +173,7 @@ export default function Homes() {
       if (initialItems.length > 0) {
         setShowDetails(response.filter((el) => initialItems.includes(el.id)));
       }
+      setIsLoading(false);
     };
 
     if (reloadList) {
@@ -388,6 +390,12 @@ export default function Homes() {
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
+                {isLoading && (
+                  <caption style={{ textAlign: 'center' }}>
+                    <CircularProgress disableShrink sx={{ m: 'auto' }} />
+                  </caption>
+                )}
+
                 <HomeListHead
                   order={order}
                   orderBy={orderBy}
@@ -474,7 +482,7 @@ export default function Homes() {
                     </TableRow>
                   )}
                 </TableBody>
-                {isUserNotFound && (
+                {isUserNotFound && !isLoading && (
                   <TableBody>
                     <TableRow>
                       <TableCell align="center" colSpan={6} sx={{ py: 3 }}>

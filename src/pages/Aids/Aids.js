@@ -16,7 +16,8 @@ import {
   Typography,
   TableContainer,
   TablePagination,
-  Tooltip
+  Tooltip,
+  CircularProgress
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 // components
@@ -147,6 +148,7 @@ export default function Aids() {
   const { t, i18n } = useTranslation();
   const [editElement, setEditElement] = useState(null);
   const [deleteElement, setDeleteElement] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -156,6 +158,7 @@ export default function Aids() {
 
   useEffect(() => {
     const dbCall = async () => {
+      setIsLoading(true);
       const response = await getAids();
 
       setReloadList(false);
@@ -164,6 +167,7 @@ export default function Aids() {
       if (initialItems.length > 0) {
         setShowDetails(response.filter((el) => initialItems.includes(el.id)));
       }
+      setIsLoading(false);
     };
 
     if (reloadList) {
@@ -368,6 +372,11 @@ export default function Aids() {
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
+                {isLoading && (
+                  <caption style={{ textAlign: 'center' }}>
+                    <CircularProgress disableShrink sx={{ m: 'auto' }} />
+                  </caption>
+                )}
                 <AidsListHead
                   order={order}
                   orderBy={orderBy}
@@ -449,7 +458,7 @@ export default function Aids() {
                     </TableRow>
                   )}
                 </TableBody>
-                {isUserNotFound && (
+                {isUserNotFound && !isLoading && (
                   <TableBody>
                     <TableRow>
                       <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
