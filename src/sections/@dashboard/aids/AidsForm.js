@@ -4,7 +4,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { Stack, TextField, InputAdornment, Box, Link, Tooltip } from '@mui/material';
+import { Stack, TextField, InputAdornment, Box, Link, Tooltip, useMediaQuery } from '@mui/material';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
@@ -35,8 +35,12 @@ import Radio from '@mui/material/Radio';
 import { getTypeIcon } from '../../../pages/Aids/Aids';
 import { useRef, useState } from 'react';
 import { SITE_KEY } from '../../../utils/settings';
+import { useTheme } from '@mui/material/styles';
+import { DialogTransition } from '../../../components/DialogTransition';
 
 export default function AidsForm(props) {
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.down('sm'));
   const [locale, setLocale] = React.useState('pl');
   const recaptchaRef = useRef(null);
   const [captchaError, setCaptchaError] = useState(false);
@@ -135,11 +139,20 @@ export default function AidsForm(props) {
   };
 
   return (
-    <Dialog onClose={handleClose} fullWidth open={open} maxWidth={false}>
-      <DialogTitle>{editElement != null && editElement.id != null ? t('EditAid') : t('AddAid')}</DialogTitle>
+    <Dialog
+      onClose={handleClose}
+      fullScreen={matches}
+      TransitionComponent={DialogTransition}
+      fullWidth
+      open={open}
+      maxWidth={false}
+    >
+      <DialogTitle>
+        {editElement != null && editElement.id != null ? t('EditAid') : t('AddAid')}
+      </DialogTitle>
       <DialogContent>
         <FormikProvider value={formik}>
-          <Form autoComplete="off" noValidate onSubmit={handleSubmit} style={{ minWidth: '512px' }}>
+          <Form autoComplete="off" noValidate onSubmit={handleSubmit} >
             <Stack spacing={3}>
               <FormControl>
                 <FormLabel id="aid-type-label">{t('AidType')}</FormLabel>

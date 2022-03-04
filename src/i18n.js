@@ -117,7 +117,10 @@ const resources = {
       'TypedNameIncorrect2': 'Typed name doesn\t match the original name',
       'CAPTCHA Error': 'Invalid CAPTCHA',
       'MedicalAidType': 'Medical aid type',
-      'SupportedBy': 'Supported by'
+      'SupportedBy': 'Supported by',
+      'Contact': 'Contact',
+      'Add': 'Add',
+      'OK': 'OK'
     }
   },
   pl: {
@@ -236,7 +239,10 @@ const resources = {
       'TypedNameIncorrect2': 'Wpisane imię nie zgadza się z imieniem z usuwanego elementu',
       'CAPTCHA Error': 'Nieprawidłowa CAPTCHA',
       'MedicalAidType': 'Typ pomocy medycznej',
-      'SupportedBy': 'Wspierane przez'
+      'SupportedBy': 'Wspierane przez',
+      'Contact': 'Kontakt',
+      'Add': 'Dodaj',
+      'OK': 'OK'
     }
   },
   ua: {
@@ -355,7 +361,10 @@ const resources = {
       'TypedNameIncorrect2': 'Введена назва не відповідає назві видаленого елемента',
       'CAPTCHA Error': 'Недійсна CAPTCHA',
       'MedicalAidType': 'Вид медичної допомоги',
-      'SupportedBy': 'Підтримано'
+      'SupportedBy': 'Підтримано',
+      'Contact': 'контакт',
+      'Add': 'Додати',
+      'OK': 'гаразд'
     }
   },
   ru: {
@@ -474,7 +483,10 @@ const resources = {
       'TypedNameIncorrect2': 'Введенное имя не соответствует имени на удаленном элементе',
       'CAPTCHA Error': 'Неверная капча',
       'MedicalAidType': 'Вид медицинской помощи',
-      'SupportedBy': 'Поддерживается'
+      'SupportedBy': 'Поддерживается',
+      'Contact': 'контакт',
+      'Add': 'Добавлять',
+      'OK': 'Ok'
     }
   }
 };

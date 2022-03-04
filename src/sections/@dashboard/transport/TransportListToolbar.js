@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 // material
-import { styled } from '@mui/material/styles';
+import {styled, useTheme} from '@mui/material/styles';
 import {
   Toolbar,
   Tooltip,
@@ -9,7 +9,8 @@ import {
   OutlinedInput,
   InputAdornment,
   Box,
-  Button
+  Button, useMediaQuery,
+  Grid
 } from '@mui/material';
 // component
 import Iconify from '../../../components/Iconify';
@@ -22,10 +23,10 @@ import { useState } from 'react';
 // ----------------------------------------------------------------------
 
 const RootStyle = styled(Toolbar)(({ theme }) => ({
-  height: 96,
+  minHeight: 96,
   display: 'flex',
   justifyContent: 'space-between',
-  padding: theme.spacing(0, 1, 0, 3)
+  padding: theme.spacing(0, 1, 0, 1)
 }));
 
 const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
@@ -64,6 +65,8 @@ export default function TransportListToolbar({
 }) {
   const { t, i18n } = useTranslation();
   const [query, setQuery] = useState(filterName);
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up('sm'));
 
   const handleStatusFilterChange = (event, newStatus) => {
     if (newStatus != null) {
@@ -100,63 +103,102 @@ export default function TransportListToolbar({
         })
       }}
     >
-      {numSelected > 0 ? (
-        <Box flexDirection={'row'} display={'flex'} sx={{ alignItems: 'center' }}>
-          <Typography component="div" variant="subtitle1" sx={{ pr: 1 }}>
-            {numSelected} {t('selected')}
-          </Typography>
-
-          <Button variant="contained" onClick={showAllSelected}>
-            <Iconify icon="eva:book-open-outline" width={24} height={24} />
-            <Typography>{t('Zobacz wszystkie')}</Typography>
-          </Button>
-        </Box>
-      ) : (
-        <SearchStyle
-          value={query}
-          onChange={handleQueryChange}
-          placeholder={t('Szukaj transport')}
-          startAdornment={
-            <InputAdornment position="start">
-              <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled' }} />
-            </InputAdornment>
-          }
-        />
-      )}
-      <ToggleButtonGroup
-        color="primary"
-        exclusive
-        value={filter['status'] != null ? filter['status'] : null}
-        onChange={handleStatusFilterChange}
+      <Grid
+        container
+        justifyContent={'space-between'}
+        alignItems={'center'}
+        spacing={1}
+        sx={{ pt: 4, pb: 1 }}
       >
-        <ToggleButton value="dam">{t('dam')}</ToggleButton>
-        <ToggleButton value="szukam">{t('szukam')}</ToggleButton>
-      </ToggleButtonGroup>
+        <Grid item>
+          {numSelected > 0 ? (
+            <Box flexDirection={'row'} display={'flex'} sx={{ alignItems: 'center' }}>
+              <Typography component="div" variant="subtitle1" sx={{ pr: 1 }}>
+                {numSelected} {t('selected')}
+              </Typography>
 
-      <div>
-        {numSelected === 0 && (
-          <Tooltip title="Filter list">
-            <IconButton onClick={onFilterClick}>
-              <Iconify icon="ic:round-filter-list" />
-            </IconButton>
-          </Tooltip>
-        )}
-        {isFiltered > 0 && (
-          <Tooltip title="Clear filter">
-            <IconButton onClick={onClearFilter} color={'error'}>
-              <Iconify icon="carbon:filter-remove" />
-            </IconButton>
-          </Tooltip>
-        )}
+              <Button variant="contained" onClick={showAllSelected}>
+                <Iconify icon="eva:book-open-outline" width={24} height={24} />
+                <Typography>{t('Zobacz wszystkie')}</Typography>
+              </Button>
+            </Box>
+          ) : (
+            <SearchStyle
+              value={query}
+              onChange={handleQueryChange}
+              placeholder={t('Szukaj transport')}
+              startAdornment={
+                <InputAdornment position="start">
+                  <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled' }} />
+                </InputAdornment>
+              }
+            />
+          )}
+        </Grid>
+        {!matches && (
+          <Grid item>
+            {numSelected === 0 && (
+              <Tooltip title="Filter list">
+                <IconButton onClick={onFilterClick}>
+                  <Iconify icon="ic:round-filter-list" />
+                </IconButton>
+              </Tooltip>
+            )}
+            {isFiltered > 0 && (
+              <Tooltip title="Clear filter">
+                <IconButton onClick={onClearFilter} color={'error'}>
+                  <Iconify icon="carbon:filter-remove" />
+                </IconButton>
+              </Tooltip>
+            )}
 
-        {isLocationFiltered && (
-          <Tooltip title="Clear location">
-            <IconButton onClick={onClearLocation} color={'error'}>
-              <Iconify icon="uil:map-marker-slash" />
-            </IconButton>
-          </Tooltip>
+            {isLocationFiltered && (
+              <Tooltip title="Clear location">
+                <IconButton onClick={onClearLocation} color={'error'}>
+                  <Iconify icon="uil:map-marker-slash" />
+                </IconButton>
+              </Tooltip>
+            )}
+          </Grid>
         )}
-      </div>
+        <Grid item>
+          <ToggleButtonGroup
+            color="primary"
+            exclusive
+            value={filter['status'] != null ? filter['status'] : null}
+            onChange={handleStatusFilterChange}
+          >
+            <ToggleButton value="dam">{t('dam')}</ToggleButton>
+            <ToggleButton value="szukam">{t('szukam')}</ToggleButton>
+          </ToggleButtonGroup>
+        </Grid>
+        {matches && (
+          <Grid item>
+            {numSelected === 0 && (
+              <Tooltip title="Filter list">
+                <IconButton onClick={onFilterClick}>
+                  <Iconify icon="ic:round-filter-list" />
+                </IconButton>
+              </Tooltip>
+            )}
+            {isFiltered > 0 && (
+              <Tooltip title="Clear filter">
+                <IconButton onClick={onClearFilter} color={'error'}>
+                  <Iconify icon="carbon:filter-remove" />
+                </IconButton>
+              </Tooltip>
+            )}
+
+            {isLocationFiltered && (
+              <Tooltip title="Clear location">
+                <IconButton onClick={onClearLocation} color={'error'}>
+                  <Iconify icon="uil:map-marker-slash" />
+                </IconButton>
+              </Tooltip>
+            )}
+          </Grid>
+        )}
+      </Grid>
     </RootStyle>
   );
 }

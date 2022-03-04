@@ -4,7 +4,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { Stack, TextField, InputAdornment, Box, Link, Tooltip } from '@mui/material';
+import { Stack, TextField, InputAdornment, Box, Link, Tooltip, useMediaQuery } from '@mui/material';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
@@ -30,6 +30,8 @@ import Label from '../../components/Label';
 import { useTranslation } from 'react-i18next';
 import Checkbox from '@mui/material/Checkbox';
 import FormHelperText from '@mui/material/FormHelperText';
+import { useTheme } from '@mui/material/styles';
+import { DialogTransition } from '../../components/DialogTransition';
 
 const localeMap = {
   pl: plLocale,
@@ -101,18 +103,14 @@ function HomeItem(props) {
         </Box>
         <Stack direction="column" spacing={2} sx={{ p: 2 }}>
           <Box flexDirection={'row'} display={'flex'}>
-            <Typography variant="subtitle2">
-              {t('Mieszkanie-adres')}:
-            </Typography>
+            <Typography variant="subtitle2">{t('Mieszkanie-adres')}:</Typography>
             <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }}>
               {addressFrom}
             </Typography>
           </Box>
           {period != null && period.length > 0 && (
             <Box flexDirection={'row'} display={'flex'}>
-              <Typography variant="subtitle2">
-                {t('Mieszkanie-czas')}:
-              </Typography>
+              <Typography variant="subtitle2">{t('Mieszkanie-czas')}:</Typography>
               <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }}>
                 {period}
               </Typography>
@@ -120,9 +118,7 @@ function HomeItem(props) {
           )}
           {pet != null && pet.length > 0 && (
             <Box flexDirection={'row'} display={'flex'}>
-              <Typography variant="subtitle2">
-                {t('Mieszkanie-zwierze')}:
-              </Typography>
+              <Typography variant="subtitle2">{t('Mieszkanie-zwierze')}:</Typography>
               <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }}>
                 {pet}
               </Typography>
@@ -130,9 +126,7 @@ function HomeItem(props) {
           )}
           {child != null && child.length > 0 && (
             <Box flexDirection={'row'} display={'flex'}>
-              <Typography variant="subtitle2">
-                {t('Mieszkanie-dzieci')}:
-              </Typography>
+              <Typography variant="subtitle2">{t('Mieszkanie-dzieci')}:</Typography>
               <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }}>
                 {child}
               </Typography>
@@ -140,9 +134,7 @@ function HomeItem(props) {
           )}
           {disability != null && disability.length > 0 && (
             <Box flexDirection={'row'} display={'flex'}>
-              <Typography variant="subtitle2">
-                {t('Mieszkanie-disability')}:
-              </Typography>
+              <Typography variant="subtitle2">{t('Mieszkanie-disability')}:</Typography>
               <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }}>
                 {disability}
               </Typography>
@@ -150,9 +142,7 @@ function HomeItem(props) {
           )}
           {includingTransport != null && includingTransport.length > 0 && (
             <Box flexDirection={'row'} display={'flex'}>
-              <Typography variant="subtitle2">
-                {t('Mieszkanie-transport')}:
-              </Typography>
+              <Typography variant="subtitle2">{t('Mieszkanie-transport')}:</Typography>
               <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }}>
                 {includingTransport}
               </Typography>
@@ -160,22 +150,15 @@ function HomeItem(props) {
           )}
           <FormGroup>
             {separateBath === true && (
-              <FormControlLabel
-                control={<Checkbox checked={true} />}
-                label={t('Separate Bath')}
-              />
+              <FormControlLabel control={<Checkbox checked={true} />} label={t('Separate Bath')} />
             )}
             {kitchen === true && (
-              <FormControlLabel
-                control={<Checkbox checked={true} />}
-                label={t('Kitchen Access')}
-              />
+              <FormControlLabel control={<Checkbox checked={true} />} label={t('Kitchen Access')} />
             )}
           </FormGroup>
         </Stack>
-        <Typography variant="body2" color="text.secondary"
-                    style={{whiteSpace: 'pre-line'}}>
-          {description.replace(/↵/g, "\n").replace("\\n", "\n")}
+        <Typography variant="body2" color="text.secondary" style={{ whiteSpace: 'pre-line' }}>
+          {description.replace(/↵/g, '\n').replace('\\n', '\n')}
         </Typography>
         {displayPhone && (
           <Box flexDirection={'row'} display={'flex'} sx={{ pt: 1 }}>
@@ -242,6 +225,8 @@ function HomeItem(props) {
 }
 
 export default function HomesDetails(props) {
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.down('sm'));
   const [locale, setLocale] = React.useState('pl');
   const { onClose, open, home = [] } = props;
   const { t, i18n } = useTranslation();
@@ -251,7 +236,12 @@ export default function HomesDetails(props) {
   };
 
   return (
-    <Dialog onClose={handleClose} open={open}>
+    <Dialog
+      onClose={handleClose}
+      open={open}
+      fullScreen={matches}
+      TransitionComponent={DialogTransition}
+    >
       <DialogTitle>{t('SzczegolyZakwaterowania')}</DialogTitle>
       <DialogContent>
         <Stack spacing={3} sx={{ p: 3, pr: 0, pl: 0 }}>

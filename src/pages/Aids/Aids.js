@@ -37,6 +37,7 @@ import { AidsListHead, AidsListToolbar, AidsMoreMenu } from '../../sections/@das
 import AidsForm from '../../sections/@dashboard/aids/AidsForm';
 import AidsDeleteForm from '../../sections/@dashboard/aids/AidsDeleteForm';
 import { getFilterFromQuery, getSerializedQueryParam } from '../../utils/filters';
+import AidsTitle from "../../sections/@dashboard/aids/AidsTitle";
 
 // ----------------------------------------------------------------------
 
@@ -339,18 +340,7 @@ export default function Aids() {
   return (
     <Page title={t('Centra Pomocy')}>
       <Container>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom>
-            {t('Aids')}
-          </Typography>
-          <Button
-            variant="contained"
-            onClick={handleFormOpen}
-            startIcon={<Iconify icon="eva:plus-fill" />}
-          >
-            {t('AddAid')}
-          </Button>
-        </Stack>
+        <AidsTitle handleFormOpen={handleFormOpen} />
 
         <AidsMap places={filteredUsers} onSelectMarkers={onSelectMarkers} />
 

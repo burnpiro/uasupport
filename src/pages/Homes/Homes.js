@@ -42,6 +42,7 @@ import HomeForm from '../../sections/@dashboard/homes/HomeForm';
 import { isAfter } from 'date-fns';
 import HomeDeleteForm from '../../sections/@dashboard/homes/HomeDeleteForm';
 import { getFilterFromQuery, getSerializedQueryParam } from '../../utils/filters';
+import HomesTitle from "../../sections/@dashboard/homes/HomesTitle";
 
 // ----------------------------------------------------------------------
 
@@ -346,29 +347,8 @@ export default function Homes() {
   return (
     <Page title={t('Homes')}>
       <Container>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom>
-            {t('Homes')}
-          </Typography>
-          <Box>
-            <Button
-              variant="contained"
-              color={'warning'}
-              sx={{ backgroundColor: red[300], mr: 1 }}
-              onClick={() => handleFormOpen('szukam')}
-              startIcon={<Iconify icon="eva:plus-fill" />}
-            >
-              {t('GetHome')}
-            </Button>
-            <Button
-              variant="contained"
-              onClick={() => handleFormOpen('dam')}
-              startIcon={<Iconify icon="eva:plus-fill" />}
-            >
-              {t('AddHome')}
-            </Button>
-          </Box>
-        </Stack>
+
+        <HomesTitle handleFormOpen={handleFormOpen}/>
 
         <HomesMap places={filteredUsers} onSelectMarkers={onSelectMarkers} />
 

@@ -4,7 +4,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { Stack, TextField, InputAdornment, Box, Link, Tooltip } from '@mui/material';
+import { Stack, TextField, InputAdornment, Box, Link, Tooltip, useMediaQuery } from '@mui/material';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
@@ -24,6 +24,8 @@ import Typography from '@mui/material/Typography';
 import Label from '../../components/Label';
 import { useTranslation } from 'react-i18next';
 import { getTypeIcon } from './Aids';
+import { useTheme } from '@mui/material/styles';
+import { DialogTransition } from '../../components/DialogTransition';
 
 function AidItem(props) {
   const {
@@ -158,6 +160,8 @@ function AidItem(props) {
 }
 
 export default function AidsDetails(props) {
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.down('sm'));
   const [locale, setLocale] = React.useState('pl');
   const { onClose, open, aid = [] } = props;
   const { t, i18n } = useTranslation();
@@ -167,7 +171,12 @@ export default function AidsDetails(props) {
   };
 
   return (
-    <Dialog onClose={handleClose} open={open}>
+    <Dialog
+      onClose={handleClose}
+      open={open}
+      fullScreen={matches}
+      TransitionComponent={DialogTransition}
+    >
       <DialogTitle>{t('SzczegolyPomocy')}</DialogTitle>
       <DialogContent>
         <Stack spacing={3} sx={{ p: 3, pr: 0, pl: 0 }}>
@@ -177,7 +186,7 @@ export default function AidsDetails(props) {
         </Stack>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose}>OK</Button>
+        <Button onClick={handleClose}>{t('OK')}</Button>
       </DialogActions>
     </Dialog>
   );

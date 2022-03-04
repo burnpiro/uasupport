@@ -50,6 +50,7 @@ import TransportForm from '../../sections/@dashboard/transport/TransportForm';
 import { red } from '@mui/material/colors';
 import TransportDeleteForm from '../../sections/@dashboard/transport/TransportDeleteForm';
 import { getFilterFromQuery, getSerializedQueryParam } from '../../utils/filters';
+import TransportTitle from "../../sections/@dashboard/transport/TransportTitle";
 
 // ----------------------------------------------------------------------
 
@@ -350,29 +351,8 @@ export default function Transport() {
   return (
     <Page title={t('Transport')}>
       <Container>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom>
-            {t('Transport')}
-          </Typography>
-          <Box>
-            <Button
-              variant="contained"
-              color={'warning'}
-              sx={{ backgroundColor: red[300], mr: 1 }}
-              onClick={() => handleFormOpen('szukam')}
-              startIcon={<Iconify icon="eva:plus-fill" />}
-            >
-              {t('GetTransport')}
-            </Button>
-            <Button
-              variant="contained"
-              onClick={() => handleFormOpen('dam')}
-              startIcon={<Iconify icon="eva:plus-fill" />}
-            >
-              {t('AddTransport')}
-            </Button>
-          </Box>
-        </Stack>
+
+        <TransportTitle handleFormOpen={handleFormOpen} />
 
         <TransportMap places={filteredUsers} onSelectMarkers={onSelectMarkers} />
 

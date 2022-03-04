@@ -4,7 +4,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { Stack, TextField, InputAdornment, Box, Link, Tooltip } from '@mui/material';
+import { Stack, TextField, InputAdornment, Box, Link, Tooltip, useMediaQuery } from '@mui/material';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
@@ -28,6 +28,8 @@ import enLocale from 'date-fns/locale/en-US';
 import { fDateTime } from '../../utils/formatTime';
 import Label from '../../components/Label';
 import { useTranslation } from 'react-i18next';
+import { useTheme } from '@mui/material/styles';
+import { DialogTransition } from '../../components/DialogTransition';
 
 function TransportItem(props) {
   const {
@@ -83,25 +85,20 @@ function TransportItem(props) {
         </Tooltip>
         <Stack direction="column" spacing={2} sx={{ p: 2 }}>
           <Box flexDirection={'row'} display={'flex'}>
-            <Typography variant="subtitle2">
-              {t('Jade-z')}:
-            </Typography>
+            <Typography variant="subtitle2">{t('Jade-z')}:</Typography>
             <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }}>
               {addressFrom}
             </Typography>
           </Box>
           <Box flexDirection={'row'} display={'flex'}>
-            <Typography variant="subtitle2">
-              {t('Jade-do')}:
-            </Typography>
+            <Typography variant="subtitle2">{t('Jade-do')}:</Typography>
             <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }}>
               {addressTo}
             </Typography>
           </Box>
         </Stack>
-        <Typography variant="body2" color="text.secondary"
-                    style={{whiteSpace: 'pre-line'}}>
-          {description.replace(/↵/g, "\n").replace("\\n", "\n")}
+        <Typography variant="body2" color="text.secondary" style={{ whiteSpace: 'pre-line' }}>
+          {description.replace(/↵/g, '\n').replace('\\n', '\n')}
         </Typography>
         {displayPhone && (
           <Box flexDirection={'row'} display={'flex'} sx={{ pt: 1 }}>
@@ -168,6 +165,8 @@ function TransportItem(props) {
 }
 
 export default function TransportDetails(props) {
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.down('sm'));
   const [locale, setLocale] = React.useState('pl');
   const { onClose, open, transport = [] } = props;
   const { t, i18n } = useTranslation();
@@ -177,7 +176,12 @@ export default function TransportDetails(props) {
   };
 
   return (
-    <Dialog onClose={handleClose} open={open}>
+    <Dialog
+      onClose={handleClose}
+      open={open}
+      fullScreen={matches}
+      TransitionComponent={DialogTransition}
+    >
       <DialogTitle>{t('SzczegolyTransportu')}</DialogTitle>
       <DialogContent>
         <Stack spacing={3} sx={{ p: 3, pr: 0, pl: 0 }}>
