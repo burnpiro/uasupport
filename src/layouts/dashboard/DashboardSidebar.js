@@ -92,6 +92,39 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
       <NavSection navConfig={navConfig} />
 
       <Box sx={{ flexGrow: 1 }} />
+      <Stack spacing={1} sx={{ pb: 2 }}>
+        <Typography
+          variant="h6"
+          sx={{ color: 'text.primary', textAlign: 'left', ml: 2, fontSize: '12px' }}
+        >
+          {t('SupportedBy')}
+          {':'}
+        </Typography>
+        <Link underline="none" href={'https://crisisresponse.google/'} target={'_blank'}>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'left',
+              alignItems: 'center',
+              pl: 2
+            }}
+          >
+            <img src={'/static/icons/google-logo.svg'} style={{ height: '20px' }} />
+            <Typography
+              sx={{
+                fontSize: '18px',
+                lineHeight: '20px',
+                color: 'text.secondary',
+                textAlign: 'right',
+                ml: 1
+              }}
+            >
+              {t('Crisis Response')}
+            </Typography>
+          </Box>
+        </Link>
+      </Stack>
     </Scrollbar>
   );
 
