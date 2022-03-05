@@ -1,11 +1,19 @@
-import {useEffect, useRef, useState} from 'react';
+import { useEffect, useRef, useState, Fragment } from 'react';
 // material
-import { alpha } from '@mui/material/styles';
+import { alpha, useTheme } from '@mui/material/styles';
 import i18next from '../../i18n';
-import { Box, MenuItem, ListItemIcon, ListItemText, IconButton } from '@mui/material';
+import {
+  Box,
+  MenuItem,
+  ListItemIcon,
+  ListItemText,
+  IconButton,
+  useMediaQuery,
+  Tooltip
+} from '@mui/material';
 // components
 import MenuPopover from '../../components/MenuPopover';
-import {useLocalStorage} from "../../hooks/useLocalStorage";
+import { useLocalStorage } from '../../hooks/useLocalStorage';
 
 // ----------------------------------------------------------------------
 
@@ -29,7 +37,7 @@ export const LANGS = [
     value: 'en',
     label: 'English',
     icon: '/static/icons/united-kingdom-svgrepo-com.svg'
-  },
+  }
 ];
 
 // ----------------------------------------------------------------------
@@ -37,11 +45,13 @@ export const LANGS = [
 export default function LanguagePopover() {
   const anchorRef = useRef(null);
   const [open, setOpen] = useState(false);
-  const [selectedLang, setSelectedLang] = useLocalStorage("lang", LANGS[0].value);
+  const [selectedLang, setSelectedLang] = useLocalStorage('lang', LANGS[0].value);
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up('sm'));
 
   useEffect(() => {
     i18next.changeLanguage(selectedLang);
-  }, [selectedLang])
+  }, [selectedLang]);
 
   const handleOpen = () => {
     setOpen(true);
@@ -58,8 +68,8 @@ export default function LanguagePopover() {
 
   const lang = LANGS.find((el) => el.value === selectedLang);
 
-  return (
-    <>
+  return !matches ? (
+    <Fragment>
       <IconButton
         ref={anchorRef}
         onClick={handleOpen}
@@ -94,6 +104,27 @@ export default function LanguagePopover() {
           ))}
         </Box>
       </MenuPopover>
-    </>
+    </Fragment>
+  ) : (
+    <Fragment>
+      {LANGS.map((option) => (
+        <Tooltip title={option.label} key={option.value}>
+          <IconButton
+            selected={option.value === lang.value}
+            onClick={() => handleChangeLang(option.value)}
+            sx={{
+              padding: 0,
+              width: option.value === lang.value ? 42 : 36,
+              height: option.value === lang.value ? 42 : 36,
+              borderWidth: '3px',
+              borderStyle: option.value === lang.value ? 'solid' : 'none',
+              borderColor: (theme) => theme.palette.primary.light
+            }}
+          >
+            <Box component="img" alt={option.label} src={option.icon} />
+          </IconButton>
+        </Tooltip>
+      ))}
+    </Fragment>
   );
 }
