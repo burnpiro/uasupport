@@ -1,47 +1,46 @@
 import React from 'react';
 
 import { GoogleMap, useJsApiLoader, MarkerClusterer, Marker } from '@react-google-maps/api';
-import { fDayTime } from '../../utils/formatTime';
-import Iconify from '../../components/Iconify';
 
 const containerStyle = {
   width: '100%',
-  height: '400px'
+  height: '500px'
 };
 
 const options = {
-  batchSize: 20,
+  ignoreHidden: true,
   imagePath:
     'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' // so you must have m1.png, m2.png, m3.png, m4.png, m5.png and m6.png in that folder
 };
-
-function createKey(lat, lng) {
-  return lat + lng;
-}
-
-function createLabel(location) {
-  let label = `👤: ${location.people}, ⌛: ${fDayTime(location.date)}`;
-
-  return label;
-}
 
 const center = {
   lat: 51.759,
   lng: 19.956
 };
 
-export default function HomesMap({ places = [], onSelectMarkers }) {
+export default function HomesMap({ fullList = [], places = [], onSelectMarkers, checkSum = '' }) {
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: 'AIzaSyB5j64Fb5aE5WJOzkdf0OkmlbOcEMu2iCw'
   });
 
   const [map, setMap] = React.useState(null);
+  const [clusterer, setClusterer] = React.useState(null);
+  const [repaintNum, setRepaintNum] = React.useState(0);
 
   const onLoad = React.useCallback(function callback(map) {
     // const bounds = new window.google.maps.LatLngBounds();
     // map.fitBounds(bounds);
     setMap(map);
+  }, []);
+
+  const onLoadClustered = React.useCallback(function callback(newClusterer) {
+    // const bounds = new window.google.maps.LatLngBounds();
+    // map.fitBounds(bounds);
+    if (newClusterer != null) {
+      setClusterer(newClusterer);
+      setRepaintNum(repaintNum + 1);
+    }
   }, []);
 
   const onUnmount = React.useCallback(function callback(map) {
@@ -63,50 +62,51 @@ export default function HomesMap({ places = [], onSelectMarkers }) {
     ]);
   };
 
-  const renderClusters = React.useMemo(() => {
-    const locations = (places || []).map((place) => ({
-      ...place,
-      from: {
-        lat: Number(place.from[0]),
-        lng: Number(place.from[1])
-      },
-      to: place?.to
-        ? {
-            lat: Number(place?.to[0]),
-            lng: Number(place?.to[1])
-          }
-        : {}
-    }));
+  const handleClusteringEnding = () => {
+    if (clusterer != null) {
+      clusterer.repaint();
+    }
+  };
 
-    return (
-      <GoogleMap
-        mapContainerStyle={containerStyle}
-        center={center}
-        zoom={6}
-        onLoad={onLoad}
-        onUnmount={onUnmount}
-      >
-        <>
-          <MarkerClusterer options={options} onClick={handleSelectCluster} zoomOnClick={false}>
-            {(clusterer) =>
-              locations.map((location) => (
-                <Marker
-                  key={location.id}
-                  position={location.from}
-                  clusterer={clusterer}
-                  label={String(location.people)}
-                  title={createLabel(location)}
-                  icon={'/static/icons/home-marker.png'}
-                  onClick={() => handleSelectMarker(location)}
-                  options={{ id: location.id }}
-                />
-              ))
-            }
-          </MarkerClusterer>
-        </>
-      </GoogleMap>
-    );
-  }, [places]);
+  const renderMarkers = React.useMemo(() => {
+    return fullList.map((location) => (
+      <Marker
+        key={location.id}
+        position={location}
+        clusterer={clusterer}
+        label={''}
+        icon={'/static/icons/home-marker.png'}
+        onClick={() => handleSelectMarker(location)}
+        options={{ id: location.id }}
+        visible={places.findIndex((el) => el.id === location.id) > -1}
+      />
+    ));
+  }, [places.length, fullList.length, checkSum, repaintNum]);
 
-  return isLoaded ? <>{renderClusters}</> : <></>;
+  return isLoaded ? (
+    <GoogleMap
+      mapContainerStyle={containerStyle}
+      center={center}
+      zoom={6}
+      onLoad={onLoad}
+      onUnmount={onUnmount}
+    >
+      {/* Child components, such as markers, info windows, etc. */}
+      <>
+        <MarkerClusterer
+          options={options}
+          onClick={handleSelectCluster}
+          zoomOnClick={false}
+          onLoad={onLoadClustered}
+        >
+          {(clusterer) => {
+            handleClusteringEnding();
+            return renderMarkers;
+          }}
+        </MarkerClusterer>
+      </>
+    </GoogleMap>
+  ) : (
+    <React.Fragment></React.Fragment>
+  );
 }

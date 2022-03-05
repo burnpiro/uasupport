@@ -37,7 +37,8 @@ import { AidsListHead, AidsListToolbar, AidsMoreMenu } from '../../sections/@das
 import AidsForm from '../../sections/@dashboard/aids/AidsForm';
 import AidsDeleteForm from '../../sections/@dashboard/aids/AidsDeleteForm';
 import { getFilterFromQuery, getSerializedQueryParam } from '../../utils/filters';
-import AidsTitle from "../../sections/@dashboard/aids/AidsTitle";
+import AidsTitle from '../../sections/@dashboard/aids/AidsTitle';
+import { hasLocationChanged, mapElToLocation } from '../../components/Map';
 
 // ----------------------------------------------------------------------
 
@@ -146,6 +147,7 @@ export default function Aids() {
   const [filter, setFilter] = useState(initialParams);
   const [showDetails, setShowDetails] = useState([]);
   const [transportList, setTransportList] = useState([]);
+  const [locationList, setLocationList] = useState([]);
   const { t, i18n } = useTranslation();
   const [editElement, setEditElement] = useState(null);
   const [deleteElement, setDeleteElement] = useState(null);
@@ -168,6 +170,7 @@ export default function Aids() {
       if (initialItems.length > 0) {
         setShowDetails(response.filter((el) => initialItems.includes(el.id)));
       }
+      setLocationList(response.map(mapElToLocation));
       setIsLoading(false);
     };
 
@@ -271,6 +274,15 @@ export default function Aids() {
   const onFormSubmitted = async (values) => {
     if (values.id != null && values.id.length > 0) {
       const newDoc = await updateAid(values);
+      const prevElement = transportList.find((el) => el.id === values.id);
+      if (hasLocationChanged(prevElement.from, newDoc.from)) {
+        locationList.forEach((el) => {
+          if (el.id === values.id) {
+            el.lat = Number(newDoc.from[0]);
+            el.lng = Number(newDoc.from[1]);
+          }
+        });
+      }
       setTransportList(transportList.map((el) => (el.id === newDoc.id ? newDoc : el)));
       navigate(
         values.id + (searchParams.toString().length > 0 ? `?${searchParams.toString()}` : '')
@@ -279,6 +291,7 @@ export default function Aids() {
     } else {
       const newDoc = await addAid(values);
       if (newDoc.id) {
+        locationList.push(mapElToLocation(newDoc));
         navigate(
           newDoc.id + (searchParams.toString().length > 0 ? `?${searchParams.toString()}` : '')
         );
@@ -333,6 +346,8 @@ export default function Aids() {
     if (element.id != null && element.id.length > 0) {
       const removedId = await removeAid(element);
       setTransportList(transportList.filter((el) => el.id !== removedId));
+      const existingLocationIndex = locationList.findIndex((el) => el.id === removedId);
+      delete locationList[existingLocationIndex];
     }
     handleDeleteFormClose();
   };
@@ -342,7 +357,7 @@ export default function Aids() {
       <Container>
         <AidsTitle handleFormOpen={handleFormOpen} />
 
-        <AidsMap places={filteredUsers} onSelectMarkers={onSelectMarkers} />
+        <AidsMap fullList={locationList} places={filteredUsers} onSelectMarkers={onSelectMarkers} checkSum={filter.aidType} />
 
         <Card>
           <AidsListToolbar

@@ -50,7 +50,8 @@ import TransportForm from '../../sections/@dashboard/transport/TransportForm';
 import { red } from '@mui/material/colors';
 import TransportDeleteForm from '../../sections/@dashboard/transport/TransportDeleteForm';
 import { getFilterFromQuery, getSerializedQueryParam } from '../../utils/filters';
-import TransportTitle from "../../sections/@dashboard/transport/TransportTitle";
+import TransportTitle from '../../sections/@dashboard/transport/TransportTitle';
+import { hasLocationChanged, mapElToLocation } from '../../components/Map';
 
 // ----------------------------------------------------------------------
 
@@ -155,6 +156,7 @@ export default function Transport() {
   const [filter, setFilter] = useState(initialParams);
   const [showDetails, setShowDetails] = useState([]);
   const [transportList, setTransportList] = useState([]);
+  const [locationList, setLocationList] = useState([]);
   const { t, i18n } = useTranslation();
   const [editElement, setEditElement] = useState(null);
   const [deleteElement, setDeleteElement] = useState(null);
@@ -177,6 +179,7 @@ export default function Transport() {
       if (initialItems.length > 0) {
         setShowDetails(response.filter((el) => initialItems.includes(el.id)));
       }
+      setLocationList(response.map(mapElToLocation));
       setIsLoading(false);
     };
 
@@ -281,6 +284,14 @@ export default function Transport() {
   const onFormSubmitted = async (values) => {
     if (values.id != null && values.id.length > 0) {
       const newDoc = await updateTransport(values);
+      if (hasLocationChanged(prevElement.from, newDoc.from)) {
+        locationList.forEach((el) => {
+          if (el.id === values.id) {
+            el.lat = Number(newDoc.from[0]);
+            el.lng = Number(newDoc.from[1]);
+          }
+        });
+      }
       setTransportList(transportList.map((el) => (el.id === newDoc.id ? newDoc : el)));
       navigate(
         values.id + (searchParams.toString().length > 0 ? `?${searchParams.toString()}` : '')
@@ -289,6 +300,7 @@ export default function Transport() {
     } else {
       const newDoc = await addTransport(values);
       if (newDoc.id) {
+        locationList.push(mapElToLocation(newDoc));
         navigate(
           newDoc.id + (searchParams.toString().length > 0 ? `?${searchParams.toString()}` : '')
         );
@@ -344,6 +356,8 @@ export default function Transport() {
     if (element.id != null && element.id.length > 0) {
       const removedId = await removeTransport(element);
       setTransportList(transportList.filter((el) => el.id !== removedId));
+      const existingLocationIndex = locationList.findIndex((el) => el.id === removedId);
+      delete locationList[existingLocationIndex];
     }
     handleDeleteFormClose();
   };
@@ -351,10 +365,13 @@ export default function Transport() {
   return (
     <Page title={t('Transport')}>
       <Container>
-
         <TransportTitle handleFormOpen={handleFormOpen} />
 
-        <TransportMap places={filteredUsers} onSelectMarkers={onSelectMarkers} />
+        <TransportMap
+          fullList={locationList}
+          places={filteredUsers}
+          onSelectMarkers={onSelectMarkers}
+        />
 
         <Card>
           <TransportListToolbar
