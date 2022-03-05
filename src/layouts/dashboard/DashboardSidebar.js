@@ -18,6 +18,7 @@ import { useTranslation } from 'react-i18next';
 import IconButton from '@mui/material/IconButton';
 import Iconify from '../../components/Iconify';
 import * as React from 'react';
+import { GDPRContext } from '../../components/context/GDPRContext';
 
 // ----------------------------------------------------------------------
 
@@ -49,6 +50,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
   const { pathname } = useLocation();
   const { t, i18n } = useTranslation();
   const [emailOpen, setEmailOpen] = useState(false);
+  const [showGDPR, setShowGDPR] = React.useContext(GDPRContext);
 
   const isDesktop = useResponsive('up', 'lg');
 
@@ -101,60 +103,53 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
 
       <Box sx={{ flexGrow: 1 }} />
       <Stack spacing={1} sx={{ pb: 2, pt: 4 }}>
-        <Typography
-          sx={{
-            color: 'text.secondary',
-            textAlign: 'left',
-            ml: 2
-          }}
-          variant={'subtitle2'}
-        >
-          {t('Contact')}
-          {':'}
-        </Typography>
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'left',
-            alignItems: 'center',
-            pl: 2
-          }}
-        >
-          <Stack spacing={1}>
-            <IconButton aria-label="email" color={'success'} onClick={handleToggleEmail}>
-              <Iconify icon={'eva:email-outline'} width={24} height={24} />
-              {emailOpen && (
-                <Typography
-                  variant="body2"
-                  sx={{ color: 'text.primary', textAlign: 'left', ml: 2, fontSize: '14px' }}
-                >
-                  {'kemalpiro+ua@gmail.com'}
-                </Typography>
-              )}
-              {!emailOpen && (
-                <Typography
-                  variant="body2"
-                  sx={{ color: 'text.primary', textAlign: 'left', ml: 2, fontSize: '14px' }}
-                >
-                  {t('Email')}
-                </Typography>
-              )}
-            </IconButton>
-          </Stack>
+        <Box>
+          <Typography
+            sx={{
+              color: 'text.secondary',
+              textAlign: 'left',
+              ml: 2,
+              pb: 1
+            }}
+            variant={'subtitle2'}
+          >
+            {t('Regulaminy')}
+            {':'}
+          </Typography>
+          <Button
+            onClick={() => setShowGDPR(true)}
+            sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'left',
+              alignItems: 'center',
+              ml: 2
+            }}
+          >
+            <Typography
+              sx={{
+                lineHeight: '20px',
+                color: 'text.primary',
+                textAlign: 'right',
+              }}
+            >
+              {t('GDPR')}
+            </Typography>
+          </Button>
         </Box>
-        <Typography
-          sx={{
-            color: 'text.secondary',
-            textAlign: 'left',
-            pl: 2, pb: 1
-          }}
-          variant={'subtitle2'}
-        >
-          {t('SupportedBy')}
-          {':'}
-        </Typography>
-        <Link underline="none" href={'https://crisisresponse.google/'} target={'_blank'}>
+        <Box>
+          <Typography
+            sx={{
+              color: 'text.secondary',
+              textAlign: 'left',
+              ml: 2,
+              pb: 0
+            }}
+            variant={'subtitle2'}
+          >
+            {t('Contact')}
+            {':'}
+          </Typography>
           <Box
             sx={{
               display: 'flex',
@@ -164,20 +159,67 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
               pl: 2
             }}
           >
-            <img src={'/static/icons/google-logo.svg'} style={{ height: '20px' }} />
-            <Typography
+            <Stack spacing={1}>
+              <IconButton aria-label="email" color={'success'} onClick={handleToggleEmail}>
+                <Iconify icon={'eva:email-outline'} width={24} height={24} />
+                {emailOpen && (
+                  <Typography
+                    variant="body2"
+                    sx={{ color: 'text.primary', textAlign: 'left', ml: 2, fontSize: '14px' }}
+                  >
+                    {'kemalpiro+ua@gmail.com'}
+                  </Typography>
+                )}
+                {!emailOpen && (
+                  <Typography
+                    variant="body2"
+                    sx={{ color: 'text.primary', textAlign: 'left', ml: 2, fontSize: '14px' }}
+                  >
+                    {t('Email')}
+                  </Typography>
+                )}
+              </IconButton>
+            </Stack>
+          </Box>
+        </Box>
+        <Box>
+          <Typography
+            sx={{
+              color: 'text.secondary',
+              textAlign: 'left',
+              pl: 2,
+              pb: 2
+            }}
+            variant={'subtitle2'}
+          >
+            {t('SupportedBy')}
+            {':'}
+          </Typography>
+          <Link underline="none" href={'https://crisisresponse.google/'} target={'_blank'}>
+            <Box
               sx={{
-                fontSize: '18px',
-                lineHeight: '20px',
-                color: 'text.secondary',
-                textAlign: 'right',
-                ml: 1
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'left',
+                alignItems: 'center',
+                pl: 2
               }}
             >
-              {t('Crisis Response')}
-            </Typography>
-          </Box>
-        </Link>
+              <img src={'/static/icons/google-logo.svg'} style={{ height: '20px' }} />
+              <Typography
+                sx={{
+                  fontSize: '18px',
+                  lineHeight: '20px',
+                  color: 'text.secondary',
+                  textAlign: 'right',
+                  ml: 1
+                }}
+              >
+                {t('Crisis Response')}
+              </Typography>
+            </Box>
+          </Link>
+        </Box>
       </Stack>
     </Scrollbar>
   );

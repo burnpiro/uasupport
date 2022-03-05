@@ -37,6 +37,8 @@ import { useRef, useState } from 'react';
 import { SITE_KEY } from '../../../utils/settings';
 import { useTheme } from '@mui/material/styles';
 import { DialogTransition } from '../../../components/DialogTransition';
+import {GDPRContext} from "../../../components/context/GDPRContext";
+import Checkbox from "@mui/material/Checkbox";
 
 export default function AidsForm(props) {
   const theme = useTheme();
@@ -44,8 +46,10 @@ export default function AidsForm(props) {
   const [locale, setLocale] = React.useState('pl');
   const recaptchaRef = useRef(null);
   const [captchaError, setCaptchaError] = useState(false);
+  const [GDPRChecked, setGDPRChecked] = useState(false);
   const [token, setToken] = useState(null);
   const { t, i18n } = useTranslation();
+  const [showGDPR, setShowGDPR] = React.useContext(GDPRContext);
 
   const { onClose, open, onFormSubmitted, editElement } = props;
 
@@ -90,6 +94,12 @@ export default function AidsForm(props) {
     } else {
       handleCaptchaError(true);
     }
+  };
+
+  const handleGDPRClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setShowGDPR(true);
   };
 
   const formik = useFormik({
@@ -137,6 +147,14 @@ export default function AidsForm(props) {
     lat: 51.059,
     lng: 19.956
   };
+
+  const isFormValid = !(values.fb === '' && values.email === '' && values.phone === '')
+
+  const isDisabled =
+    !isFormValid ||
+    captchaError ||
+    token == null ||
+    !GDPRChecked;
 
   return (
     <Dialog
@@ -424,6 +442,25 @@ export default function AidsForm(props) {
           </Form>
         </FormikProvider>
         <Box sx={{ mt: 2 }}>
+          <FormControlLabel
+            required
+            control={
+              <Checkbox
+                checked={GDPRChecked}
+                onChange={(event) => setGDPRChecked(event.target.checked)}
+              />
+            }
+            label={
+              <Typography variant={'caption'}>
+                {t('TCFillInfo')}
+                {': '}
+                <Link onClick={handleGDPRClick}>{t('GDPR')}</Link>{' '}
+              </Typography>
+            }
+          />
+          {!GDPRChecked && <FormHelperText error>{t('TCAccept')}</FormHelperText>}
+        </Box>
+        <Box sx={{ mt: 2 }}>
           <ReCAPTCHA
             ref={recaptchaRef}
             sitekey={SITE_KEY}
@@ -448,11 +485,7 @@ export default function AidsForm(props) {
                 ? 'primary'
                 : 'success'
             }
-            disabled={
-              (values.fb === '' && values.email === '' && values.phone === '') ||
-              captchaError ||
-              token == null
-            }
+            disabled={isDisabled}
             loading={isSubmitting}
             onClick={submitForm}
           >
@@ -465,6 +498,7 @@ export default function AidsForm(props) {
             <FormHelperText error>{t('Form Invalid - Social')}</FormHelperText>
           )}
           {captchaError && <FormHelperText error>{t('CAPTCHA Error')}</FormHelperText>}
+          {isFormValid && !GDPRChecked && <FormHelperText error>{t('TCAccept')}</FormHelperText>}
         </Stack>
       </DialogActions>
     </Dialog>

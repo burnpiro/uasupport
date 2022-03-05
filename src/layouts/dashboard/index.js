@@ -5,6 +5,9 @@ import { styled } from '@mui/material/styles';
 //
 import DashboardNavbar from './DashboardNavbar';
 import DashboardSidebar from './DashboardSidebar';
+import GDPRDialog from "../../components/GDPRDialog";
+import * as React from "react";
+import {GDPRContext} from "../../components/context/GDPRContext";
 
 // ----------------------------------------------------------------------
 
@@ -34,6 +37,7 @@ const MainStyle = styled('div')(({ theme }) => ({
 
 export default function DashboardLayout() {
   const [open, setOpen] = useState(false);
+  const [showGDPR, setShowGDPR] = React.useContext(GDPRContext);
 
   return (
     <RootStyle>
@@ -42,6 +46,7 @@ export default function DashboardLayout() {
       <MainStyle>
         <Outlet />
       </MainStyle>
+      <GDPRDialog open={showGDPR} handleClose={() => setShowGDPR(false)} />
     </RootStyle>
   );
 }

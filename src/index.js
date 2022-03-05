@@ -11,13 +11,16 @@ import { HelmetProvider } from 'react-helmet-async';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import reportWebVitals from './reportWebVitals';
+import GDPRProvider from './components/context/GDPRContext';
 
 // ----------------------------------------------------------------------
 
 ReactDOM.render(
   <HelmetProvider>
     <HashRouter>
-      <App />
+      <GDPRProvider>
+        <App />
+      </GDPRProvider>
     </HashRouter>
   </HelmetProvider>,
   document.getElementById('root')

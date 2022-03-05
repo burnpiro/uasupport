@@ -120,7 +120,11 @@ const resources = {
       'SupportedBy': 'Supported by',
       'Contact': 'Contact',
       'Add': 'Add',
-      'OK': 'OK'
+      'OK': 'OK',
+      'Regulaminy': 'T&C',
+      'GDPR': 'GDPR',
+      'TCAccept': 'Tou have to accept T&C',
+      'TCFillInfo': 'By completing the form, you consent to the processing of personal data contained therein in order to create and share the advertisement. Find out more about data processing here'
     }
   },
   pl: {
@@ -242,7 +246,11 @@ const resources = {
       'SupportedBy': 'Wspierane przez',
       'Contact': 'Kontakt',
       'Add': 'Dodaj',
-      'OK': 'OK'
+      'OK': 'OK',
+      'Regulaminy': 'Regulaminy',
+      'GDPR': 'RODO',
+      'TCAccept': 'Musisz zaakceptować regulaminy',
+      'TCFillInfo': 'Wypełnienie formularza oznacza zgodę na przetwarzanie zawartych w nim danych osobowych w celu stworzenia i udostępnienia ogłoszenia. Więcej o przetwarzaniu danych dowiesz się tutaj'
     }
   },
   ua: {
@@ -364,7 +372,10 @@ const resources = {
       'SupportedBy': 'Підтримано',
       'Contact': 'контакт',
       'Add': 'Додати',
-      'OK': 'гаразд'
+      'OK': 'гаразд',
+      'Regulaminy': 'Положення',
+      'TCAccept': 'Ви повинні прийняти правила',
+      'TCFillInfo': 'Заповнюючи форму, ви даєте згоду на обробку персональних даних, що містяться в ній, для створення та поширення реклами. Дізнайтеся більше про обробку даних тут'
     }
   },
   ru: {
@@ -486,7 +497,10 @@ const resources = {
       'SupportedBy': 'Поддерживается',
       'Contact': 'контакт',
       'Add': 'Добавлять',
-      'OK': 'Ok'
+      'OK': 'Ok',
+      'Regulaminy': 'Правила',
+      'TCAccept': 'Вы должны принять правила',
+      'TCFillInfo': 'Заполняя форму, вы даете согласие на обработку содержащихся в ней персональных данных с целью создания и распространения рекламы. Узнайте больше об обработке данных здесь'
     }
   }
 };
