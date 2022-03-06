@@ -169,8 +169,8 @@ export default function HomeListToolbar({
             value={filter['status'] != null ? filter['status'] : null}
             onChange={handleStatusFilterChange}
           >
-            <ToggleButton value="dam">{t('dam')}</ToggleButton>
-            <ToggleButton value="szukam">{t('szukam')}</ToggleButton>
+            <ToggleButton value="dam">{t('Find')}</ToggleButton>
+            <ToggleButton value="szukam">{t('Offer')}</ToggleButton>
           </ToggleButtonGroup>
         </Grid>
         {matches && (

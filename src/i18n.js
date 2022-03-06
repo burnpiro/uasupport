@@ -124,7 +124,9 @@ const resources = {
       'Regulaminy': 'T&C',
       'GDPR': 'GDPR',
       'TCAccept': 'Tou have to accept T&C',
-      'TCFillInfo': 'By completing the form, you consent to the processing of personal data contained therein in order to create and share the advertisement. Find out more about data processing here'
+      'TCFillInfo': 'By completing the form, you consent to the processing of personal data contained therein in order to create and share the advertisement. Find out more about data processing here',
+      'Find': 'Find',
+      'Offer': 'Offer'
     }
   },
   pl: {
@@ -250,7 +252,9 @@ const resources = {
       'Regulaminy': 'Regulaminy',
       'GDPR': 'RODO',
       'TCAccept': 'Musisz zaakceptować regulaminy',
-      'TCFillInfo': 'Wypełnienie formularza oznacza zgodę na przetwarzanie zawartych w nim danych osobowych w celu stworzenia i udostępnienia ogłoszenia. Więcej o przetwarzaniu danych dowiesz się tutaj'
+      'TCFillInfo': 'Wypełnienie formularza oznacza zgodę na przetwarzanie zawartych w nim danych osobowych w celu stworzenia i udostępnienia ogłoszenia. Więcej o przetwarzaniu danych dowiesz się tutaj',
+      'Find': 'Znajdź',
+      'Offer': 'Zaoferuj'
     }
   },
   ua: {
@@ -375,7 +379,9 @@ const resources = {
       'OK': 'гаразд',
       'Regulaminy': 'Положення',
       'TCAccept': 'Ви повинні прийняти правила',
-      'TCFillInfo': 'Заповнюючи форму, ви даєте згоду на обробку персональних даних, що містяться в ній, для створення та поширення реклами. Дізнайтеся більше про обробку даних тут'
+      'TCFillInfo': 'Заповнюючи форму, ви даєте згоду на обробку персональних даних, що містяться в ній, для створення та поширення реклами. Дізнайтеся більше про обробку даних тут',
+      'Find': 'знайти',
+      'Offer': 'Пропозиція'
     }
   },
   ru: {
@@ -500,7 +506,9 @@ const resources = {
       'OK': 'Ok',
       'Regulaminy': 'Правила',
       'TCAccept': 'Вы должны принять правила',
-      'TCFillInfo': 'Заполняя форму, вы даете согласие на обработку содержащихся в ней персональных данных с целью создания и распространения рекламы. Узнайте больше об обработке данных здесь'
+      'TCFillInfo': 'Заполняя форму, вы даете согласие на обработку содержащихся в ней персональных данных с целью создания и распространения рекламы. Узнайте больше об обработке данных здесь',
+      'Find': 'Находить',
+      'Offer': 'Предложение'
     }
   }
 };
