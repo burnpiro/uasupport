@@ -284,6 +284,7 @@ export default function Transport() {
   const onFormSubmitted = async (values) => {
     if (values.id != null && values.id.length > 0) {
       const newDoc = await updateTransport(values);
+      const prevElement = transportList.find((el) => el.id === values.id);
       if (hasLocationChanged(prevElement.from, newDoc.from)) {
         locationList.forEach((el) => {
           if (el.id === values.id) {
