@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 // material
-import {styled, useTheme} from '@mui/material/styles';
+import { styled, useTheme } from '@mui/material/styles';
 import {
   Toolbar,
   Tooltip,
@@ -9,7 +9,8 @@ import {
   OutlinedInput,
   InputAdornment,
   Box,
-  Button, useMediaQuery,
+  Button,
+  useMediaQuery,
   Grid
 } from '@mui/material';
 // component
@@ -168,8 +169,8 @@ export default function TransportListToolbar({
             value={filter['status'] != null ? filter['status'] : null}
             onChange={handleStatusFilterChange}
           >
-            <ToggleButton value="dam">{t('dam')}</ToggleButton>
-            <ToggleButton value="szukam">{t('szukam')}</ToggleButton>
+            <ToggleButton value="dam">{t('Find')}</ToggleButton>
+            <ToggleButton value="szukam">{t('Offer')}</ToggleButton>
           </ToggleButtonGroup>
         </Grid>
         {matches && (
