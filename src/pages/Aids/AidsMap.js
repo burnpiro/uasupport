@@ -2,10 +2,11 @@ import React from 'react';
 
 import { GoogleMap, useJsApiLoader, MarkerClusterer, Marker } from '@react-google-maps/api';
 import { getTypeIcon } from './Aids';
+import {DEFAULT_MAP_SIZE} from "../../utils/settings";
 
 const containerStyle = {
   width: '100%',
-  height: '500px'
+  height: DEFAULT_MAP_SIZE
 };
 
 const options = {

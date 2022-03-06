@@ -1,1 +1,3 @@
 export const SITE_KEY = '6Ldd660eAAAAAGy7uBo5QUy3Sk9JCZLYCT3WHy22';
+
+export const DEFAULT_MAP_SIZE = '500px';

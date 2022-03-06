@@ -126,7 +126,8 @@ const resources = {
       'TCAccept': 'Tou have to accept T&C',
       'TCFillInfo': 'By completing the form, you consent to the processing of personal data contained therein in order to create and share the advertisement. Find out more about data processing here',
       'Find': 'Find',
-      'Offer': 'Offer'
+      'Offer': 'Offer',
+      'clickToDisplay': 'Click to load the map'
     }
   },
   pl: {
@@ -254,7 +255,8 @@ const resources = {
       'TCAccept': 'Musisz zaakceptować regulaminy',
       'TCFillInfo': 'Wypełnienie formularza oznacza zgodę na przetwarzanie zawartych w nim danych osobowych w celu stworzenia i udostępnienia ogłoszenia. Więcej o przetwarzaniu danych dowiesz się tutaj',
       'Find': 'Znajdź',
-      'Offer': 'Zaoferuj'
+      'Offer': 'Zaoferuj',
+      'clickToDisplay': 'Naciśnij aby załadować mapę'
     }
   },
   ua: {
@@ -381,7 +383,8 @@ const resources = {
       'TCAccept': 'Ви повинні прийняти правила',
       'TCFillInfo': 'Заповнюючи форму, ви даєте згоду на обробку персональних даних, що містяться в ній, для створення та поширення реклами. Дізнайтеся більше про обробку даних тут',
       'Find': 'знайти',
-      'Offer': 'Пропозиція'
+      'Offer': 'Пропозиція',
+      'clickToDisplay': 'Натисніть, щоб завантажити карту'
     }
   },
   ru: {
@@ -508,7 +511,8 @@ const resources = {
       'TCAccept': 'Вы должны принять правила',
       'TCFillInfo': 'Заполняя форму, вы даете согласие на обработку содержащихся в ней персональных данных с целью создания и распространения рекламы. Узнайте больше об обработке данных здесь',
       'Find': 'Находить',
-      'Offer': 'Предложение'
+      'Offer': 'Предложение',
+      'clickToDisplay': 'Нажмите, чтобы загрузить карту'
     }
   }
 };
