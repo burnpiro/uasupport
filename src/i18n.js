@@ -122,13 +122,56 @@ const resources = {
       Add: 'Add',
       OK: 'OK',
       Regulaminy: 'T&C',
-      GDPR: 'GDPR',
       TCAccept: 'Tou have to accept T&C',
       TCFillInfo:
         'By completing the form, you consent to the processing of personal data contained therein in order to create and share the advertisement. Find out more about data processing here',
       Find: 'Find',
       Offer: 'Offer',
-      clickToDisplay: 'Click to load the map'
+      clickToDisplay: 'Click to load the map',
+      'Already have an account?': 'У вас уже есть аккаунт?',
+      and: 'and',
+      'auth/account-exists-with-different-credential':
+        'We already have an account assigned to this email. Please login using the original login method so we can connect your accounts.',
+      'auth/email-already-in-use':
+        'This email is already in use, please login using social media account',
+      'auth/user-not-found': 'Provided credentials are not valid',
+      'auth/weak-password': 'Password is too weak',
+      'auth/wrong-password': 'Provided credentials are not valid',
+      'By registering, I agree to': 'By registering, I agree to',
+      'Create a free account.': 'Create a free account.',
+      "Don't have an account?": "Don't have an account?",
+      'Enter your details below.': 'Select login method',
+      Error: 'Error',
+      'First name': 'First Name',
+      'Forgot password?': 'Forgot password?',
+      GDPR: 'GDPR',
+      'Get started': 'Get started',
+      'Hi, Welcome Back': 'Hi, Welcome Back',
+      'Images provided by': 'Images provided by',
+      'Last name': 'Last name',
+      'Logged out successfully': 'Logged out successfully',
+      Login: 'Login',
+      'Login to add new data':
+        'Creating new entries is available only to logged users. Please login with your desired login method.',
+      Logout: 'Logout',
+      'Message was sent to your email address': 'Message was sent to your email address',
+      'Must Contain 8 Characters, One Uppercase, One Lowercase and One Number':
+        'Must Contain 8 Characters, One Uppercase, One Lowercase and One Number',
+      MyAid: 'My aid',
+      MyHomes: 'My accommodation',
+      MyTransport: 'My transport',
+      OR: 'OR',
+      Password: 'Password',
+      'Password Recovery': 'Password Recovery',
+      'Privacy Policy': 'Privacy Policy',
+      Register: 'Register',
+      RememberMe: 'Remember me',
+      'Send a link': 'Send a link',
+      Settings: 'Settings',
+      'Sign in to UASupport': 'Sign in to UASupport',
+      'Start helping today!': 'Start helping today!',
+      TC: 'T&C',
+      'Terms of Service': 'Terms of Service'
     }
   },
   pl: {
@@ -299,8 +342,9 @@ const resources = {
       'Send a link': 'Wyślij link',
       'Message was sent to your email address': 'Na twój adres email została wysłana wiadomość',
       'Privacy Policy': 'Polityka Prywatności',
-      'TC': 'Regulamin',
-      'Login to add new data': 'Dodawanie nowych danych jest dostępne wyłącznie dla zalogowanych użytkowników. Zaloguj sie wygodnie z użyciem social media lub stworzonego konta użytkownika.'
+      TC: 'Regulamin',
+      'Login to add new data':
+        'Dodawanie nowych danych jest dostępne wyłącznie dla zalogowanych użytkowników. Zaloguj sie wygodnie z użyciem social media lub stworzonego konta użytkownika.'
     }
   },
   ua: {
@@ -429,7 +473,51 @@ const resources = {
         'Заповнюючи форму, ви даєте згоду на обробку персональних даних, що містяться в ній, для створення та поширення реклами. Дізнайтеся більше про обробку даних тут',
       Find: 'знайти',
       Offer: 'Пропозиція',
-      clickToDisplay: 'Натисніть, щоб завантажити карту'
+      clickToDisplay: 'Натисніть, щоб завантажити карту',
+      'Already have an account?': 'Вже є аккаунт?',
+      and: 'i',
+      'auth/account-exists-with-different-credential':
+        'Ми вже маємо обліковий запис, призначений для цієї електронної пошти. Будь ласка, увійдіть, використовуючи оригінальний метод входу, щоб ми могли підключити ваші облікові записи.',
+      'auth/email-already-in-use':
+        'Ця електронна адреса вже використовується, будь ласка, увійдіть за допомогою облікового запису соціальної мережі',
+      'auth/user-not-found': 'Надані облікові дані недійсні',
+      'auth/weak-password': 'Пароль занадто слабкий',
+      'auth/wrong-password': 'Надані облікові дані недійсні',
+      'By registering, I agree to': 'Реєструючись, я погоджуюсь',
+      'Create a free account.': 'Створіть безкоштовний обліковий запис.',
+      "Don't have an account?": "Немає облікового запису?",
+      'Enter your details below.': 'Виберіть спосіб входу',
+      Error: 'Помилка',
+      'First name': 'Ім\'я',
+      'Forgot password?': 'Забули пароль?',
+      GDPR: 'GDPR',
+      'Get started': 'Створіть їх',
+      'Hi, Welcome Back': 'Привіт, Ласкаво просимо назад',
+      'Images provided by': 'Зображення надані',
+      'Last name': 'Прізвище',
+      'Logged out successfully': 'Вийшов успішно',
+      Login: 'Увійти',
+      'Login to add new data':
+        'Створення нових записів доступне лише для зареєстрованих користувачів. Будь ласка, увійдіть, використовуючи бажаний спосіб входу.',
+      Logout: 'Вийти',
+      'Message was sent to your email address': 'Повідомлення надіслано на вашу електронну адресу',
+      'Must Contain 8 Characters, One Uppercase, One Lowercase and One Number':
+        'Повинен містити 8 символів, один великий регістр, один нижній регістр і одну цифру',
+      MyAid: 'Моя допомога',
+      MyHomes: 'Моє житло',
+      MyTransport: 'Мій транспорт',
+      OR: 'АБО',
+      Password: 'Пароль',
+      'Password Recovery': 'Відновлення паролю',
+      'Privacy Policy': 'Політика конфіденційності',
+      Register: 'Реєстрація',
+      RememberMe: 'Пам\'ятай мене',
+      'Send a link': 'Надішліть посилання',
+      Settings: 'Налаштування',
+      'Sign in to UASupport': 'Увійдіть до UASupport',
+      'Start helping today!': 'Почніть допомагати вже сьогодні!',
+      TC: 'статут',
+      'Terms of Service': 'Умови обслуговування'
     }
   },
   ru: {
@@ -558,7 +646,51 @@ const resources = {
         'Заполняя форму, вы даете согласие на обработку содержащихся в ней персональных данных с целью создания и распространения рекламы. Узнайте больше об обработке данных здесь',
       Find: 'Находить',
       Offer: 'Предложение',
-      clickToDisplay: 'Нажмите, чтобы загрузить карту'
+      clickToDisplay: 'Нажмите, чтобы загрузить карту',
+      'Already have an account?': 'Already have an account?',
+      and: 'и',
+      'auth/account-exists-with-different-credential':
+        'У нас уже есть учетная запись, связанная с этим адресом электронной почты. Пожалуйста, войдите, используя исходный метод входа, чтобы мы могли подключить ваши учетные записи.',
+      'auth/email-already-in-use':
+        'Этот адрес электронной почты уже используется, пожалуйста, войдите, используя учетную запись социальной сети',
+      'auth/user-not-found': 'Предоставленные учетные данные недействительны',
+      'auth/weak-password': 'Пароль слишком слабый',
+      'auth/wrong-password': 'Предоставленные учетные данные недействительны',
+      'By registering, I agree to': 'Регистрируясь, я соглашаюсь',
+      'Create a free account.': 'Создать бесплатный аккаунт.',
+      "Don't have an account?": "У вас нет аккаунта?",
+      'Enter your details below.': 'Выберите способ входа',
+      Error: 'Ошибка',
+      'First name': 'Имя',
+      'Forgot password?': 'забыл пароль?',
+      GDPR: 'GDPR',
+      'Get started': 'Начать',
+      'Hi, Welcome Back': 'Привет, с возвращением',
+      'Images provided by': 'Изображения предоставлены',
+      'Last name': 'Фамилия',
+      'Logged out successfully': 'Выйти успешно',
+      Login: 'Авторизоваться',
+      'Login to add new data':
+        'Создание новых записей доступно только зарегистрированным пользователям. Пожалуйста, войдите в систему с помощью желаемого метода входа.',
+      Logout: 'Выйти',
+      'Message was sent to your email address': 'Сообщение было отправлено на ваш адрес электронной почты',
+      'Must Contain 8 Characters, One Uppercase, One Lowercase and One Number':
+        'Должен содержать 8 символов, одну прописную, одну строчную и одну цифру',
+      MyAid: 'Моя помощь',
+      MyHomes: 'Мое жилье',
+      MyTransport: 'Мой транспорт',
+      OR: 'ИЛИ',
+      Password: 'Пароль',
+      'Password Recovery': 'Восстановление пароля',
+      'Privacy Policy': 'Политика конфиденциальности',
+      Register: 'регистр',
+      RememberMe: 'Запомни меня',
+      'Send a link': 'Отправить ссылку',
+      Settings: 'Настройки',
+      'Sign in to UASupport': 'Войдите в UASupport',
+      'Start helping today!': 'Начните помогать сегодня!',
+      TC: 'устав',
+      'Terms of Service': 'Условия использования'
     }
   }
 };
