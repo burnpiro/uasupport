@@ -1,22 +1,20 @@
 import PropTypes from 'prop-types';
 // material
 import { styled } from '@mui/material/styles';
-import { TextField, Autocomplete, InputAdornment } from '@mui/material';
+import {TextField, Autocomplete, InputAdornment, Box} from '@mui/material';
 // component
 import Iconify from '../../../components/Iconify';
 import {useTranslation} from "react-i18next";
 
 // ----------------------------------------------------------------------
 
-const RootStyle = styled('div')(({ theme }) => ({
+const RootStyle = styled(Box)(({ theme }) => ({
   '& .MuiAutocomplete-root': {
-    width: 400,
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.easeInOut,
       duration: theme.transitions.duration.shorter
     }),
     '&.Mui-focused': {
-      width: 410,
       '& .MuiAutocomplete-inputRoot': {
         boxShadow: theme.customShadows.z12
       }
@@ -50,7 +48,7 @@ export default function FundPostsSearch({ posts, onSelect }) {
     }
   }
   return (
-    <RootStyle>
+    <RootStyle sx={{flexGrow: 1}}>
       <Autocomplete
         size="small"
         disablePortal
