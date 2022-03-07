@@ -32,6 +32,7 @@ import Checkbox from '@mui/material/Checkbox';
 import FormHelperText from '@mui/material/FormHelperText';
 import { useTheme } from '@mui/material/styles';
 import { DialogTransition } from '../../components/DialogTransition';
+import {CustomDialogTitle} from "../../components/dialogs/CustomDialogTitle";
 
 const localeMap = {
   pl: plLocale,
@@ -242,7 +243,7 @@ export default function HomesDetails(props) {
       fullScreen={matches}
       TransitionComponent={DialogTransition}
     >
-      <DialogTitle>{t('SzczegolyZakwaterowania')}</DialogTitle>
+      <CustomDialogTitle onClose={handleClose}>{t('SzczegolyZakwaterowania')}</CustomDialogTitle>
       <DialogContent>
         <Stack spacing={3} sx={{ p: 3, pr: 0, pl: 0 }}>
           {home.map((homeItem) => (

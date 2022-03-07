@@ -26,6 +26,7 @@ import Label from '../../components/Label';
 import { useTranslation } from 'react-i18next';
 import { styled, useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import {CustomDialogTitle} from "../../components/dialogs/CustomDialogTitle";
 
 const CoverImgStyle = styled('img')({
   top: 0,
@@ -65,7 +66,7 @@ function FundItem(props) {
   };
 
   return (
-    <Card sx={{ min: 345 }}>
+    <Card>
       <CardContent>
         <CoverImgStyle alt={title} src={cover} />
         <Typography variant="h3" sx={{ pt: 1 }}>
@@ -76,7 +77,7 @@ function FundItem(props) {
             <Typography variant="subtitle2" noWrap>
               {t('Fund-address')}
             </Typography>
-            <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }} noWrap>
+            <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }}>
               {addressFrom}
             </Typography>
           </Box>
@@ -86,20 +87,20 @@ function FundItem(props) {
         </Typography>
         {displayPhone && (
           <Box flexDirection={'row'} display={'flex'} sx={{ pt: 1 }}>
-            <Typography variant="subtitle2" noWrap>
+            <Typography variant="subtitle2">
               {t('Phone')}
             </Typography>
-            <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }} noWrap>
+            <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }}>
               {phone}
             </Typography>
           </Box>
         )}
         {displayEmail && (
           <Box flexDirection={'row'} display={'flex'} sx={{ pt: 1 }}>
-            <Typography variant="subtitle2" noWrap>
+            <Typography variant="subtitle2">
               {t('Email')}
             </Typography>
-            <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }} noWrap>
+            <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }}>
               {email}
             </Typography>
           </Box>
@@ -170,18 +171,18 @@ export default function FundDetails(props) {
   };
 
   return (
-    <Dialog onClose={handleClose} open={open} sx={{ minWidth: 550 }} fullScreen={fullScreen}>
-      <DialogTitle>
+    <Dialog onClose={handleClose} open={open} fullScreen={fullScreen} maxWidth={"sm"}>
+      <CustomDialogTitle sx={{ m: 0, p: 1}} onClose={handleClose}>
         {fund && (
           <Box flexDirection={'row'} display={'flex'} sx={{ alignItems: 'center', pt: 2 }}>
             <Avatar aria-label="author" src={fund.author.avatarUrl} />
-            <Typography variant="h4" sx={{ color: 'text.secondary', pl: 1 }} noWrap>
+            <Typography variant="h4" sx={{ color: 'text.secondary', pl: 1 }} >
               {fund.author.name}
             </Typography>
           </Box>
         )}
-      </DialogTitle>
-      <DialogContent sx={{ minWidth: 500, p: 0 }}>{fund && <FundItem item={fund} />}</DialogContent>
+      </CustomDialogTitle>
+      <DialogContent sx={{ p: 0 }}>{fund && <FundItem item={fund} />}</DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>OK</Button>
       </DialogActions>

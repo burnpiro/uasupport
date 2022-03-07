@@ -22,6 +22,7 @@ import FormLabel from "@mui/material/FormLabel";
 import RadioGroup from "@mui/material/RadioGroup";
 import Radio from "@mui/material/Radio";
 import {useEffect} from "react";
+import {CustomDialogTitle} from "../../components/dialogs/CustomDialogTitle";
 
 const localeMap = {
   pl: plLocale,
@@ -68,7 +69,7 @@ export default function FilterDialog(props) {
 
   return (
     <Dialog onClose={handleClose} open={open}>
-      <DialogTitle>{t('Filter')}</DialogTitle>
+      <CustomDialogTitle onClose={handleClose}>{t('Filter')}</CustomDialogTitle>
       <DialogContent>
         <Stack direction={{ xs: 'column' }} sx={{ mt: 2}} spacing={2}>
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>

@@ -8,6 +8,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import { useTranslation } from 'react-i18next';
+import {CustomDialogTitle} from "./CustomDialogTitle";
 export default function PrivacyPolicyDialog({ open, handleClose }) {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
@@ -15,7 +16,7 @@ export default function PrivacyPolicyDialog({ open, handleClose }) {
 
   return (
     <Dialog fullScreen={fullScreen} open={open} onClose={handleClose} aria-labelledby="pp-dialog">
-      <DialogTitle id="pp-dialog">{t('Privacy Policy')}</DialogTitle>
+      <CustomDialogTitle onClose={handleClose} id="pp-dialog">{t('Privacy Policy')}</CustomDialogTitle>
       <DialogContent>
         <Typography component={'pre'} variant={'body1'} style={{ whiteSpace: 'break-spaces' }}>
           {`🇵🇱 Polityka prywatności uasupport.pl

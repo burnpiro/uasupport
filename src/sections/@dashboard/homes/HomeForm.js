@@ -42,6 +42,7 @@ import { GDPRContext } from '../../../components/context/GDPRContext';
 import useAuth from '../../../components/context/AuthContext';
 import { LoginForm } from '../../authentication/login';
 import AuthSocial from '../../authentication/AuthSocial';
+import {CustomDialogTitle} from "../../../components/dialogs/CustomDialogTitle";
 
 const localeMap = {
   pl: plLocale,
@@ -204,11 +205,11 @@ export default function HomeForm(props) {
       fullWidth
       maxWidth={false}
     >
-      <DialogTitle>
+      <CustomDialogTitle onClose={handleClose}>
         {editElement != null && editElement.id != null
           ? t('EditHome')
           : t(values.status === 'dam' ? 'AddHome' : 'GetHome')}
-      </DialogTitle>
+      </CustomDialogTitle>
 
       {canShowForm && (
         <DialogContent>

@@ -20,6 +20,7 @@ import FormLabel from '@mui/material/FormLabel';
 import {useTranslation} from "react-i18next";
 import {useEffect} from "react";
 import {getTypeIcon} from "./Aids";
+import {CustomDialogTitle} from "../../components/dialogs/CustomDialogTitle";
 
 export default function FilterDialog(props) {
   const { t, i18n } = useTranslation();
@@ -50,7 +51,7 @@ export default function FilterDialog(props) {
 
   return (
     <Dialog onClose={handleClose} open={open}>
-      <DialogTitle>{t('Filter')}</DialogTitle>
+      <CustomDialogTitle onClose={handleClose}>{t('Filter')}</CustomDialogTitle>
       <DialogContent>
         <Stack direction={{ xs: 'column' }} sx={{ mt: 2 }} spacing={2}>
           {/*<FormGroup>*/}

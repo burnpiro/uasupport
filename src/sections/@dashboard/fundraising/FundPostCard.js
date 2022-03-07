@@ -4,7 +4,18 @@ import { Link as RouterLink } from 'react-router-dom';
 import { alpha, styled } from '@mui/material/styles';
 import { blue } from '@mui/material/colors';
 
-import { Box, Link, Card, Grid, Avatar, Typography, CardContent, IconButton } from '@mui/material';
+import {
+  Box,
+  Link,
+  Card,
+  Grid,
+  Avatar,
+  Typography,
+  CardContent,
+  IconButton,
+  CardActions,
+  CardActionArea
+} from '@mui/material';
 // utils
 import { fDate } from '../../../utils/formatTime';
 import { fShortenNumber } from '../../../utils/formatNumber';
@@ -77,90 +88,92 @@ export default function FundPostCard({ post, index, onSelect }) {
   return (
     <Grid item xs={12} sm={latestPostLarge ? 12 : 6} md={latestPostLarge ? 6 : 3}>
       <Card sx={{ position: 'relative' }}>
-        <CardMediaStyle
-          sx={{
-            ...((latestPostLarge || latestPost) && {
-              pt: 'calc(100% * 4 / 3)',
-              '&:after': {
-                top: 0,
-                content: "''",
-                width: '100%',
-                height: '100%',
-                position: 'absolute',
-                bgcolor: (theme) => alpha(theme.palette.grey[900], 0.72)
-              }
-            }),
-            ...(latestPostLarge && {
-              pt: {
-                xs: 'calc(100% * 4 / 3)',
-                sm: 'calc(100% * 3 / 4.66)'
-              }
-            })
-          }}
-        >
-          <SvgIconStyle
-            color="paper"
-            src="/static/icons/shape-avatar.svg"
-            sx={{
-              width: 80,
-              height: 36,
-              zIndex: 9,
-              bottom: -15,
-              position: 'absolute',
-              ...((latestPostLarge || latestPost) && { display: 'none' })
-            }}
-          />
-          <AvatarStyle
-            alt={author.name}
-            src={author.avatarUrl}
+        <CardActionArea
+          onClick={handleSelect}>
+          <CardMediaStyle
             sx={{
               ...((latestPostLarge || latestPost) && {
+                pt: 'calc(100% * 4 / 3)',
+                '&:after': {
+                  top: 0,
+                  content: "''",
+                  width: '100%',
+                  height: '100%',
+                  position: 'absolute',
+                  bgcolor: (theme) => alpha(theme.palette.grey[900], 0.72)
+                }
+              }),
+              ...(latestPostLarge && {
+                pt: {
+                  xs: 'calc(100% * 4 / 3)',
+                  sm: 'calc(100% * 3 / 4.66)'
+                }
+              })
+            }}
+          >
+            <SvgIconStyle
+              color="paper"
+              src="/static/icons/shape-avatar.svg"
+              sx={{
+                width: 80,
+                height: 36,
                 zIndex: 9,
-                top: 24,
-                left: 24,
-                width: 40,
-                height: 40
-              })
-            }}
-          />
+                bottom: -15,
+                position: 'absolute',
+                ...((latestPostLarge || latestPost) && { display: 'none' })
+              }}
+            />
+            <AvatarStyle
+              alt={author.name}
+              src={author.avatarUrl}
+              sx={{
+                ...((latestPostLarge || latestPost) && {
+                  zIndex: 9,
+                  top: 24,
+                  left: 24,
+                  width: 40,
+                  height: 40
+                })
+              }}
+            />
 
-          <CoverImgStyle alt={title} src={cover} />
-        </CardMediaStyle>
+            <CoverImgStyle alt={title} src={cover} />
+          </CardMediaStyle>
 
-        <CardContent
-          sx={{
-            pt: 4,
-            ...((latestPostLarge || latestPost) && {
-              bottom: 0,
-              width: '100%',
-              position: 'absolute'
-            })
-          }}
-        >
-          <Typography
-            gutterBottom
-            variant="caption"
-            sx={{ color: 'text.disabled', display: 'block' }}
-          >
-            {fDate(createdAt)}
-          </Typography>
-
-          <TitleStyle
-            color="inherit"
-            variant="subtitle2"
-            underline="hover"
-            onClick={handleSelect}
+          <CardContent
             sx={{
-              ...(latestPostLarge && { typography: 'h5', height: 60 }),
+              pt: 4,
               ...((latestPostLarge || latestPost) && {
-                color: 'common.white',
-                cursor: 'pointer'
+                bottom: 0,
+                width: '100%',
+                position: 'absolute'
               })
             }}
           >
-            {title}
-          </TitleStyle>
+            <Typography
+              gutterBottom
+              variant="caption"
+              sx={{ color: 'text.disabled', display: 'block' }}
+            >
+              {fDate(createdAt)}
+            </Typography>
 
+            <TitleStyle
+              color="inherit"
+              variant="subtitle2"
+              sx={{
+                ...(latestPostLarge && { typography: 'h5', height: 60 }),
+                ...((latestPostLarge || latestPost) && {
+                  color: 'common.white',
+                  cursor: 'pointer'
+                })
+              }}
+            >
+              {title}
+            </TitleStyle>
+          </CardContent>
+        </CardActionArea>
+        <CardActions>
           <InfoStyle>
             {POST_INFO.filter((info) => info.link != null && info.link !== '').map(
               (info, index) => (
@@ -172,7 +185,7 @@ export default function FundPostCard({ post, index, onSelect }) {
               )
             )}
           </InfoStyle>
-        </CardContent>
+        </CardActions>
       </Card>
     </Grid>
   );

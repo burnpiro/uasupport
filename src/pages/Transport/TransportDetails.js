@@ -30,6 +30,7 @@ import Label from '../../components/Label';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@mui/material/styles';
 import { DialogTransition } from '../../components/DialogTransition';
+import {CustomDialogTitle} from "../../components/dialogs/CustomDialogTitle";
 
 function TransportItem(props) {
   const {
@@ -182,7 +183,7 @@ export default function TransportDetails(props) {
       fullScreen={matches}
       TransitionComponent={DialogTransition}
     >
-      <DialogTitle>{t('SzczegolyTransportu')}</DialogTitle>
+      <CustomDialogTitle onClose={handleClose}>{t('SzczegolyTransportu')}</CustomDialogTitle>
       <DialogContent>
         <Stack spacing={3} sx={{ p: 3, pr: 0, pl: 0 }}>
           {transport.map((transportItem) => (

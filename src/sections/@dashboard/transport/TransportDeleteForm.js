@@ -20,6 +20,7 @@ import { TextField, Typography } from '@mui/material';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import {SITE_KEY} from "../../../utils/settings";
+import {CustomDialogTitle} from "../../../components/dialogs/CustomDialogTitle";
 
 export default function TransportDeleteForm({ onClose, open, onFormSubmitted, deleteElement }) {
   const { t, i18n } = useTranslation();
@@ -65,7 +66,7 @@ export default function TransportDeleteForm({ onClose, open, onFormSubmitted, de
 
   return (
     <Dialog onClose={handleClose} fullWidth open={open} maxWidth={false}>
-      <DialogTitle>{t('RemoveTransport')}</DialogTitle>
+      <CustomDialogTitle onClose={handleClose}>{t('RemoveTransport')}</CustomDialogTitle>
       <DialogContent>
         <Stack spacing={3}>
           <Typography>

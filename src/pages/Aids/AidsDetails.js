@@ -26,6 +26,7 @@ import { useTranslation } from 'react-i18next';
 import { getTypeIcon } from './Aids';
 import { useTheme } from '@mui/material/styles';
 import { DialogTransition } from '../../components/DialogTransition';
+import {CustomDialogTitle} from "../../components/dialogs/CustomDialogTitle";
 
 function AidItem(props) {
   const {
@@ -177,7 +178,7 @@ export default function AidsDetails(props) {
       fullScreen={matches}
       TransitionComponent={DialogTransition}
     >
-      <DialogTitle>{t('SzczegolyPomocy')}</DialogTitle>
+      <CustomDialogTitle onClose={handleClose}>{t('SzczegolyPomocy')}</CustomDialogTitle>
       <DialogContent>
         <Stack spacing={3} sx={{ p: 3, pr: 0, pl: 0 }}>
           {aid.map((aidItem) => (

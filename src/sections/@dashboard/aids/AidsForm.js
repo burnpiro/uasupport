@@ -42,6 +42,7 @@ import Checkbox from '@mui/material/Checkbox';
 import useAuth from '../../../components/context/AuthContext';
 import { LoginForm } from '../../authentication/login';
 import AuthSocial from '../../authentication/AuthSocial';
+import {CustomDialogTitle} from "../../../components/dialogs/CustomDialogTitle";
 
 export default function AidsForm(props) {
   const theme = useTheme();
@@ -173,9 +174,9 @@ export default function AidsForm(props) {
       open={open}
       maxWidth={false}
     >
-      <DialogTitle>
+      <CustomDialogTitle onClose={handleClose}>
         {editElement != null && editElement.id != null ? t('EditAid') : t('AddAid')}
-      </DialogTitle>
+      </CustomDialogTitle>
       {canShowForm && (
         <DialogContent>
           <FormikProvider value={formik}>
