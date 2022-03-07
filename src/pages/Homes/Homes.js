@@ -43,7 +43,9 @@ import { isAfter } from 'date-fns';
 import HomeDeleteForm from '../../sections/@dashboard/homes/HomeDeleteForm';
 import { getFilterFromQuery, getSerializedQueryParam } from '../../utils/filters';
 import HomesTitle from '../../sections/@dashboard/homes/HomesTitle';
-import {hasLocationChanged, mapElToLocation} from "../../components/Map";
+import { hasLocationChanged, mapElToLocation } from '../../components/Map';
+import useAuth from '../../components/context/AuthContext';
+import { useSnackbar } from 'notistack';
 
 // ----------------------------------------------------------------------
 
@@ -122,7 +124,10 @@ function applyDataFilter(array, { from, to, date, onlyVerified, status, phone })
     result = result.filter(
       (el) =>
         el.phone != null &&
-        el.phone.toLowerCase().replace(/\s/g, '').includes(phone.toLowerCase().replace(/\s/g, ''))
+        el.phone
+          .toLowerCase()
+          .replaceAll(/\s/g, '')
+          .includes(phone.toLowerCase().replaceAll(/\s/g, ''))
     );
   }
 
@@ -158,6 +163,8 @@ export default function Homes() {
   const [editElement, setEditElement] = useState(null);
   const [deleteElement, setDeleteElement] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const { user } = useAuth();
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -279,34 +286,44 @@ export default function Homes() {
   };
 
   const onFormSubmitted = async (values) => {
-    if (values.id != null && values.id.length > 0) {
-      const newDoc = await updateHome(values);
-      const prevElement = transportList.find((el) => el.id === values.id);
-      if (hasLocationChanged(prevElement.from, newDoc.from)) {
-        locationList.forEach((el) => {
-          if (el.id === values.id) {
-            el.lat = Number(newDoc.from[0]);
-            el.lng = Number(newDoc.from[1]);
-          }
-        });
-      }
-      setTransportList(transportList.map((el) => (el.id === newDoc.id ? newDoc : el)));
-      navigate(
-        values.id + (searchParams.toString().length > 0 ? `?${searchParams.toString()}` : '')
-      );
-      setDisplayDetails(newDoc);
-    } else {
-      const newDoc = await addHome(values);
-      if (newDoc.id) {
-        locationList.push(mapElToLocation(newDoc));
+    try {
+      if (values.id != null && values.id.length > 0) {
+        const newDoc = await updateHome(values);
+        const prevElement = transportList.find((el) => el.id === values.id);
+        if (hasLocationChanged(prevElement.from, newDoc.from)) {
+          locationList.forEach((el) => {
+            if (el.id === values.id) {
+              el.lat = Number(newDoc.from[0]);
+              el.lng = Number(newDoc.from[1]);
+            }
+          });
+        }
+        setTransportList(transportList.map((el) => (el.id === newDoc.id ? newDoc : el)));
         navigate(
-          newDoc.id + (searchParams.toString().length > 0 ? `?${searchParams.toString()}` : '')
+          values.id + (searchParams.toString().length > 0 ? `?${searchParams.toString()}` : '')
         );
-        setTransportList([...transportList, newDoc]);
         setDisplayDetails(newDoc);
+      } else {
+        values.createdAt = new Date();
+        values.roles = {
+          [user.uid]: 'owner'
+        };
+        const newDoc = await addHome(values);
+        if (newDoc.id) {
+          locationList.push(mapElToLocation(newDoc));
+          navigate(
+            newDoc.id + (searchParams.toString().length > 0 ? `?${searchParams.toString()}` : '')
+          );
+          setTransportList([...transportList, newDoc]);
+          setDisplayDetails(newDoc);
+        }
       }
+      handleFormClose();
+    } catch (error) {
+      console.error(error);
+      enqueueSnackbar(t('Error'), { variant: 'error' });
+      return false;
     }
-    handleFormClose();
   };
 
   const handleSelectFilter = (filter) => {
@@ -350,13 +367,18 @@ export default function Homes() {
   };
 
   const onDeleteFormSubmitted = async (element) => {
-    if (element.id != null && element.id.length > 0) {
-      const removedId = await removeHome(element);
-      setTransportList(transportList.filter((el) => el.id !== removedId));
-      const existingLocationIndex = locationList.findIndex((el) => el.id === removedId);
-      delete locationList[existingLocationIndex];
+    try {
+      if (element.id != null && element.id.length > 0) {
+        const removedId = await removeHome(element);
+        setTransportList(transportList.filter((el) => el.id !== removedId));
+        const existingLocationIndex = locationList.findIndex((el) => el && el.id === removedId);
+        delete locationList[existingLocationIndex];
+      }
+      handleDeleteFormClose();
+    } catch (error) {
+      enqueueSnackbar(t('Error'), { variant: 'error' });
+      return false;
     }
-    handleDeleteFormClose();
   };
 
   return (
@@ -364,7 +386,11 @@ export default function Homes() {
       <Container>
         <HomesTitle handleFormOpen={handleFormOpen} />
 
-        <HomesMap fullList={locationList} places={filteredUsers} onSelectMarkers={onSelectMarkers} />
+        <HomesMap
+          fullList={locationList}
+          places={filteredUsers}
+          onSelectMarkers={onSelectMarkers}
+        />
 
         <Card>
           <HomeListToolbar
@@ -407,6 +433,12 @@ export default function Homes() {
                         row;
                       const isItemSelected = selected.indexOf(id) !== -1;
 
+                      const canEdit =
+                        row.roles == null ||
+                        (row.roles != null && user != null && row.roles[user.uid] === 'owner');
+                      const canRemove =
+                        row.roles == null ||
+                        (row.roles != null && user != null && row.roles[user.uid] === 'owner');
                       return (
                         <TableRow
                           hover
@@ -463,8 +495,8 @@ export default function Homes() {
                           <TableCell align="right">
                             <HomeMoreMenu
                               onClickShow={() => setDisplayDetails(row)}
-                              onClickEdit={() => handleEditElement(row)}
-                              onClickDelete={() => handleDeleteElement(row)}
+                              onClickEdit={canEdit ? () => handleEditElement(row) : undefined}
+                              onClickDelete={canRemove ? () => handleDeleteElement(row) : undefined}
                             />
                           </TableCell>
                         </TableRow>

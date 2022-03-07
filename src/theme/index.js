@@ -8,6 +8,7 @@ import palette from './palette';
 import typography from './typography';
 import componentsOverride from './overrides';
 import shadows, { customShadows } from './shadows';
+import { SnackbarProvider } from 'notistack';
 
 // ----------------------------------------------------------------------
 
@@ -33,8 +34,10 @@ export default function ThemeConfig({ children }) {
   return (
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={theme}>
-        <CssBaseline />
-        {children}
+        <SnackbarProvider>
+          <CssBaseline />
+          {children}
+        </SnackbarProvider>
       </ThemeProvider>
     </StyledEngineProvider>
   );

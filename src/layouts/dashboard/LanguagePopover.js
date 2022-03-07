@@ -114,8 +114,8 @@ export default function LanguagePopover() {
             onClick={() => handleChangeLang(option.value)}
             sx={{
               padding: 0,
-              width: option.value === lang.value ? 42 : 36,
-              height: option.value === lang.value ? 42 : 36,
+              width: option.value === lang.value ? 30 : 24,
+              height: option.value === lang.value ? 30 : 24,
               borderWidth: '3px',
               borderStyle: option.value === lang.value ? 'solid' : 'none',
               borderColor: (theme) => theme.palette.primary.light

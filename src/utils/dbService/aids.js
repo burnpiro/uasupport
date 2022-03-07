@@ -12,16 +12,22 @@ const {
 import { getStorage, ref, getDownloadURL } from 'firebase/storage';
 import { v4 as uuidv4 } from 'uuid';
 import { db } from '../../firebase';
+import { sample } from 'lodash';
+
+// import aids from './aid-zbior.json';
+
+// export async function getAids() {
+//   const transportCol = collection(db, 'aids');
+//   const transportSnapshot = await getDocs(transportCol);
+//   return transportSnapshot.docs
+//     .map((doc) => ({
+//       ...doc.data(),
+//       id: doc.id
+//     }))
+//     .map((doc) => ({ ...doc }));
+// }
 
 export async function getAids() {
-  // const transportCol = collection(db, 'aids');
-  // const transportSnapshot = await getDocs(transportCol);
-  // return transportSnapshot.docs
-  //   .map((doc) => ({
-  //     ...doc.data(),
-  //     id: doc.id,
-  //   }))
-  //   .map((doc) => ({ ...doc }));
   const storage = getStorage();
   const pathReference = ref(storage, 'aids-data');
   const url = await getDownloadURL(pathReference);
@@ -34,7 +40,7 @@ export async function getAids() {
   //
   const query = await namedQuery(db, 'latest-aids-query');
   const storiesSnap = await getDocsFromCache(query);
-  //
+
   return (
     storiesSnap.docs
       .map((doc) => ({
@@ -43,6 +49,7 @@ export async function getAids() {
       }))
       .map((doc) => ({ ...doc })) || []
   );
+  // return (Array(10000).fill(0).map(() => generateRandomAidElement()))
 }
 
 export async function addAid(data) {
@@ -59,6 +66,54 @@ export async function removeAid(data) {
 }
 
 export async function updateAid(data) {
+  // for (let i =0; i<aids.length; i++) {
+  //   if(aids[i].from != null && aids[i].from.length > 0) {
+  //     await addDoc(collection(db, "aids"), {...aids[i]});
+  //   }
+  // }
   await setDoc(doc(db, 'aids', data.id), data);
   return data;
+}
+
+function getRandomArbitrary(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
+function generateRandomAidElement() {
+  return {
+    id: uuidv4(),
+    from: [getRandomArbitrary(49.1, 54.5), getRandomArbitrary(14.07, 24.09)],
+    addressFrom: 'test address',
+    name:
+      'test Name' +
+      sample([
+        'medical-aid',
+        'medical-aid',
+        'medical-aid',
+        'medical-aid',
+        'standard-aid',
+        'standard-aid',
+        'standard-aid',
+        'blood-aid',
+        'blood-aid',
+        'food-aid',
+        'food-aid',
+        'animal-aid'
+      ]),
+    aidType: sample([
+      'medical-aid',
+      'medical-aid',
+      'medical-aid',
+      'medical-aid',
+      'standard-aid',
+      'standard-aid',
+      'standard-aid',
+      'blood-aid',
+      'blood-aid',
+      'food-aid',
+      'food-aid',
+      'animal-aid'
+    ]),
+    phone: '12345213'
+  };
 }

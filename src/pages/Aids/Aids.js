@@ -39,6 +39,8 @@ import AidsDeleteForm from '../../sections/@dashboard/aids/AidsDeleteForm';
 import { getFilterFromQuery, getSerializedQueryParam } from '../../utils/filters';
 import AidsTitle from '../../sections/@dashboard/aids/AidsTitle';
 import { hasLocationChanged, mapElToLocation } from '../../components/Map';
+import useAuth from '../../components/context/AuthContext';
+import { useSnackbar } from 'notistack';
 
 // ----------------------------------------------------------------------
 
@@ -152,6 +154,8 @@ export default function Aids() {
   const [editElement, setEditElement] = useState(null);
   const [deleteElement, setDeleteElement] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const { user } = useAuth();
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -272,34 +276,43 @@ export default function Aids() {
   };
 
   const onFormSubmitted = async (values) => {
-    if (values.id != null && values.id.length > 0) {
-      const newDoc = await updateAid(values);
-      const prevElement = transportList.find((el) => el.id === values.id);
-      if (hasLocationChanged(prevElement.from, newDoc.from)) {
-        locationList.forEach((el) => {
-          if (el.id === values.id) {
-            el.lat = Number(newDoc.from[0]);
-            el.lng = Number(newDoc.from[1]);
-          }
-        });
-      }
-      setTransportList(transportList.map((el) => (el.id === newDoc.id ? newDoc : el)));
-      navigate(
-        values.id + (searchParams.toString().length > 0 ? `?${searchParams.toString()}` : '')
-      );
-      setDisplayDetails(newDoc);
-    } else {
-      const newDoc = await addAid(values);
-      if (newDoc.id) {
-        locationList.push(mapElToLocation(newDoc));
+    try {
+      if (values.id != null && values.id.length > 0) {
+        const newDoc = await updateAid(values);
+        const prevElement = transportList.find((el) => el.id === values.id);
+        if (hasLocationChanged(prevElement.from, newDoc.from)) {
+          locationList.forEach((el) => {
+            if (el.id === values.id) {
+              el.lat = Number(newDoc.from[0]);
+              el.lng = Number(newDoc.from[1]);
+            }
+          });
+        }
+        setTransportList(transportList.map((el) => (el.id === newDoc.id ? newDoc : el)));
         navigate(
-          newDoc.id + (searchParams.toString().length > 0 ? `?${searchParams.toString()}` : '')
+          values.id + (searchParams.toString().length > 0 ? `?${searchParams.toString()}` : '')
         );
-        setTransportList([...transportList, newDoc]);
         setDisplayDetails(newDoc);
+      } else {
+        values.createdAt = new Date();
+        values.roles = {
+          [user.uid]: 'owner'
+        };
+        const newDoc = await addAid(values);
+        if (newDoc.id) {
+          locationList.push(mapElToLocation(newDoc));
+          navigate(
+            newDoc.id + (searchParams.toString().length > 0 ? `?${searchParams.toString()}` : '')
+          );
+          setTransportList([...transportList, newDoc]);
+          setDisplayDetails(newDoc);
+        }
       }
+      handleFormClose();
+    } catch (error) {
+      enqueueSnackbar(t('Error'), { variant: 'error' });
+      return false;
     }
-    handleFormClose();
   };
 
   const handleSelectFilter = (filter) => {
@@ -343,13 +356,18 @@ export default function Aids() {
   };
 
   const onDeleteFormSubmitted = async (element) => {
-    if (element.id != null && element.id.length > 0) {
-      const removedId = await removeAid(element);
-      setTransportList(transportList.filter((el) => el.id !== removedId));
-      const existingLocationIndex = locationList.findIndex((el) => el.id === removedId);
-      delete locationList[existingLocationIndex];
+    try {
+      if (element.id != null && element.id.length > 0) {
+        const removedId = await removeAid(element);
+        setTransportList(transportList.filter((el) => el.id !== removedId));
+        const existingLocationIndex = locationList.findIndex((el) => el && el.id === removedId);
+        delete locationList[existingLocationIndex];
+      }
+      handleDeleteFormClose();
+    } catch (error) {
+      enqueueSnackbar(t('Error'), { variant: 'error' });
+      return false;
     }
-    handleDeleteFormClose();
   };
 
   return (
@@ -357,7 +375,12 @@ export default function Aids() {
       <Container>
         <AidsTitle handleFormOpen={handleFormOpen} />
 
-        <AidsMap fullList={locationList} places={filteredUsers} onSelectMarkers={onSelectMarkers} checkSum={filter.aidType} />
+        <AidsMap
+          fullList={locationList}
+          places={filteredUsers}
+          onSelectMarkers={onSelectMarkers}
+          checkSum={filter.aidType}
+        />
 
         <Card>
           <AidsListToolbar
@@ -397,6 +420,13 @@ export default function Aids() {
                     .map((row) => {
                       const { id, name, addressFrom, aidType, aidSubType } = row;
                       const isItemSelected = selected.indexOf(id) !== -1;
+
+                      const canEdit =
+                        row.roles == null ||
+                        (row.roles != null && user != null && row.roles[user.uid] === 'owner');
+                      const canRemove =
+                        row.roles == null ||
+                        (row.roles != null && user != null && row.roles[user.uid] === 'owner');
 
                       return (
                         <TableRow
@@ -450,8 +480,8 @@ export default function Aids() {
                           <TableCell align="right">
                             <AidsMoreMenu
                               onClickShow={() => setDisplayDetails(row)}
-                              onClickEdit={() => handleEditElement(row)}
-                              onClickDelete={() => handleDeleteElement(row)}
+                              onClickEdit={canEdit ? () => handleEditElement(row) : undefined}
+                              onClickDelete={canRemove ? () => handleDeleteElement(row) : undefined}
                             />
                           </TableCell>
                         </TableRow>

@@ -39,6 +39,9 @@ import { useRef, useState } from 'react';
 import { useTheme } from '@mui/material/styles';
 import { DialogTransition } from '../../../components/DialogTransition';
 import { GDPRContext } from '../../../components/context/GDPRContext';
+import useAuth from '../../../components/context/AuthContext';
+import { LoginForm } from '../../authentication/login';
+import AuthSocial from '../../authentication/AuthSocial';
 
 const localeMap = {
   pl: plLocale,
@@ -63,6 +66,7 @@ export default function HomeForm(props) {
   const [GDPRChecked, setGDPRChecked] = useState(false);
   const [token, setToken] = useState(null);
   const { t, i18n } = useTranslation();
+  const { user } = useAuth();
   const [showGDPR, setShowGDPR] = React.useContext(GDPRContext);
 
   const { onClose, open, onFormSubmitted, editElement, defaultStatus = 'dam' } = props;
@@ -88,8 +92,8 @@ export default function HomeForm(props) {
     onClose();
   };
 
-  const handleSubmitConfirmed = (values) => {
-    onFormSubmitted(values);
+  const handleSubmitConfirmed = async (values) => {
+    return await onFormSubmitted(values);
   };
 
   const onCaptchaSubmit = (token) => {
@@ -105,10 +109,10 @@ export default function HomeForm(props) {
     setCaptchaError(true);
   };
 
-  const postFormSubmit = (values) => {
+  const postFormSubmit = async (values) => {
     const recaptchaValue = recaptchaRef.current.getValue();
     if (recaptchaValue.length > 3) {
-      handleSubmitConfirmed(values);
+      return await handleSubmitConfirmed(values);
     } else {
       handleCaptchaError(true);
     }
@@ -183,6 +187,14 @@ export default function HomeForm(props) {
 
   const isDisabled = !isFormValid || captchaError || token == null || !GDPRChecked;
 
+  const canShowForm =
+    (editElement == null && user != null) ||
+    (editElement != null &&
+      user != null &&
+      editElement.owner != null &&
+      editElement.owner === user.id) ||
+    (editElement != null && editElement.owner == null);
+
   return (
     <Dialog
       onClose={handleClose}
@@ -197,289 +209,305 @@ export default function HomeForm(props) {
           ? t('EditHome')
           : t(values.status === 'dam' ? 'AddHome' : 'GetHome')}
       </DialogTitle>
-      <DialogContent>
-        <FormikProvider value={formik}>
-          <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-            <Stack spacing={3}>
-              <TextField
-                fullWidth
-                label={t('Name') + '*'}
-                {...getFieldProps('name')}
-                error={Boolean(touched.name && errors.name)}
-                helperText={touched.name && errors.name}
-              />
 
-              <TextField
-                fullWidth
-                autoComplete="email"
-                type="email"
-                label={t('Email')}
-                {...getFieldProps('email')}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <Iconify icon={'eva:email-outline'} />
-                    </InputAdornment>
-                  )
-                }}
-                error={Boolean(touched.email && errors.email)}
-                helperText={touched.email && errors.email}
-              />
-
-              <TextField
-                fullWidth
-                type={'text'}
-                label={t('FB')}
-                {...getFieldProps('fb')}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <Iconify icon={'eva:facebook-fill'} />
-                    </InputAdornment>
-                  )
-                }}
-                error={Boolean(touched.fb && errors.fb)}
-                helperText={touched.fb && errors.fb}
-              />
-
-              <TextField
-                fullWidth
-                type={'text'}
-                label={t('Phone')}
-                {...getFieldProps('phone')}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <Iconify icon={'eva:phone-call-fill'} />
-                    </InputAdornment>
-                  )
-                }}
-                error={Boolean(touched.phone && errors.phone)}
-                helperText={touched.phone && errors.phone}
-              />
-
-              <LocalizationProvider dateAdapter={AdapterDateFns} locale={localeMap[locale]}>
-                <DateTimePicker
-                  label={t('CheckIn') + '*'}
-                  mask={maskMap[locale]}
-                  value={values.date}
-                  onChange={(newValue) => handleDateChange(newValue)}
-                  renderInput={(params) => <TextField {...params} />}
+      {canShowForm && (
+        <DialogContent>
+          <FormikProvider value={formik}>
+            <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+              <Stack spacing={3}>
+                <TextField
+                  fullWidth
+                  label={t('Name') + '*'}
+                  {...getFieldProps('name')}
+                  error={Boolean(touched.name && errors.name)}
+                  helperText={touched.name && errors.name}
                 />
-                {Boolean(errors.date) && <FormHelperText error>{errors.date}</FormHelperText>}
-              </LocalizationProvider>
 
-              <TextField
-                fullWidth
-                type={'text'}
-                label={t('Mieszkanie-czas')}
-                {...getFieldProps('period')}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <Iconify icon={'eva:clock-outline'} />
-                    </InputAdornment>
-                  )
-                }}
-                error={Boolean(touched.period && errors.period)}
-                helperText={touched.period && errors.period}
-              />
-
-              <TextField
-                fullWidth
-                type={'number'}
-                label={t('People') + '*'}
-                {...getFieldProps('people')}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <Iconify icon={'akar-icons:person-add'} />
-                    </InputAdornment>
-                  )
-                }}
-                error={Boolean(touched.people && errors.people)}
-                helperText={touched.people && errors.people}
-              />
-
-              <TextField
-                fullWidth
-                label={t('AddressHomeDesc') + '*'}
-                {...getFieldProps('addressFrom')}
-                error={Boolean(touched.addressFrom && errors.addressFrom)}
-                helperText={touched.addressFrom && errors.addressFrom}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <Iconify icon={'entypo:address'} />
-                    </InputAdornment>
-                  )
-                }}
-              />
-              <PositionPicker
-                onPositionChange={handleFromChange}
-                mapCenter={mapCenter}
-                defaultMarker={values.from.length > 0 ? values.from : null}
-              />
-              {Boolean(errors.from) && <FormHelperText error>{errors.from}</FormHelperText>}
-
-              <TextField
-                fullWidth
-                multiline
-                rows={4}
-                label={t('TransportDescription')}
-                {...getFieldProps('description')}
-                error={Boolean(touched.description && errors.description)}
-                helperText={touched.description && errors.description}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <Iconify icon={'fa:info-circle'} />
-                    </InputAdornment>
-                  )
-                }}
-              />
-              <FormGroup>
-                <FormControlLabel
-                  control={<Checkbox checked={values.separateBath} onChange={handleBathChange} />}
-                  label={t('Separate Bath')}
+                <TextField
+                  fullWidth
+                  autoComplete="email"
+                  type="email"
+                  label={t('Email')}
+                  {...getFieldProps('email')}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <Iconify icon={'eva:email-outline'} />
+                      </InputAdornment>
+                    )
+                  }}
+                  error={Boolean(touched.email && errors.email)}
+                  helperText={touched.email && errors.email}
                 />
-                {Boolean(errors.separateBath) && (
-                  <FormHelperText error>{errors.separateBath}</FormHelperText>
-                )}
-                <FormControlLabel
-                  control={<Checkbox checked={values.kitchen} onChange={handleKitchenChange} />}
-                  label={t('Kitchen Access')}
+
+                <TextField
+                  fullWidth
+                  type={'text'}
+                  label={t('FB')}
+                  {...getFieldProps('fb')}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <Iconify icon={'eva:facebook-fill'} />
+                      </InputAdornment>
+                    )
+                  }}
+                  error={Boolean(touched.fb && errors.fb)}
+                  helperText={touched.fb && errors.fb}
                 />
-                {Boolean(errors.kitchen) && <FormHelperText error>{errors.kitchen}</FormHelperText>}
-              </FormGroup>
 
-              <TextField
-                fullWidth
-                type={'text'}
-                label={t('Mieszkanie-zwierze')}
-                {...getFieldProps('pet')}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <Iconify icon={'map:pet-store'} />
-                    </InputAdornment>
-                  )
-                }}
-                error={Boolean(touched.pet && errors.pet)}
-                helperText={touched.pet && errors.pet}
-              />
+                <TextField
+                  fullWidth
+                  type={'text'}
+                  label={t('Phone')}
+                  {...getFieldProps('phone')}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <Iconify icon={'eva:phone-call-fill'} />
+                      </InputAdornment>
+                    )
+                  }}
+                  error={Boolean(touched.phone && errors.phone)}
+                  helperText={touched.phone && errors.phone}
+                />
 
-              <TextField
-                fullWidth
-                type={'text'}
-                label={t('Mieszkanie-dzieci')}
-                {...getFieldProps('child')}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <Iconify icon={'cil:child'} />
-                    </InputAdornment>
-                  )
-                }}
-                error={Boolean(touched.child && errors.child)}
-                helperText={touched.child && errors.child}
-              />
+                <LocalizationProvider dateAdapter={AdapterDateFns} locale={localeMap[locale]}>
+                  <DateTimePicker
+                    label={t('CheckIn') + '*'}
+                    mask={maskMap[locale]}
+                    value={values.date}
+                    onChange={(newValue) => handleDateChange(newValue)}
+                    renderInput={(params) => <TextField {...params} />}
+                  />
+                  {Boolean(errors.date) && <FormHelperText error>{errors.date}</FormHelperText>}
+                </LocalizationProvider>
 
-              <TextField
-                fullWidth
-                type={'text'}
-                label={t('Mieszkanie-disability')}
-                {...getFieldProps('disability')}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <Iconify icon={'fontisto:paralysis-disability'} />
-                    </InputAdornment>
-                  )
-                }}
-                error={Boolean(touched.disability && errors.disability)}
-                helperText={touched.disability && errors.disability}
-              />
+                <TextField
+                  fullWidth
+                  type={'text'}
+                  label={t('Mieszkanie-czas')}
+                  {...getFieldProps('period')}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <Iconify icon={'eva:clock-outline'} />
+                      </InputAdornment>
+                    )
+                  }}
+                  error={Boolean(touched.period && errors.period)}
+                  helperText={touched.period && errors.period}
+                />
 
-              <TextField
-                fullWidth
-                type={'text'}
-                label={t('Mieszkanie-transport')}
-                {...getFieldProps('includingTransport')}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <Iconify icon={'ant-design:car-outlined'} />
-                    </InputAdornment>
-                  )
-                }}
-                error={Boolean(touched.includingTransport && errors.includingTransport)}
-                helperText={touched.includingTransport && errors.includingTransport}
-              />
-            </Stack>
-          </Form>
-        </FormikProvider>
-        <Box sx={{ mt: 2 }}>
-          <FormControlLabel
-            required
-            control={
-              <Checkbox
-                checked={GDPRChecked}
-                onChange={(event) => setGDPRChecked(event.target.checked)}
-              />
-            }
-            label={
-              <Typography variant={'caption'}>
-                {t('TCFillInfo')}
-                {': '}
-                <Link onClick={handleGDPRClick}>{t('GDPR')}</Link>{' '}
-              </Typography>
-            }
-          />
-          {!GDPRChecked && <FormHelperText error>{t('TCAccept')}</FormHelperText>}
-        </Box>
-        <Box sx={{ mt: 2 }}>
-          <ReCAPTCHA
-            ref={recaptchaRef}
-            sitekey={SITE_KEY}
-            onChange={onCaptchaSubmit}
-            onErrored={handleCaptchaError}
-            onExpired={handleCaptchaExpired}
-          />
-        </Box>
-      </DialogContent>
+                <TextField
+                  fullWidth
+                  type={'number'}
+                  label={t('People') + '*'}
+                  {...getFieldProps('people')}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <Iconify icon={'akar-icons:person-add'} />
+                      </InputAdornment>
+                    )
+                  }}
+                  error={Boolean(touched.people && errors.people)}
+                  helperText={touched.people && errors.people}
+                />
+
+                <TextField
+                  fullWidth
+                  label={t('AddressHomeDesc') + '*'}
+                  {...getFieldProps('addressFrom')}
+                  error={Boolean(touched.addressFrom && errors.addressFrom)}
+                  helperText={touched.addressFrom && errors.addressFrom}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <Iconify icon={'entypo:address'} />
+                      </InputAdornment>
+                    )
+                  }}
+                />
+                <PositionPicker
+                  onPositionChange={handleFromChange}
+                  mapCenter={mapCenter}
+                  defaultMarker={values.from.length > 0 ? values.from : null}
+                />
+                {Boolean(errors.from) && <FormHelperText error>{errors.from}</FormHelperText>}
+
+                <TextField
+                  fullWidth
+                  multiline
+                  rows={4}
+                  label={t('TransportDescription')}
+                  {...getFieldProps('description')}
+                  error={Boolean(touched.description && errors.description)}
+                  helperText={touched.description && errors.description}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <Iconify icon={'fa:info-circle'} />
+                      </InputAdornment>
+                    )
+                  }}
+                />
+                <FormGroup>
+                  <FormControlLabel
+                    control={<Checkbox checked={values.separateBath} onChange={handleBathChange} />}
+                    label={t('Separate Bath')}
+                  />
+                  {Boolean(errors.separateBath) && (
+                    <FormHelperText error>{errors.separateBath}</FormHelperText>
+                  )}
+                  <FormControlLabel
+                    control={<Checkbox checked={values.kitchen} onChange={handleKitchenChange} />}
+                    label={t('Kitchen Access')}
+                  />
+                  {Boolean(errors.kitchen) && (
+                    <FormHelperText error>{errors.kitchen}</FormHelperText>
+                  )}
+                </FormGroup>
+
+                <TextField
+                  fullWidth
+                  type={'text'}
+                  label={t('Mieszkanie-zwierze')}
+                  {...getFieldProps('pet')}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <Iconify icon={'map:pet-store'} />
+                      </InputAdornment>
+                    )
+                  }}
+                  error={Boolean(touched.pet && errors.pet)}
+                  helperText={touched.pet && errors.pet}
+                />
+
+                <TextField
+                  fullWidth
+                  type={'text'}
+                  label={t('Mieszkanie-dzieci')}
+                  {...getFieldProps('child')}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <Iconify icon={'cil:child'} />
+                      </InputAdornment>
+                    )
+                  }}
+                  error={Boolean(touched.child && errors.child)}
+                  helperText={touched.child && errors.child}
+                />
+
+                <TextField
+                  fullWidth
+                  type={'text'}
+                  label={t('Mieszkanie-disability')}
+                  {...getFieldProps('disability')}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <Iconify icon={'fontisto:paralysis-disability'} />
+                      </InputAdornment>
+                    )
+                  }}
+                  error={Boolean(touched.disability && errors.disability)}
+                  helperText={touched.disability && errors.disability}
+                />
+
+                <TextField
+                  fullWidth
+                  type={'text'}
+                  label={t('Mieszkanie-transport')}
+                  {...getFieldProps('includingTransport')}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <Iconify icon={'ant-design:car-outlined'} />
+                      </InputAdornment>
+                    )
+                  }}
+                  error={Boolean(touched.includingTransport && errors.includingTransport)}
+                  helperText={touched.includingTransport && errors.includingTransport}
+                />
+              </Stack>
+            </Form>
+          </FormikProvider>
+          <Box sx={{ mt: 2 }}>
+            <FormControlLabel
+              required
+              control={
+                <Checkbox
+                  checked={GDPRChecked}
+                  onChange={(event) => setGDPRChecked(event.target.checked)}
+                />
+              }
+              label={
+                <Typography variant={'caption'}>
+                  {t('TCFillInfo')}
+                  {': '}
+                  <Link onClick={handleGDPRClick}>{t('GDPR')}</Link>{' '}
+                </Typography>
+              }
+            />
+            {!GDPRChecked && <FormHelperText error>{t('TCAccept')}</FormHelperText>}
+          </Box>
+          <Box sx={{ mt: 2 }}>
+            <ReCAPTCHA
+              ref={recaptchaRef}
+              sitekey={SITE_KEY}
+              onChange={onCaptchaSubmit}
+              onErrored={handleCaptchaError}
+              onExpired={handleCaptchaExpired}
+            />
+          </Box>
+        </DialogContent>
+      )}
+      {!canShowForm && (
+        <DialogContent>
+          <Typography variant={'subtitle1'} sx={{ pb: 1, textAlign: 'center' }}>
+            {t('Login to add new data')}
+          </Typography>
+          <AuthSocial />
+          <LoginForm />
+        </DialogContent>
+      )}
       <DialogActions sx={{ justifyContent: 'space-between', alignItems: 'start' }}>
         <Button color={'error'} onClick={handleClose}>
           {t('Cancel')}
         </Button>
-        <Stack spacing={1}>
-          <LoadingButton
-            fullWidth
-            size="medium"
-            type="submit"
-            variant="contained"
-            color={
-              Object.keys(errors).length > 0 || Object.keys(touched).length === 0
-                ? 'primary'
-                : 'success'
-            }
-            disabled={isDisabled}
-            loading={isSubmitting}
-            onClick={submitForm}
-          >
-            {editElement != null && editElement.id != null
-              ? t('EditHome')
-              : t(values.status === 'dam' ? 'AddHome' : 'GetHome')}
-          </LoadingButton>
-          {Object.keys(errors).length > 0 && (
-            <FormHelperText error>{t('Form Invalid')}</FormHelperText>
-          )}
-          {values.fb === '' && values.email === '' && values.phone === '' && (
-            <FormHelperText error>{t('Form Invalid - Social')}</FormHelperText>
-          )}
-          {captchaError && <FormHelperText error>{t('CAPTCHA Error')}</FormHelperText>}
-          {isFormValid && !GDPRChecked && <FormHelperText error>{t('TCAccept')}</FormHelperText>}
-        </Stack>
+        {canShowForm && (
+          <Stack spacing={1}>
+            <LoadingButton
+              fullWidth
+              size="medium"
+              type="submit"
+              variant="contained"
+              color={
+                Object.keys(errors).length > 0 || Object.keys(touched).length === 0
+                  ? 'primary'
+                  : 'success'
+              }
+              disabled={isDisabled}
+              loading={isSubmitting}
+              onClick={submitForm}
+            >
+              {editElement != null && editElement.id != null
+                ? t('EditHome')
+                : t(values.status === 'dam' ? 'AddHome' : 'GetHome')}
+            </LoadingButton>
+            {Object.keys(errors).length > 0 && (
+              <FormHelperText error>{t('Form Invalid')}</FormHelperText>
+            )}
+            {values.fb === '' && values.email === '' && values.phone === '' && (
+              <FormHelperText error>{t('Form Invalid - Social')}</FormHelperText>
+            )}
+            {captchaError && <FormHelperText error>{t('CAPTCHA Error')}</FormHelperText>}
+            {isFormValid && !GDPRChecked && <FormHelperText error>{t('TCAccept')}</FormHelperText>}
+          </Stack>
+        )}
       </DialogActions>
     </Dialog>
   );

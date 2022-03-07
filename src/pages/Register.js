@@ -1,4 +1,5 @@
 import { Link as RouterLink } from 'react-router-dom';
+import { useState } from 'react';
 // material
 import { styled } from '@mui/material/styles';
 import { Box, Card, Link, Container, Typography } from '@mui/material';
@@ -8,6 +9,9 @@ import AuthLayout from '../layouts/AuthLayout';
 import Page from '../components/Page';
 import { RegisterForm } from '../sections/authentication/register';
 import AuthSocial from '../sections/authentication/AuthSocial';
+import { useTranslation } from 'react-i18next';
+import TCDialog from '../components/dialogs/TCDialog';
+import PrivacyPolicyDialog from '../components/dialogs/PrivacyPolicyDialog';
 
 // ----------------------------------------------------------------------
 
@@ -39,30 +43,34 @@ const ContentStyle = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function Register() {
+  const { t, i18n } = useTranslation();
+  const [showTC, setShowTC] = useState(false);
+  const [showPP, setShowPP] = useState(false);
   return (
-    <RootStyle title="Register | Minimal-UI">
+    <RootStyle title={t('Register')}>
       <AuthLayout>
-        Already have an account? &nbsp;
+        {t('Already have an account?')} &nbsp;
         <Link underline="none" variant="subtitle2" component={RouterLink} to="/login">
-          Login
+          {t('Login')}
         </Link>
       </AuthLayout>
 
       <SectionStyle sx={{ display: { xs: 'none', md: 'flex' } }}>
         <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
-          Manage the job more effectively with Minimal
+          {t('Start helping today!')}
         </Typography>
         <img alt="register" src="/static/illustrations/illustration_register.png" />
+        <Typography variant={'caption'} sx={{ textAlign: 'center' }}>
+          {t('Images provided by')}&nbsp;freepik -
+          <Link href="https://www.freepik.com/psd/3d-woman"> www.freepik.com</Link>
+        </Typography>
       </SectionStyle>
 
       <Container>
         <ContentStyle>
-          <Box sx={{ mb: 5 }}>
+          <Box sx={{ mb: 2 }}>
             <Typography variant="h4" gutterBottom>
-              Get started absolutely free.
-            </Typography>
-            <Typography sx={{ color: 'text.secondary' }}>
-              Free forever. No credit card needed.
+              {t('Create a free account.')}
             </Typography>
           </Box>
 
@@ -71,13 +79,13 @@ export default function Register() {
           <RegisterForm />
 
           <Typography variant="body2" align="center" sx={{ color: 'text.secondary', mt: 3 }}>
-            By registering, I agree to Minimal&nbsp;
-            <Link underline="always" color="textPrimary">
-              Terms of Service
+            {t('By registering, I agree to')} &nbsp;
+            <Link underline="always" color="textPrimary" onClick={() => setShowTC(true)} style={{cursor: 'pointer'}}>
+              {t('Terms of Service')}
             </Link>
-            &nbsp;and&nbsp;
-            <Link underline="always" color="textPrimary">
-              Privacy Policy
+            &nbsp;{t('and')}&nbsp;
+            <Link underline="always" color="textPrimary" onClick={() => setShowPP(true)} style={{cursor: 'pointer'}}>
+              {t('Privacy Policy')}
             </Link>
             .
           </Typography>
@@ -97,6 +105,8 @@ export default function Register() {
           </Typography>
         </ContentStyle>
       </Container>
+      <TCDialog open={showTC} handleClose={() => setShowTC(false)} />
+      <PrivacyPolicyDialog open={showPP} handleClose={() => setShowPP(false)} />
     </RootStyle>
   );
 }

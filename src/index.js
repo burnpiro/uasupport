@@ -19,7 +19,7 @@ ReactDOM.render(
   <HelmetProvider>
     <HashRouter>
       <GDPRProvider>
-        <App />
+          <App />
       </GDPRProvider>
     </HashRouter>
   </HelmetProvider>,

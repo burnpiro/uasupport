@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import {Fragment, useRef, useState} from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 // material
 import { alpha } from '@mui/material/styles';
@@ -7,19 +7,25 @@ import { Button, Box, Divider, MenuItem, Typography, Avatar, IconButton } from '
 import Iconify from '../../components/Iconify';
 import MenuPopover from '../../components/MenuPopover';
 //
-import account from '../../_mocks_/account';
+import useAuth from "../../components/context/AuthContext";
+import {useTranslation} from "react-i18next";
 
 // ----------------------------------------------------------------------
 
 const MENU_OPTIONS = [
   {
-    label: 'Home',
+    label: 'MyHomes',
     icon: 'eva:home-fill',
     linkTo: '/'
   },
   {
-    label: 'Profile',
-    icon: 'eva:person-fill',
+    label: 'MyAid',
+    icon: 'bxs:first-aid',
+    linkTo: '#'
+  },
+  {
+    label: 'MyTransport',
+    icon: 'eva:car-fill',
     linkTo: '#'
   },
   {
@@ -34,6 +40,8 @@ const MENU_OPTIONS = [
 export default function AccountPopover() {
   const anchorRef = useRef(null);
   const [open, setOpen] = useState(false);
+  const {user, logout} = useAuth();
+  const { t, i18n } = useTranslation();
 
   const handleOpen = () => {
     setOpen(true);
@@ -42,8 +50,17 @@ export default function AccountPopover() {
     setOpen(false);
   };
 
+  const handleLogout = async () => {
+    await logout();
+    handleClose();
+  }
+
+  if (user == null) {
+    return <Fragment />
+  }
+
   return (
-    <>
+    <Fragment>
       <IconButton
         ref={anchorRef}
         onClick={handleOpen}
@@ -64,7 +81,7 @@ export default function AccountPopover() {
           })
         }}
       >
-        <Avatar src={account.photoURL} alt="photoURL" />
+        <Avatar src={user.photoURL} alt="photoURL" />
       </IconButton>
 
       <MenuPopover
@@ -75,10 +92,10 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle1" noWrap>
-            {account.displayName}
+            {user.displayName}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {account.email}
+            {user.email}
           </Typography>
         </Box>
 
@@ -101,16 +118,16 @@ export default function AccountPopover() {
               }}
             />
 
-            {option.label}
+            {t(option.label)}
           </MenuItem>
         ))}
 
         <Box sx={{ p: 2, pt: 1.5 }}>
-          <Button fullWidth color="inherit" variant="outlined">
-            Logout
+          <Button fullWidth color="inherit" variant="outlined" onClick={handleLogout}>
+            {t('Logout')}
           </Button>
         </Box>
       </MenuPopover>
-    </>
+    </Fragment>
   );
 }

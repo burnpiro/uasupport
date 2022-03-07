@@ -10,35 +10,30 @@ import {
   TextField,
   IconButton,
   InputAdornment,
-  FormControlLabel,
-  Box
+  FormControlLabel, Box
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // component
 import Iconify from '../../../components/Iconify';
-import { useTranslation } from 'react-i18next';
-import useAuth from '../../../components/context/AuthContext';
+import {useTranslation} from "react-i18next";
+import useAuth from "../../../components/context/AuthContext";
 
 // ----------------------------------------------------------------------
 
-export default function LoginForm() {
+export default function ForgotForm() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const { t, i18n } = useTranslation();
-  const { login } = useAuth();
+  const {forgotPassword} = useAuth();
 
   const LoginSchema = Yup.object().shape({
     email: Yup.string().email(t('Invalid Email')).required(t('Field required')),
-    password: Yup.string().required(t('Field required'))
   });
 
   const handleSubmitSent = async (values) => {
-    const res = login({ email: values.email, password: values.password });
-    if (res) {
-
-    }
+    await forgotPassword({email: values.email})
     return true;
-  };
+  }
 
   const formik = useFormik({
     initialValues: {
@@ -51,10 +46,6 @@ export default function LoginForm() {
   });
 
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
-
-  const handleShowPassword = () => {
-    setShowPassword((show) => !show);
-  };
 
   return (
     <FormikProvider value={formik}>
@@ -69,25 +60,6 @@ export default function LoginForm() {
             error={Boolean(touched.email && errors.email)}
             helperText={touched.email && errors.email}
           />
-
-          <TextField
-            fullWidth
-            autoComplete="current-password"
-            type={showPassword ? 'text' : 'password'}
-            label={t('Password')}
-            {...getFieldProps('password')}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton onClick={handleShowPassword} edge="end">
-                    <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
-                  </IconButton>
-                </InputAdornment>
-              )
-            }}
-            error={Boolean(touched.password && errors.password)}
-            helperText={touched.password && errors.password}
-          />
         </Stack>
 
         <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
@@ -97,9 +69,9 @@ export default function LoginForm() {
           {/*/>*/}
           <Box sx={{ flexGrow: 1 }} />
 
-          <Link component={RouterLink} variant="subtitle2" to="/forgot" underline="hover">
-            {t('Forgot password?')}
-          </Link>
+          {/*<Link component={RouterLink} variant="subtitle2" to="#" underline="hover">*/}
+          {/*  {t('Forgot password?')}*/}
+          {/*</Link>*/}
         </Stack>
 
         <LoadingButton
@@ -109,7 +81,7 @@ export default function LoginForm() {
           variant="contained"
           loading={isSubmitting}
         >
-          {t('Login')}
+          {t('Send a link')}
         </LoadingButton>
       </Form>
     </FormikProvider>

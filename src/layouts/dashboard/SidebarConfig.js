@@ -31,11 +31,12 @@ const sidebarConfig = [
     path: '/dashboard/aids',
     icon: getIcon('bxs:first-aid')
   },
-  // {
-  //   title: 'login',
-  //   path: '/login',
-  //   icon: getIcon('eva:lock-fill')
-  // },
+  {
+    title: 'Login',
+    path: '/login',
+    withoutAuth: true,
+    icon: getIcon('eva:lock-fill')
+  },
   // {
   //   title: 'register',
   //   path: '/register',

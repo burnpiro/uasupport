@@ -14,6 +14,7 @@ import Transport from './pages/Transport/Transport';
 import Homes from './pages/Homes/Homes';
 import Aids from './pages/Aids/Aids';
 import Fundraising from './pages/Fundraising/Fundraising';
+import ForgotPassword from "./pages/ForgotPassword";
 
 // ----------------------------------------------------------------------
 
@@ -37,8 +38,9 @@ export default function Router() {
       element: <LogoOnlyLayout />,
       children: [
         { path: '/', element: <Navigate to="/dashboard/homes" /> },
-        // { path: 'login', element: <Login /> },
-        // { path: 'register', element: <Register /> },
+        { path: 'login', element: <Login /> },
+        { path: 'register', element: <Register /> },
+        { path: 'forgot', element: <ForgotPassword /> },
         { path: '404', element: <NotFound /> },
         { path: '*', element: <Navigate to="/404" /> }
       ]

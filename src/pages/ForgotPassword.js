@@ -9,6 +9,7 @@ import Page from '../components/Page';
 import { LoginForm } from '../sections/authentication/login';
 import AuthSocial from '../sections/authentication/AuthSocial';
 import {useTranslation} from "react-i18next";
+import {ForgotForm} from "../sections/authentication/forgot";
 
 // ----------------------------------------------------------------------
 
@@ -39,22 +40,18 @@ const ContentStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function Login() {
+export default function ForgotPassword() {
   const { t, i18n } = useTranslation();
   return (
-    <RootStyle title={t('Login')}>
+    <RootStyle title={t('Password Recovery')}>
       <AuthLayout>
-        {t('Don\'t have an account?')}
-        <Link underline="none" variant="subtitle2" component={RouterLink} to="/register">
-          {t('Get started')}
-        </Link>
       </AuthLayout>
 
       <SectionStyle sx={{ display: { xs: 'none', md: 'flex' } }}>
         <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
           {t('Hi, Welcome Back')}
         </Typography>
-        <img src="/static/illustrations/illustration_login.png" alt="login" />
+        <img src="/static/illustrations/illustration_forgot.png" alt="login" />
         <Typography variant={'caption'} sx={{textAlign: 'center'}}>
           Images provided by freepik -
           <Link href="https://www.freepik.com/psd/3d-woman"> www.freepik.com</Link>
@@ -63,15 +60,13 @@ export default function Login() {
 
       <Container maxWidth="sm">
         <ContentStyle>
-          <Stack sx={{ mb: 5 }}>
+          <Stack sx={{ mb: 2 }}>
             <Typography variant="h4" gutterBottom>
-              {t('Sign in to UASupport')}
+              {t('Password Recovery')}
             </Typography>
-            <Typography sx={{ color: 'text.secondary' }}>{t('Enter your details below.')}</Typography>
           </Stack>
-          <AuthSocial />
 
-          <LoginForm />
+          <ForgotForm />
 
           <Typography
             variant="body2"
@@ -81,10 +76,6 @@ export default function Login() {
               display: { sm: 'none' }
             }}
           >
-            {t('Don\'t have an account?')}
-            <Link variant="subtitle2" component={RouterLink} to="register" underline="hover">
-              {t('Get started')}
-            </Link>
           </Typography>
         </ContentStyle>
       </Container>

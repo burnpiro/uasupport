@@ -36,19 +36,23 @@ export default function AidsMoreMenu({onClickShow, onClickEdit, onClickDelete}) 
           <ListItemText primary={t('Zobacz')} primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
 
-        <MenuItem onClick={onClickEdit} sx={{ color: 'text.secondary' }}>
-          <ListItemIcon>
-            <Iconify icon="eva:edit-fill" width={24} height={24} />
-          </ListItemIcon>
-          <ListItemText primary={t('Edytuj')} primaryTypographyProps={{ variant: 'body2' }} />
-        </MenuItem>
+        {
+          onClickEdit && <MenuItem onClick={onClickEdit} sx={{ color: 'text.secondary' }}>
+            <ListItemIcon>
+              <Iconify icon="eva:edit-fill" width={24} height={24} />
+            </ListItemIcon>
+            <ListItemText primary={t('Edytuj')} primaryTypographyProps={{ variant: 'body2' }} />
+          </MenuItem>
+        }
 
-        <MenuItem onClick={onClickDelete} sx={{ color: 'text.secondary' }}>
-          <ListItemIcon>
-            <Iconify icon="flat-color-icons:cancel" width={24} height={24} />
-          </ListItemIcon>
-          <ListItemText primary={t('Usuń')} primaryTypographyProps={{ variant: 'body2' }} />
-        </MenuItem>
+        {
+          onClickDelete && <MenuItem onClick={onClickDelete} sx={{ color: 'text.secondary' }}>
+            <ListItemIcon>
+              <Iconify icon="flat-color-icons:cancel" width={24} height={24} />
+            </ListItemIcon>
+            <ListItemText primary={t('Usuń')} primaryTypographyProps={{ variant: 'body2' }} />
+          </MenuItem>
+        }
       </Menu>
     </>
   );

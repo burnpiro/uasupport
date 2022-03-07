@@ -5,7 +5,7 @@ import { styled } from '@mui/material/styles';
 //
 import DashboardNavbar from './DashboardNavbar';
 import DashboardSidebar from './DashboardSidebar';
-import GDPRDialog from "../../components/GDPRDialog";
+import GDPRDialog from "../../components/dialogs/GDPRDialog";
 import * as React from "react";
 import {GDPRContext} from "../../components/context/GDPRContext";
 

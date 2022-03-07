@@ -52,6 +52,8 @@ import TransportDeleteForm from '../../sections/@dashboard/transport/TransportDe
 import { getFilterFromQuery, getSerializedQueryParam } from '../../utils/filters';
 import TransportTitle from '../../sections/@dashboard/transport/TransportTitle';
 import { hasLocationChanged, mapElToLocation } from '../../components/Map';
+import useAuth from '../../components/context/AuthContext';
+import { useSnackbar } from 'notistack';
 
 // ----------------------------------------------------------------------
 
@@ -161,6 +163,8 @@ export default function Transport() {
   const [editElement, setEditElement] = useState(null);
   const [deleteElement, setDeleteElement] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const { user } = useAuth();
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -282,34 +286,44 @@ export default function Transport() {
   };
 
   const onFormSubmitted = async (values) => {
-    if (values.id != null && values.id.length > 0) {
-      const newDoc = await updateTransport(values);
-      const prevElement = transportList.find((el) => el.id === values.id);
-      if (hasLocationChanged(prevElement.from, newDoc.from)) {
-        locationList.forEach((el) => {
-          if (el.id === values.id) {
-            el.lat = Number(newDoc.from[0]);
-            el.lng = Number(newDoc.from[1]);
-          }
-        });
-      }
-      setTransportList(transportList.map((el) => (el.id === newDoc.id ? newDoc : el)));
-      navigate(
-        values.id + (searchParams.toString().length > 0 ? `?${searchParams.toString()}` : '')
-      );
-      setDisplayDetails(newDoc);
-    } else {
-      const newDoc = await addTransport(values);
-      if (newDoc.id) {
-        locationList.push(mapElToLocation(newDoc));
+    try {
+      if (values.id != null && values.id.length > 0) {
+        const newDoc = await updateTransport(values);
+        const prevElement = transportList.find((el) => el.id === values.id);
+        if (hasLocationChanged(prevElement.from, newDoc.from)) {
+          locationList.forEach((el) => {
+            if (el.id === values.id) {
+              el.lat = Number(newDoc.from[0]);
+              el.lng = Number(newDoc.from[1]);
+            }
+          });
+        }
+        setTransportList(transportList.map((el) => (el.id === newDoc.id ? newDoc : el)));
         navigate(
-          newDoc.id + (searchParams.toString().length > 0 ? `?${searchParams.toString()}` : '')
+          values.id + (searchParams.toString().length > 0 ? `?${searchParams.toString()}` : '')
         );
-        setTransportList([...transportList, newDoc]);
         setDisplayDetails(newDoc);
+      } else {
+        values.createdAt = new Date();
+        values.roles = {
+          [user.uid]: 'owner'
+        };
+        const newDoc = await addTransport(values);
+        if (newDoc.id) {
+          locationList.push(mapElToLocation(newDoc));
+          navigate(
+            newDoc.id + (searchParams.toString().length > 0 ? `?${searchParams.toString()}` : '')
+          );
+          setTransportList([...transportList, newDoc]);
+          setDisplayDetails(newDoc);
+        }
       }
+      handleFormClose();
+    } catch (error) {
+      console.error(error);
+      enqueueSnackbar(t('Error'), { variant: 'error' });
+      return false;
     }
-    handleFormClose();
   };
 
   const handleSelectFilter = (filter) => {
@@ -354,13 +368,19 @@ export default function Transport() {
   };
 
   const onDeleteFormSubmitted = async (element) => {
-    if (element.id != null && element.id.length > 0) {
-      const removedId = await removeTransport(element);
-      setTransportList(transportList.filter((el) => el.id !== removedId));
-      const existingLocationIndex = locationList.findIndex((el) => el.id === removedId);
-      delete locationList[existingLocationIndex];
+    try {
+      if (element.id != null && element.id.length > 0) {
+        const removedId = await removeTransport(element);
+        setTransportList(transportList.filter((el) => el.id !== removedId));
+        const existingLocationIndex = locationList.findIndex((el) => el && el.id === removedId);
+        delete locationList[existingLocationIndex];
+      }
+      handleDeleteFormClose();
+    } catch (error) {
+      console.error(error);
+      enqueueSnackbar(t('Error'), { variant: 'error' });
+      return false;
     }
-    handleDeleteFormClose();
   };
 
   return (
@@ -423,6 +443,12 @@ export default function Transport() {
                       } = row;
                       const isItemSelected = selected.indexOf(id) !== -1;
 
+                      const canEdit =
+                        row.roles == null ||
+                        (row.roles != null && user != null && row.roles[user.uid] === 'owner');
+                      const canRemove =
+                        row.roles == null ||
+                        (row.roles != null && user != null && row.roles[user.uid] === 'owner');
                       return (
                         <TableRow
                           hover
@@ -479,8 +505,8 @@ export default function Transport() {
                           <TableCell align="right">
                             <TransportMoreMenu
                               onClickShow={() => setDisplayDetails(row)}
-                              onClickEdit={() => handleEditElement(row)}
-                              onClickDelete={() => handleDeleteElement(row)}
+                              onClickEdit={canEdit ? () => handleEditElement(row) : undefined}
+                              onClickDelete={canRemove ? () => handleDeleteElement(row) : undefined}
                             />
                           </TableCell>
                         </TableRow>

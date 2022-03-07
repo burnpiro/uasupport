@@ -13,15 +13,18 @@ import { v4 as uuidv4 } from 'uuid';
 import { db } from '../../firebase';
 import { getDownloadURL, getStorage, ref } from 'firebase/storage';
 
+// export async function getTransport() {
+//   const transportCol = collection(db, 'transport');
+//   const transportSnapshot = await getDocs(transportCol);
+//   return transportSnapshot.docs
+//     .map((doc) => ({
+//       ...doc.data(),
+//       id: doc.id,
+//     }))
+//     .map((doc) => ({ ...doc, date: doc.date.toDate() }));
+// }
+
 export async function getTransport() {
-  // const transportCol = collection(db, 'transport');
-  // const transportSnapshot = await getDocs(transportCol);
-  // return transportSnapshot.docs
-  //   .map((doc) => ({
-  //     ...doc.data(),
-  //     id: doc.id,
-  //   }))
-  //   .map((doc) => ({ ...doc, date: doc.date.toDate() }));
   const storage = getStorage();
   const pathReference = ref(storage, 'transport-data');
   const url = await getDownloadURL(pathReference);
@@ -50,8 +53,8 @@ export async function removeTransport(data) {
   return data.id;
 }
 
-export async function addTransport(transport) {
-  const ref = await addDoc(collection(db, 'transport'), transport);
+export async function addTransport(data) {
+  const ref = await addDoc(collection(db, 'transport'), data);
   return {
     ...data,
     id: ref.id

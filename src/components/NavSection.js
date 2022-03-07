@@ -15,6 +15,7 @@ import {
 //
 import Iconify from './Iconify';
 import account from '../_mocks_/account';
+import useAuth from './context/AuthContext';
 
 // ----------------------------------------------------------------------
 
@@ -162,14 +163,17 @@ NavSection.propTypes = {
 
 export default function NavSection({ navConfig, ...other }) {
   const { pathname } = useLocation();
+  const { user } = useAuth();
   const match = (path) => (path ? !!matchPath({ path, end: false }, pathname) : false);
 
   return (
     <Box {...other}>
       <List disablePadding>
-        {navConfig.map((item) => (
-          <NavItem key={item.title} item={item} active={match} />
-        ))}
+        {navConfig
+          .filter((el) => !(el.withoutAuth === true && user != null))
+          .map((item) => (
+            <NavItem key={item.title} item={item} active={match} />
+          ))}
       </List>
     </Box>
   );
