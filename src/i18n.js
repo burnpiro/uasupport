@@ -171,7 +171,8 @@ const resources = {
       'Sign in to UASupport': 'Sign in to UASupport',
       'Start helping today!': 'Start helping today!',
       TC: 'T&C',
-      'Terms of Service': 'Terms of Service'
+      'Terms of Service': 'Terms of Service',
+      'Use current location': 'Use current location',
     }
   },
   pl: {
@@ -344,7 +345,8 @@ const resources = {
       'Privacy Policy': 'Polityka Prywatności',
       TC: 'Regulamin',
       'Login to add new data':
-        'Dodawanie nowych danych jest dostępne wyłącznie dla zalogowanych użytkowników. Zaloguj sie wygodnie z użyciem social media lub stworzonego konta użytkownika.'
+        'Dodawanie nowych danych jest dostępne wyłącznie dla zalogowanych użytkowników. Zaloguj sie wygodnie z użyciem social media lub stworzonego konta użytkownika.',
+      'Use current location': 'Użyj mojej lokalizacji',
     }
   },
   ua: {
@@ -517,7 +519,8 @@ const resources = {
       'Sign in to UASupport': 'Увійдіть до UASupport',
       'Start helping today!': 'Почніть допомагати вже сьогодні!',
       TC: 'статут',
-      'Terms of Service': 'Умови обслуговування'
+      'Terms of Service': 'Умови обслуговування',
+      'Use current location': 'Використовуйте моє місцезнаходження',
     }
   },
   ru: {
@@ -690,7 +693,8 @@ const resources = {
       'Sign in to UASupport': 'Войдите в UASupport',
       'Start helping today!': 'Начните помогать сегодня!',
       TC: 'устав',
-      'Terms of Service': 'Условия использования'
+      'Terms of Service': 'Условия использования',
+      'Use current location': 'Использовать мое местоположение',
     }
   }
 };
