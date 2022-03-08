@@ -173,6 +173,8 @@ const resources = {
       TC: 'T&C',
       'Terms of Service': 'Terms of Service',
       'Use current location': 'Use current location',
+      Szukaj: 'Search...',
+      'Loading map data, please wait...': 'Loading map data, please wait...'
     }
   },
   pl: {
@@ -347,6 +349,8 @@ const resources = {
       'Login to add new data':
         'Dodawanie nowych danych jest dostępne wyłącznie dla zalogowanych użytkowników. Zaloguj sie wygodnie z użyciem social media lub stworzonego konta użytkownika.',
       'Use current location': 'Użyj mojej lokalizacji',
+      Szukaj: 'Szukaj...',
+      'Loading map data, please wait...': 'Pobieranie danych mapy...'
     }
   },
   ua: {
@@ -487,10 +491,10 @@ const resources = {
       'auth/wrong-password': 'Надані облікові дані недійсні',
       'By registering, I agree to': 'Реєструючись, я погоджуюсь',
       'Create a free account.': 'Створіть безкоштовний обліковий запис.',
-      "Don't have an account?": "Немає облікового запису?",
+      "Don't have an account?": 'Немає облікового запису?',
       'Enter your details below.': 'Виберіть спосіб входу',
       Error: 'Помилка',
-      'First name': 'Ім\'я',
+      'First name': "Ім'я",
       'Forgot password?': 'Забули пароль?',
       GDPR: 'GDPR',
       'Get started': 'Створіть їх',
@@ -513,7 +517,7 @@ const resources = {
       'Password Recovery': 'Відновлення паролю',
       'Privacy Policy': 'Політика конфіденційності',
       Register: 'Реєстрація',
-      RememberMe: 'Пам\'ятай мене',
+      RememberMe: "Пам'ятай мене",
       'Send a link': 'Надішліть посилання',
       Settings: 'Налаштування',
       'Sign in to UASupport': 'Увійдіть до UASupport',
@@ -521,6 +525,8 @@ const resources = {
       TC: 'статут',
       'Terms of Service': 'Умови обслуговування',
       'Use current location': 'Використовуйте моє місцезнаходження',
+      Szukaj: 'Шукати...',
+      'Loading map data, please wait...': 'Завантаження даних карти...'
     }
   },
   ru: {
@@ -661,7 +667,7 @@ const resources = {
       'auth/wrong-password': 'Предоставленные учетные данные недействительны',
       'By registering, I agree to': 'Регистрируясь, я соглашаюсь',
       'Create a free account.': 'Создать бесплатный аккаунт.',
-      "Don't have an account?": "У вас нет аккаунта?",
+      "Don't have an account?": 'У вас нет аккаунта?',
       'Enter your details below.': 'Выберите способ входа',
       Error: 'Ошибка',
       'First name': 'Имя',
@@ -676,7 +682,8 @@ const resources = {
       'Login to add new data':
         'Создание новых записей доступно только зарегистрированным пользователям. Пожалуйста, войдите в систему с помощью желаемого метода входа.',
       Logout: 'Выйти',
-      'Message was sent to your email address': 'Сообщение было отправлено на ваш адрес электронной почты',
+      'Message was sent to your email address':
+        'Сообщение было отправлено на ваш адрес электронной почты',
       'Must Contain 8 Characters, One Uppercase, One Lowercase and One Number':
         'Должен содержать 8 символов, одну прописную, одну строчную и одну цифру',
       MyAid: 'Моя помощь',
@@ -695,6 +702,8 @@ const resources = {
       TC: 'устав',
       'Terms of Service': 'Условия использования',
       'Use current location': 'Использовать мое местоположение',
+      Szukaj: 'Поиск...',
+      'Loading map data, please wait...': 'Загрузка картографических данных...'
     }
   }
 };
