@@ -26,6 +26,7 @@ import { useTranslation } from 'react-i18next';
 import ListToolbar from './ListToolbar';
 import { filter } from 'lodash';
 import { fToNow, fDateTime, fDate } from '../../utils/formatTime';
+import {isAfter} from "date-fns";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -81,7 +82,8 @@ function CellValue({ row, value: { type, field, variant, variantConditions } }) 
       let dateString = fDate(row[field]);
       switch (variant) {
         case 'dateTillNow':
-          dateString = fToNow(row[field]);
+          const nowDate = new Date();
+          dateString = isAfter(nowDate, row[field]) ? t('Dostępne') : fToNow(row[field]);
           break;
       }
       return (
