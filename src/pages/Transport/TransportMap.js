@@ -1,7 +1,16 @@
 import React from 'react';
 
-import { GoogleMap, useJsApiLoader, MarkerClusterer, Marker } from '@react-google-maps/api';
-import {DEFAULT_MAP_SIZE} from "../../utils/settings";
+import { GoogleMap, useJsApiLoader, MarkerClusterer, Marker, Circle } from '@react-google-maps/api';
+import { DEFAULT_MAP_SIZE } from '../../utils/settings';
+import {
+  getCurrentPosition,
+  isLocationService,
+  locationInnerMarkerOptions,
+  locationMarkerOptions
+} from '../../utils/locationService/locationService';
+import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import Iconify from '../../components/Iconify';
 
 const containerStyle = {
   width: '100%',
@@ -32,6 +41,16 @@ export default function TransportMap({
   const [map, setMap] = React.useState(null);
   const [clusterer, setClusterer] = React.useState(null);
   const [repaintNum, setRepaintNum] = React.useState(0);
+  const [myLocation, setMyLocation] = React.useState(null);
+  const [canUseLocation, setCanUseLocation] = React.useState(false);
+  const [mapCenter, setMapCenter] = React.useState(center);
+  const [zoom, setZoom] = React.useState(6);
+
+  React.useEffect(() => {
+    if (isLocationService()) {
+      setCanUseLocation(true);
+    }
+  }, []);
 
   const onLoad = React.useCallback(function callback(map) {
     // const bounds = new window.google.maps.LatLngBounds();
@@ -73,6 +92,25 @@ export default function TransportMap({
     }
   };
 
+  const handleUserPositionChange = (newPosition) => {
+    if (newPosition != null) {
+      setMyLocation({
+        lat: newPosition.latitude,
+        lng: newPosition.longitude,
+        radius: newPosition.accuracy
+      });
+      setMapCenter({
+        lat: newPosition.latitude,
+        lng: newPosition.longitude
+      });
+      setZoom(10);
+    }
+  };
+
+  const handleUseLocation = () => {
+    getCurrentPosition(handleUserPositionChange);
+  };
+
   const renderMarkers = React.useMemo(() => {
     return fullList.map((location) => (
       <Marker
@@ -89,28 +127,57 @@ export default function TransportMap({
   }, [places.length, fullList.length, checkSum, repaintNum]);
 
   return isLoaded ? (
-    <GoogleMap
-      mapContainerStyle={containerStyle}
-      center={center}
-      zoom={6}
-      onLoad={onLoad}
-      onUnmount={onUnmount}
-    >
-      {/* Child components, such as markers, info windows, etc. */}
-      <>
-        <MarkerClusterer
-          options={options}
-          onClick={handleSelectCluster}
-          zoomOnClick={false}
-          onLoad={onLoadClustered}
+    <Box sx={{ position: 'relative' }}>
+      <GoogleMap
+        mapContainerStyle={containerStyle}
+        center={mapCenter}
+        zoom={zoom}
+        onLoad={onLoad}
+        onUnmount={onUnmount}
+      >
+        {/* Child components, such as markers, info windows, etc. */}
+        <>
+          {myLocation && (
+            <React.Fragment>
+              <Circle
+                // required
+                center={myLocation}
+                // required
+                radius={myLocation.radius}
+                options={locationMarkerOptions}
+              />
+              <Circle
+                // required
+                center={myLocation}
+                // required
+                radius={1}
+                options={locationInnerMarkerOptions}
+              />
+            </React.Fragment>
+          )}
+          <MarkerClusterer
+            options={options}
+            onClick={handleSelectCluster}
+            zoomOnClick={false}
+            onLoad={onLoadClustered}
+          >
+            {(clusterer) => {
+              handleClusteringEnding();
+              return renderMarkers;
+            }}
+          </MarkerClusterer>
+        </>
+      </GoogleMap>
+      {canUseLocation && (
+        <IconButton
+          color={'primary'}
+          sx={{ position: 'absolute', bottom: 24, left: 12, backgroundColor: 'background.paper' }}
+          onClick={handleUseLocation}
         >
-          {(clusterer) => {
-            handleClusteringEnding();
-            return renderMarkers;
-          }}
-        </MarkerClusterer>
-      </>
-    </GoogleMap>
+          <Iconify icon={'gis:location'} sx={{ fontSize: 28 }} />
+        </IconButton>
+      )}
+    </Box>
   ) : (
     <React.Fragment></React.Fragment>
   );
