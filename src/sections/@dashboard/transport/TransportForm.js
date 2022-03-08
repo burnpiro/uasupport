@@ -42,7 +42,8 @@ import Checkbox from '@mui/material/Checkbox';
 import useAuth from '../../../components/context/AuthContext';
 import { LoginForm } from '../../authentication/login';
 import AuthSocial from '../../authentication/AuthSocial';
-import {CustomDialogTitle} from "../../../components/dialogs/CustomDialogTitle";
+import { CustomDialogTitle } from '../../../components/dialogs/CustomDialogTitle';
+import { getCurrentPosition } from '../../../utils/locationService/locationService';
 
 const localeMap = {
   pl: plLocale,
@@ -58,6 +59,11 @@ const maskMap = {
   en: '__/__/____'
 };
 
+const defaultMapCenter = {
+  lat: 50.4118,
+  lng: 23.3635
+};
+
 export default function TransportForm(props) {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down('sm'));
@@ -69,6 +75,7 @@ export default function TransportForm(props) {
   const { t, i18n } = useTranslation();
   const { user } = useAuth();
   const [showGDPR, setShowGDPR] = React.useContext(GDPRContext);
+  const [mapCenter, setMapCenter] = useState(defaultMapCenter);
 
   const { onClose, open, onFormSubmitted, editElement, defaultStatus = 'dam' } = props;
 
@@ -168,6 +175,20 @@ export default function TransportForm(props) {
     setFieldValue('date', newDate);
   };
 
+  const handleUserPositionChange = (newPosition) => {
+    if (newPosition != null) {
+      setMapCenter({
+        lat: newPosition.latitude,
+        lng: newPosition.longitude
+      });
+      setFieldValue('from', [newPosition.latitude, newPosition.longitude]);
+    }
+  };
+
+  const handleUseLocation = () => {
+    getCurrentPosition(handleUserPositionChange);
+  };
+
   const isFormValid = !(values.fb === '' && values.email === '' && values.phone === '');
 
   const isDisabled = !isFormValid || captchaError || token == null || !GDPRChecked;
@@ -187,7 +208,7 @@ export default function TransportForm(props) {
       TransitionComponent={DialogTransition}
       open={open}
       fullWidth
-      maxWidth={false}
+      maxWidth={'md'}
     >
       <CustomDialogTitle onClose={handleClose}>
         {editElement != null && editElement.id != null
@@ -298,8 +319,12 @@ export default function TransportForm(props) {
                     )
                   }}
                 />
+                <Button color={'primary'} variant={'outlined'} onClick={handleUseLocation}>
+                  {t('Use current location')}
+                </Button>
                 <PositionPicker
                   onPositionChange={handleFromChange}
+                  mapCenter={mapCenter}
                   defaultMarker={values.from.length > 0 ? values.from : null}
                 />
                 {Boolean(errors.from) && <FormHelperText error>{errors.from}</FormHelperText>}

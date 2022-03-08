@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
 import { GoogleMap, useJsApiLoader, Marker, Autocomplete } from '@react-google-maps/api';
 import { useTranslation } from 'react-i18next';
@@ -38,8 +38,24 @@ export default function PositionPicker({
         }
       : null
   );
+  const [zoom, setZoom] = useState(7);
   const [isDragging, setIsDragging] = React.useState(false);
 
+  useEffect(() => {
+    if (defaultMarker != null && Array.isArray(defaultMarker) && defaultMarker.length === 2) {
+      if (
+        location === null ||
+        defaultMarker[0].toFixed(6) !== location.lat.toFixed(6) ||
+        defaultMarker[1].toFixed(6) !== location.lng.toFixed(6)
+      ) {
+        setLocation({
+          lat: defaultMarker[0],
+          lng: defaultMarker[1]
+        });
+        setZoom(15);
+      }
+    }
+  }, [defaultMarker]);
   const onLoad = React.useCallback(function callback(map) {
     setMap(map);
   }, []);
@@ -84,11 +100,10 @@ export default function PositionPicker({
 
   return isLoaded ? (
     <>
-      <Typography variant={'caption'}>{t('PickLocation')}</Typography>
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={location != null ? location : mapCenter}
-        zoom={7}
+        zoom={zoom}
         onLoad={onLoad}
         onUnmount={onUnmount}
         onClick={handleMapClick}
@@ -108,6 +123,7 @@ export default function PositionPicker({
           )}
         </>
       </GoogleMap>
+      <Typography variant={'caption'}>{t('PickLocation')}</Typography>
     </>
   ) : (
     <></>

@@ -42,7 +42,13 @@ import Checkbox from '@mui/material/Checkbox';
 import useAuth from '../../../components/context/AuthContext';
 import { LoginForm } from '../../authentication/login';
 import AuthSocial from '../../authentication/AuthSocial';
-import {CustomDialogTitle} from "../../../components/dialogs/CustomDialogTitle";
+import { CustomDialogTitle } from '../../../components/dialogs/CustomDialogTitle';
+import { getCurrentPosition } from '../../../utils/locationService/locationService';
+
+const defaultMapCenter = {
+  lat: 51.059,
+  lng: 19.956
+};
 
 export default function AidsForm(props) {
   const theme = useTheme();
@@ -55,6 +61,7 @@ export default function AidsForm(props) {
   const { t, i18n } = useTranslation();
   const { user } = useAuth();
   const [showGDPR, setShowGDPR] = React.useContext(GDPRContext);
+  const [mapCenter, setMapCenter] = useState(defaultMapCenter);
 
   const { onClose, open, onFormSubmitted, editElement } = props;
 
@@ -148,9 +155,18 @@ export default function AidsForm(props) {
     setFieldValue('aidType', event.target.value);
   };
 
-  const mapCenter = {
-    lat: 51.059,
-    lng: 19.956
+  const handleUserPositionChange = (newPosition) => {
+    if (newPosition != null) {
+      setMapCenter({
+        lat: newPosition.latitude,
+        lng: newPosition.longitude
+      });
+      setFieldValue('from', [newPosition.latitude, newPosition.longitude]);
+    }
+  };
+
+  const handleUseLocation = () => {
+    getCurrentPosition(handleUserPositionChange);
   };
 
   const isFormValid = !(values.fb === '' && values.email === '' && values.phone === '');
@@ -172,7 +188,7 @@ export default function AidsForm(props) {
       TransitionComponent={DialogTransition}
       fullWidth
       open={open}
-      maxWidth={false}
+      maxWidth={"md"}
     >
       <CustomDialogTitle onClose={handleClose}>
         {editElement != null && editElement.id != null ? t('EditAid') : t('AddAid')}
@@ -445,6 +461,9 @@ export default function AidsForm(props) {
                     )
                   }}
                 />
+                <Button color={'primary'} variant={"outlined"} onClick={handleUseLocation}>
+                  {t('Use current location')}
+                </Button>
                 <PositionPicker
                   onPositionChange={handleFromChange}
                   mapCenter={mapCenter}
@@ -543,7 +562,6 @@ export default function AidsForm(props) {
           </Stack>
         )}
       </DialogActions>
-      )}
     </Dialog>
   );
 }

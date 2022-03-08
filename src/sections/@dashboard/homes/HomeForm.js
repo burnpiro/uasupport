@@ -43,6 +43,7 @@ import useAuth from '../../../components/context/AuthContext';
 import { LoginForm } from '../../authentication/login';
 import AuthSocial from '../../authentication/AuthSocial';
 import {CustomDialogTitle} from "../../../components/dialogs/CustomDialogTitle";
+import {getCurrentPosition} from "../../../utils/locationService/locationService";
 
 const localeMap = {
   pl: plLocale,
@@ -58,6 +59,11 @@ const maskMap = {
   en: '__/__/____'
 };
 
+const defaultMapCenter = {
+  lat: 51.059,
+  lng: 19.956
+};
+
 export default function HomeForm(props) {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down('sm'));
@@ -69,6 +75,7 @@ export default function HomeForm(props) {
   const { t, i18n } = useTranslation();
   const { user } = useAuth();
   const [showGDPR, setShowGDPR] = React.useContext(GDPRContext);
+  const [mapCenter, setMapCenter] = useState(defaultMapCenter);
 
   const { onClose, open, onFormSubmitted, editElement, defaultStatus = 'dam' } = props;
 
@@ -179,9 +186,19 @@ export default function HomeForm(props) {
   const handleKitchenChange = (event) => {
     setFieldValue('kitchen', event.target.checked);
   };
-  const mapCenter = {
-    lat: 51.059,
-    lng: 19.956
+
+  const handleUserPositionChange = (newPosition) => {
+    if (newPosition != null) {
+      setMapCenter({
+        lat: newPosition.latitude,
+        lng: newPosition.longitude
+      });
+      setFieldValue('from', [newPosition.latitude, newPosition.longitude]);
+    }
+  };
+
+  const handleUseLocation = () => {
+    getCurrentPosition(handleUserPositionChange);
   };
 
   const isFormValid = !(values.fb === '' && values.email === '' && values.phone === '');
@@ -203,7 +220,7 @@ export default function HomeForm(props) {
       TransitionComponent={DialogTransition}
       open={open}
       fullWidth
-      maxWidth={false}
+      maxWidth={"md"}
     >
       <CustomDialogTitle onClose={handleClose}>
         {editElement != null && editElement.id != null
@@ -330,6 +347,9 @@ export default function HomeForm(props) {
                     )
                   }}
                 />
+                <Button color={'primary'} variant={"outlined"} onClick={handleUseLocation}>
+                  {t('Use current location')}
+                </Button>
                 <PositionPicker
                   onPositionChange={handleFromChange}
                   mapCenter={mapCenter}
