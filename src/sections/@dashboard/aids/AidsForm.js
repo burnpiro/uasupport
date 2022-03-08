@@ -44,6 +44,7 @@ import { LoginForm } from '../../authentication/login';
 import AuthSocial from '../../authentication/AuthSocial';
 import { CustomDialogTitle } from '../../../components/dialogs/CustomDialogTitle';
 import { getCurrentPosition } from '../../../utils/locationService/locationService';
+import { Link as RouterLink } from 'react-router-dom';
 
 const defaultMapCenter = {
   lat: 51.059,
@@ -188,7 +189,7 @@ export default function AidsForm(props) {
       TransitionComponent={DialogTransition}
       fullWidth
       open={open}
-      maxWidth={"md"}
+      maxWidth={'md'}
     >
       <CustomDialogTitle onClose={handleClose}>
         {editElement != null && editElement.id != null ? t('EditAid') : t('AddAid')}
@@ -461,7 +462,7 @@ export default function AidsForm(props) {
                     )
                   }}
                 />
-                <Button color={'primary'} variant={"outlined"} onClick={handleUseLocation}>
+                <Button color={'primary'} variant={'outlined'} onClick={handleUseLocation}>
                   {t('Use current location')}
                 </Button>
                 <PositionPicker
@@ -527,6 +528,29 @@ export default function AidsForm(props) {
           </Typography>
           <AuthSocial />
           <LoginForm />
+          <Typography variant="body2" align="center" sx={{ color: 'text.secondary', mt: 3 }}>
+            {t('By registering, I agree to')} &nbsp;
+            <Link
+              component={RouterLink}
+              underline="always"
+              color="textPrimary"
+              to={'/dashboard/tc'}
+              style={{ cursor: 'pointer' }}
+            >
+              {t('Terms of Service')}
+            </Link>
+            &nbsp;{t('and')}&nbsp;
+            <Link
+              component={RouterLink}
+              underline="always"
+              color="textPrimary"
+              to={'/dashboard/privacy-policy'}
+              style={{ cursor: 'pointer' }}
+            >
+              {t('Privacy Policy')}
+            </Link>
+            .
+          </Typography>
         </DialogContent>
       )}
       <DialogActions sx={{ justifyContent: 'space-between', alignItems: 'start' }}>

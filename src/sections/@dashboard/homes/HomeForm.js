@@ -42,8 +42,9 @@ import { GDPRContext } from '../../../components/context/GDPRContext';
 import useAuth from '../../../components/context/AuthContext';
 import { LoginForm } from '../../authentication/login';
 import AuthSocial from '../../authentication/AuthSocial';
-import {CustomDialogTitle} from "../../../components/dialogs/CustomDialogTitle";
-import {getCurrentPosition} from "../../../utils/locationService/locationService";
+import { CustomDialogTitle } from '../../../components/dialogs/CustomDialogTitle';
+import { getCurrentPosition } from '../../../utils/locationService/locationService';
+import { Link as RouterLink } from 'react-router-dom';
 
 const localeMap = {
   pl: plLocale,
@@ -220,7 +221,7 @@ export default function HomeForm(props) {
       TransitionComponent={DialogTransition}
       open={open}
       fullWidth
-      maxWidth={"md"}
+      maxWidth={'md'}
     >
       <CustomDialogTitle onClose={handleClose}>
         {editElement != null && editElement.id != null
@@ -347,7 +348,7 @@ export default function HomeForm(props) {
                     )
                   }}
                 />
-                <Button color={'primary'} variant={"outlined"} onClick={handleUseLocation}>
+                <Button color={'primary'} variant={'outlined'} onClick={handleUseLocation}>
                   {t('Use current location')}
                 </Button>
                 <PositionPicker
@@ -493,6 +494,29 @@ export default function HomeForm(props) {
           </Typography>
           <AuthSocial />
           <LoginForm />
+          <Typography variant="body2" align="center" sx={{ color: 'text.secondary', mt: 3 }}>
+            {t('By registering, I agree to')} &nbsp;
+            <Link
+              component={RouterLink}
+              underline="always"
+              color="textPrimary"
+              to={'/dashboard/tc'}
+              style={{ cursor: 'pointer' }}
+            >
+              {t('Terms of Service')}
+            </Link>
+            &nbsp;{t('and')}&nbsp;
+            <Link
+              component={RouterLink}
+              underline="always"
+              color="textPrimary"
+              to={'/dashboard/privacy-policy'}
+              style={{ cursor: 'pointer' }}
+            >
+              {t('Privacy Policy')}
+            </Link>
+            .
+          </Typography>
         </DialogContent>
       )}
       <DialogActions sx={{ justifyContent: 'space-between', alignItems: 'start' }}>

@@ -14,7 +14,9 @@ import Transport from './pages/Transport/Transport';
 import Homes from './pages/Homes/Homes';
 import Aids from './pages/Aids/Aids';
 import Fundraising from './pages/Fundraising/Fundraising';
-import ForgotPassword from "./pages/ForgotPassword";
+import ForgotPassword from './pages/ForgotPassword';
+import TC from './pages/TC';
+import PrivacyPolicy from './pages/PrivacyPolicy';
 
 // ----------------------------------------------------------------------
 
@@ -28,7 +30,9 @@ export default function Router() {
         { path: 'fundraising*', element: <Fundraising /> },
         { path: 'transport*', element: <Transport /> },
         { path: 'homes*', element: <Homes /> },
-        { path: 'aids*', element: <Aids /> }
+        { path: 'aids*', element: <Aids /> },
+        { path: 'tc', element: <TC /> },
+        { path: 'privacy-policy', element: <PrivacyPolicy /> }
         // { path: 'products', element: <Products /> },
         // { path: 'blog', element: <Blog /> }
       ]
