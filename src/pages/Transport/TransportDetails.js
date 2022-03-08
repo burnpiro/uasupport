@@ -147,7 +147,7 @@ function TransportItem(props) {
             height={24}
           />
         </IconButton>
-        <Link href={fb} target="_blank">
+        <Link href={fb ? fb : undefined} target="_blank">
           <IconButton aria-label="fb" color={'info'} disabled={fb == null || fb === ''}>
             <Iconify icon="eva:facebook-fill" width={24} height={24} />
           </IconButton>

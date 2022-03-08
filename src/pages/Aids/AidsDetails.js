@@ -133,7 +133,7 @@ function AidItem(props) {
             height={24}
           />
         </IconButton>
-        <Link href={fb} target="_blank">
+        <Link href={fb ? fb : undefined} target="_blank">
           <IconButton aria-label="fb" color={'info'} disabled={fb == null || fb === ''}>
             <Iconify icon="eva:facebook-fill" width={24} height={24} />
           </IconButton>
@@ -146,7 +146,7 @@ function AidItem(props) {
             <Iconify icon="fa-solid:map-marked-alt" width={24} height={24} />
           </IconButton>
         </Link>
-        <Link href={website} target="_blank">
+        <Link href={website ? website : undefined} target="_blank">
           <IconButton
             aria-label="website"
             color={'warning'}

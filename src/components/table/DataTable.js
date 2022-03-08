@@ -237,7 +237,7 @@ export default function DataTable({
         searchPlaceholder={searchPlaceholder}
       />
       <Scrollbar>
-        <TableContainer sx={{ minWidth: 800 }}>
+        <TableContainer>
           <Table>
             {isLoading && (
               <caption style={{ textAlign: 'center' }}>
@@ -308,15 +308,13 @@ export default function DataTable({
                       ).map((headObj) => (
                         <TableCell
                           key={headObj.id}
+                          style={{ cursor: 'pointer' }}
                           align="left"
                           onClick={() => handleItemClick(row)}
                         >
                           <CellData row={row} headObj={headObj} />
                         </TableCell>
                       ))}
-                      {/*<TableCell align="left" onClick={() => setDisplayDetails(row)}>*/}
-                      {/*  {isVerified ? t('Tak') : t('Nie')}*/}
-                      {/*</TableCell>*/}
 
                       <TableCell align="right">
                         <MoreMenu
