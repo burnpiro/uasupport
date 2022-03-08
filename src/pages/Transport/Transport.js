@@ -255,7 +255,12 @@ export default function Transport() {
   const isUserNotFound = filteredUsers.length === 0;
 
   const onSelectMarkers = (markers) => {
-    setSelectedLocations(markers.map((el) => el.id));
+    if (markers.length === 1) {
+      const selectedMarkerRef = filteredUsers.find((el) => el.id === markers[0].id);
+      setDisplayDetails(selectedMarkerRef);
+    } else {
+      setSelectedLocations(markers.map((el) => el.id));
+    }
   };
 
   const handleClearFilter = () => {
