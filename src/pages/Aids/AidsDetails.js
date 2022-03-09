@@ -26,7 +26,9 @@ import { useTranslation } from 'react-i18next';
 import { getTypeIcon } from './Aids';
 import { useTheme } from '@mui/material/styles';
 import { DialogTransition } from '../../components/DialogTransition';
-import {CustomDialogTitle} from "../../components/dialogs/CustomDialogTitle";
+import { CustomDialogTitle } from '../../components/dialogs/CustomDialogTitle';
+import Alert from '@mui/material/Alert';
+import SecurityDialog from '../../components/dialogs/SecurityDialog';
 
 function AidItem(props) {
   const {
@@ -164,6 +166,7 @@ export default function AidsDetails(props) {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down('sm'));
   const [locale, setLocale] = React.useState('pl');
+  const [showSecurityDialog, setShowSecurityDialog] = React.useState(false);
   const { onClose, open, aid = [] } = props;
   const { t, i18n } = useTranslation();
 
@@ -171,24 +174,34 @@ export default function AidsDetails(props) {
     onClose();
   };
 
+  const toggleSecurityDialog = () => {
+    setShowSecurityDialog(!showSecurityDialog);
+  };
+
   return (
-    <Dialog
-      onClose={handleClose}
-      open={open}
-      fullScreen={matches}
-      TransitionComponent={DialogTransition}
-    >
-      <CustomDialogTitle onClose={handleClose}>{t('SzczegolyPomocy')}</CustomDialogTitle>
-      <DialogContent>
-        <Stack spacing={3} sx={{ p: 3, pr: 0, pl: 0 }}>
-          {aid.map((aidItem) => (
-            <AidItem key={aidItem.id} item={aidItem} />
-          ))}
-        </Stack>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose}>{t('OK')}</Button>
-      </DialogActions>
-    </Dialog>
+    <React.Fragment>
+      <Dialog
+        onClose={handleClose}
+        open={open}
+        fullScreen={matches}
+        TransitionComponent={DialogTransition}
+      >
+        <CustomDialogTitle onClose={handleClose}>{t('SzczegolyPomocy')}</CustomDialogTitle>
+        <DialogContent>
+          <Stack spacing={3} sx={{ p: 3, pr: 0, pl: 0 }}>
+            <Alert severity="error" onClick={toggleSecurityDialog} style={{ cursor: 'pointer' }}>
+              <strong>{t('SecurityInfo')}</strong>
+            </Alert>
+            {aid.map((aidItem) => (
+              <AidItem key={aidItem.id} item={aidItem} />
+            ))}
+          </Stack>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>{t('OK')}</Button>
+        </DialogActions>
+      </Dialog>
+      {showSecurityDialog && <SecurityDialog handleClose={toggleSecurityDialog} open={true} />}
+    </React.Fragment>
   );
 }

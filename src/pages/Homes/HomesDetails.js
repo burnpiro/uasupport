@@ -2,26 +2,19 @@ import * as React from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import { Stack, TextField, InputAdornment, Box, Link, Tooltip, useMediaQuery } from '@mui/material';
+import { Stack, Box, Link, useMediaQuery } from '@mui/material';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
 import Button from '@mui/material/Button';
 import Iconify from '../../components/Iconify';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import DatePicker from '@mui/lab/DatePicker';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
-import Collapse from '@mui/material/Collapse';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import Alert from '@mui/material/Alert';
 import plLocale from 'date-fns/locale/pl';
 import ruLocale from 'date-fns/locale/ru';
 import enLocale from 'date-fns/locale/en-US';
@@ -29,24 +22,10 @@ import { fDateTime } from '../../utils/formatTime';
 import Label from '../../components/Label';
 import { useTranslation } from 'react-i18next';
 import Checkbox from '@mui/material/Checkbox';
-import FormHelperText from '@mui/material/FormHelperText';
 import { useTheme } from '@mui/material/styles';
 import { DialogTransition } from '../../components/DialogTransition';
-import {CustomDialogTitle} from "../../components/dialogs/CustomDialogTitle";
-
-const localeMap = {
-  pl: plLocale,
-  ua: ruLocale,
-  ru: ruLocale,
-  en: enLocale
-};
-
-const maskMap = {
-  pl: '__/__/____',
-  ua: '__.__.____',
-  ru: '__.__.____',
-  en: '__/__/____'
-};
+import { CustomDialogTitle } from '../../components/dialogs/CustomDialogTitle';
+import SecurityDialog from '../../components/dialogs/SecurityDialog';
 
 function HomeItem(props) {
   const {
@@ -229,6 +208,7 @@ export default function HomesDetails(props) {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down('sm'));
   const [locale, setLocale] = React.useState('pl');
+  const [showSecurityDialog, setShowSecurityDialog] = React.useState(false);
   const { onClose, open, home = [] } = props;
   const { t, i18n } = useTranslation();
 
@@ -236,24 +216,34 @@ export default function HomesDetails(props) {
     onClose();
   };
 
+  const toggleSecurityDialog = () => {
+    setShowSecurityDialog(!showSecurityDialog);
+  };
+
   return (
-    <Dialog
-      onClose={handleClose}
-      open={open}
-      fullScreen={matches}
-      TransitionComponent={DialogTransition}
-    >
-      <CustomDialogTitle onClose={handleClose}>{t('SzczegolyZakwaterowania')}</CustomDialogTitle>
-      <DialogContent>
-        <Stack spacing={3} sx={{ p: 3, pr: 0, pl: 0 }}>
-          {home.map((homeItem) => (
-            <HomeItem key={homeItem.id} item={homeItem} />
-          ))}
-        </Stack>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose}>OK</Button>
-      </DialogActions>
-    </Dialog>
+    <React.Fragment>
+      <Dialog
+        onClose={handleClose}
+        open={open}
+        fullScreen={matches}
+        TransitionComponent={DialogTransition}
+      >
+        <CustomDialogTitle onClose={handleClose}>{t('SzczegolyZakwaterowania')}</CustomDialogTitle>
+        <DialogContent>
+          <Stack spacing={3} sx={{ p: 3, pr: 0, pl: 0 }}>
+            <Alert severity="error" onClick={toggleSecurityDialog} style={{ cursor: 'pointer' }}>
+              <strong>{t('SecurityInfo')}</strong>
+            </Alert>
+            {home.map((homeItem) => (
+              <HomeItem key={homeItem.id} item={homeItem} />
+            ))}
+          </Stack>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>OK</Button>
+        </DialogActions>
+      </Dialog>
+      {showSecurityDialog && <SecurityDialog handleClose={toggleSecurityDialog} open={true} />}
+    </React.Fragment>
   );
 }

@@ -30,7 +30,9 @@ import Label from '../../components/Label';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@mui/material/styles';
 import { DialogTransition } from '../../components/DialogTransition';
-import {CustomDialogTitle} from "../../components/dialogs/CustomDialogTitle";
+import { CustomDialogTitle } from '../../components/dialogs/CustomDialogTitle';
+import SecurityDialog from '../../components/dialogs/SecurityDialog';
+import Alert from "@mui/material/Alert";
 
 function TransportItem(props) {
   const {
@@ -169,6 +171,7 @@ export default function TransportDetails(props) {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down('sm'));
   const [locale, setLocale] = React.useState('pl');
+  const [showSecurityDialog, setShowSecurityDialog] = React.useState(false);
   const { onClose, open, transport = [] } = props;
   const { t, i18n } = useTranslation();
 
@@ -176,24 +179,34 @@ export default function TransportDetails(props) {
     onClose();
   };
 
+  const toggleSecurityDialog = () => {
+    setShowSecurityDialog(!showSecurityDialog);
+  };
+
   return (
-    <Dialog
-      onClose={handleClose}
-      open={open}
-      fullScreen={matches}
-      TransitionComponent={DialogTransition}
-    >
-      <CustomDialogTitle onClose={handleClose}>{t('SzczegolyTransportu')}</CustomDialogTitle>
-      <DialogContent>
-        <Stack spacing={3} sx={{ p: 3, pr: 0, pl: 0 }}>
-          {transport.map((transportItem) => (
-            <TransportItem key={transportItem.id} item={transportItem} />
-          ))}
-        </Stack>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose}>OK</Button>
-      </DialogActions>
-    </Dialog>
+    <React.Fragment>
+      <Dialog
+        onClose={handleClose}
+        open={open}
+        fullScreen={matches}
+        TransitionComponent={DialogTransition}
+      >
+        <CustomDialogTitle onClose={handleClose}>{t('SzczegolyTransportu')}</CustomDialogTitle>
+        <DialogContent>
+          <Stack spacing={3} sx={{ p: 3, pr: 0, pl: 0 }}>
+            <Alert severity="error" onClick={toggleSecurityDialog} style={{ cursor: 'pointer' }}>
+              <strong>{t('SecurityInfo')}</strong>
+            </Alert>
+            {transport.map((transportItem) => (
+              <TransportItem key={transportItem.id} item={transportItem} />
+            ))}
+          </Stack>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>OK</Button>
+        </DialogActions>
+      </Dialog>
+      {showSecurityDialog && <SecurityDialog handleClose={toggleSecurityDialog} open={true} />}
+    </React.Fragment>
   );
 }

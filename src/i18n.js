@@ -174,7 +174,8 @@ const resources = {
       'Terms of Service': 'Terms of Service',
       'Use current location': 'Use current location',
       Szukaj: 'Search...',
-      'Loading map data, please wait...': 'Loading map data, please wait...'
+      'Loading map data, please wait...': 'Loading map data, please wait...',
+      SecurityInfo: 'Important security information!'
     }
   },
   pl: {
@@ -350,7 +351,8 @@ const resources = {
         'Dodawanie nowych danych jest dostępne wyłącznie dla zalogowanych użytkowników. Zaloguj sie wygodnie z użyciem social media lub stworzonego konta użytkownika.',
       'Use current location': 'Użyj mojej lokalizacji',
       Szukaj: 'Szukaj...',
-      'Loading map data, please wait...': 'Pobieranie danych mapy...'
+      'Loading map data, please wait...': 'Pobieranie danych mapy...',
+      SecurityInfo: 'Ważne informacje o bezpieczeństwie!'
     }
   },
   ua: {
@@ -526,7 +528,8 @@ const resources = {
       'Terms of Service': 'Умови обслуговування',
       'Use current location': 'Використовуйте моє місцезнаходження',
       Szukaj: 'Шукати...',
-      'Loading map data, please wait...': 'Завантаження даних карти...'
+      'Loading map data, please wait...': 'Завантаження даних карти...',
+      SecurityInfo: 'Важлива інформація з безпеки!'
     }
   },
   ru: {
@@ -703,7 +706,8 @@ const resources = {
       'Terms of Service': 'Условия использования',
       'Use current location': 'Использовать мое местоположение',
       Szukaj: 'Поиск...',
-      'Loading map data, please wait...': 'Загрузка картографических данных...'
+      'Loading map data, please wait...': 'Загрузка картографических данных...',
+      SecurityInfo: 'Важная информация по технике безопасности!'
     }
   }
 };
