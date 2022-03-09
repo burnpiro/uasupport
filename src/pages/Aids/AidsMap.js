@@ -2,7 +2,7 @@ import React from 'react';
 
 import { GoogleMap, useJsApiLoader, MarkerClusterer, Marker, Circle } from '@react-google-maps/api';
 import { getTypeIcon } from './Aids';
-import { DEFAULT_MAP_SIZE } from '../../utils/settings';
+import { DEFAULT_MAP_SIZE, GM_KEY } from '../../utils/settings';
 import {
   getCurrentPosition,
   isLocationService,
@@ -32,7 +32,7 @@ const center = {
 export default function AidsMap({ fullList = [], places = [], onSelectMarkers, checkSum = '' }) {
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
-    googleMapsApiKey: 'AIzaSyB5j64Fb5aE5WJOzkdf0OkmlbOcEMu2iCw'
+    googleMapsApiKey: GM_KEY
   });
 
   const [map, setMap] = React.useState(null);

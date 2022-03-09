@@ -1,8 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { GoogleMap, useJsApiLoader, Marker, Autocomplete } from '@react-google-maps/api';
 import { useTranslation } from 'react-i18next';
 import { Typography } from '@mui/material';
+import { GM_KEY } from '../utils/settings';
 
 const containerStyle = {
   width: '100%',
@@ -24,7 +25,7 @@ export default function PositionPicker({
 }) {
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
-    googleMapsApiKey: 'AIzaSyB5j64Fb5aE5WJOzkdf0OkmlbOcEMu2iCw'
+    googleMapsApiKey: GM_KEY
   });
   const { t, i18n } = useTranslation();
 
