@@ -30,19 +30,20 @@ import SearchNotFound from '../../components/SearchNotFound';
 import i18next from './../../i18n';
 
 import AidsMap from './AidsMap';
-import FilterDialog from './Filter';
-import AidsDetails from './AidsDetails';
+import FilterDialog from '../../sections/@dashboard/aids/Filter';
+import AidsDetails from '../../sections/@dashboard/aids/AidsDetails';
 import { addAid, getAids, removeAid, updateAid } from '../../utils/dbService/aids';
 import { AidsListHead, AidsListToolbar, AidsMoreMenu } from '../../sections/@dashboard/aids';
 import AidsForm from '../../sections/@dashboard/aids/AidsForm';
 import AidsDeleteForm from '../../sections/@dashboard/aids/AidsDeleteForm';
 import { getFilterFromQuery, getSerializedQueryParam } from '../../utils/filters';
-import AidsTitle from '../../sections/@dashboard/aids/AidsTitle';
+import AidsTitle from './AidsTitle';
 import { hasLocationChanged, mapElToLocation } from '../../components/Map';
 import useAuth from '../../components/context/AuthContext';
 import { useSnackbar } from 'notistack';
 import DataTable from '../../components/table/DataTable';
 import Backdrop from "@mui/material/Backdrop";
+import {getTypeIcon} from "../../utils/getTypeIcon";
 
 // ----------------------------------------------------------------------
 
@@ -66,29 +67,6 @@ const TABLE_HEAD = () => [
   },
   { id: '' }
 ];
-
-export const getTypeIcon = (type) => {
-  switch (type) {
-    case 'health-aid':
-      return '/static/icons/aid-marker.png';
-    case 'animal-aid':
-      return '/static/icons/animal-marker.png';
-    case 'law-aid':
-      return '/static/icons/law-marker.png';
-    case 'blood-aid':
-      return '/static/icons/blood-marker.png';
-    case 'medical-aid':
-      return '/static/icons/medical-marker.png';
-    case 'psych-aid':
-      return '/static/icons/psych-marker.png';
-    case 'translate-aid':
-      return '/static/icons/translate-marker.png';
-    case 'food-aid':
-      return '/static/icons/warmfood-marker.png';
-    default:
-      return '/static/icons/standard-marker.png';
-  }
-};
 
 // ----------------------------------------------------------------------
 

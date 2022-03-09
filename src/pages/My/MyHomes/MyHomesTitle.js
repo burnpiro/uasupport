@@ -1,31 +1,21 @@
 import PropTypes from 'prop-types';
 // material
 import { styled, useTheme } from '@mui/material/styles';
-import {
-  Toolbar,
-  Tooltip,
-  IconButton,
-  Typography,
-  OutlinedInput,
-  InputAdornment,
-  Box,
-  Button,
-  useMediaQuery,
-  Grid,
-  Stack,
-  Menu,
-  MenuItem
-} from '@mui/material';
-import ToggleButton from '@mui/material/ToggleButton';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import Stack from '@mui/material/Stack';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Box from '@mui/material/Box';
 // component
 import Iconify from '../../../components/Iconify';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
-import useDebouncedEffect from '../../../hooks/useDebounceEffect';
 import { red } from '@mui/material/colors';
 
-export default function HomesTitle({ handleFormOpen }) {
+export default function MyHomesTitle({ handleFormOpen }) {
   const { t, i18n } = useTranslation();
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up('sm'));
@@ -45,7 +35,7 @@ export default function HomesTitle({ handleFormOpen }) {
   return (
     <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
       <Typography variant="h4" gutterBottom>
-        {t('Homes')}
+        {t('MyHomes')}
       </Typography>
       {!matches && (
         <Box>

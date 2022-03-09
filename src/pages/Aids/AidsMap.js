@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { GoogleMap, useJsApiLoader, MarkerClusterer, Marker, Circle } from '@react-google-maps/api';
-import { getTypeIcon } from './Aids';
+import { getTypeIcon } from "../../utils/getTypeIcon";
 import { DEFAULT_MAP_SIZE, GM_KEY } from '../../utils/settings';
 import {
   getCurrentPosition,

@@ -14,13 +14,13 @@ import i18next from './../../i18n';
 
 import isSameDay from 'date-fns/isSameDay';
 import HomesMap from './HomesMap';
-import FilterDialog from './Filter';
-import HomesDetails from './HomesDetails';
+import FilterDialog from '../../sections/@dashboard/homes/Filter';
+import HomesDetails from '../../sections/@dashboard/homes/HomesDetails';
 import { addHome, getHomes, removeHome, updateHome } from '../../utils/dbService/homes';
 import HomeForm from '../../sections/@dashboard/homes/HomeForm';
 import HomeDeleteForm from '../../sections/@dashboard/homes/HomeDeleteForm';
 import { getFilterFromQuery, getSerializedQueryParam } from '../../utils/filters';
-import HomesTitle from '../../sections/@dashboard/homes/HomesTitle';
+import HomesTitle from './HomesTitle';
 import { hasLocationChanged, mapElToLocation } from '../../components/Map';
 import useAuth from '../../components/context/AuthContext';
 import { useSnackbar } from 'notistack';

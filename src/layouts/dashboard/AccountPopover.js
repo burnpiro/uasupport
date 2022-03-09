@@ -16,23 +16,23 @@ const MENU_OPTIONS = [
   {
     label: 'MyHomes',
     icon: 'eva:home-fill',
-    linkTo: '/'
+    linkTo: '/dashboard/my/homes'
   },
   {
     label: 'MyAid',
     icon: 'bxs:first-aid',
-    linkTo: '#'
+    linkTo: '/dashboard/my/aids'
   },
   {
     label: 'MyTransport',
     icon: 'eva:car-fill',
-    linkTo: '#'
+    linkTo: '/dashboard/my/transport'
   },
-  {
-    label: 'Settings',
-    icon: 'eva:settings-2-fill',
-    linkTo: '#'
-  }
+  // {
+  //   label: 'Settings',
+  //   icon: 'eva:settings-2-fill',
+  //   linkTo: '#'
+  // }
 ];
 
 // ----------------------------------------------------------------------
@@ -101,26 +101,26 @@ export default function AccountPopover() {
 
         <Divider sx={{ my: 1 }} />
 
-        {/*{MENU_OPTIONS.map((option) => (*/}
-        {/*  <MenuItem*/}
-        {/*    key={option.label}*/}
-        {/*    to={option.linkTo}*/}
-        {/*    component={RouterLink}*/}
-        {/*    onClick={handleClose}*/}
-        {/*    sx={{ typography: 'body2', py: 1, px: 2.5 }}*/}
-        {/*  >*/}
-        {/*    <Iconify*/}
-        {/*      icon={option.icon}*/}
-        {/*      sx={{*/}
-        {/*        mr: 2,*/}
-        {/*        width: 24,*/}
-        {/*        height: 24*/}
-        {/*      }}*/}
-        {/*    />*/}
+        {MENU_OPTIONS.map((option) => (
+          <MenuItem
+            key={option.label}
+            to={option.linkTo}
+            component={RouterLink}
+            onClick={handleClose}
+            sx={{ typography: 'body2', py: 1, px: 2.5 }}
+          >
+            <Iconify
+              icon={option.icon}
+              sx={{
+                mr: 2,
+                width: 24,
+                height: 24
+              }}
+            />
 
-        {/*    {t(option.label)}*/}
-        {/*  </MenuItem>*/}
-        {/*))}*/}
+            {t(option.label)}
+          </MenuItem>
+        ))}
 
         <Box sx={{ p: 2, pt: 1.5 }}>
           <Button fullWidth color="inherit" variant="outlined" onClick={handleLogout}>

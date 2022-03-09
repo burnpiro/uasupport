@@ -3,13 +3,9 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Grid, Button, Container, Stack, Typography } from '@mui/material';
 // components
 import Page from '../../components/Page';
-import Iconify from '../../components/Iconify';
-import { BlogPostCard, BlogPostsSort, BlogPostsSearch } from '../../sections/@dashboard/blog';
 //
-import POSTS from '../../_mocks_/blog';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useState } from 'react';
-import { getHomes } from '../../utils/dbService/homes';
 import { getFundraising } from '../../utils/dbService/fundrasings';
 import {
   FundPostCard,
@@ -17,7 +13,6 @@ import {
   FundPostsSort
 } from '../../sections/@dashboard/fundraising';
 import { filter } from 'lodash';
-import HomesDetails from '../Homes/HomesDetails';
 import FundDetails from './FundDetails';
 
 // ----------------------------------------------------------------------

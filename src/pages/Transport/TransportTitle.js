@@ -1,31 +1,21 @@
 import PropTypes from 'prop-types';
 // material
 import { styled, useTheme } from '@mui/material/styles';
-import {
-  Toolbar,
-  Tooltip,
-  IconButton,
-  Typography,
-  OutlinedInput,
-  InputAdornment,
-  Box,
-  Button,
-  useMediaQuery,
-  Grid,
-  Stack,
-  Menu,
-  MenuItem
-} from '@mui/material';
-import ToggleButton from '@mui/material/ToggleButton';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import Stack from '@mui/material/Stack';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Box from '@mui/material/Box';
 // component
-import Iconify from '../../../components/Iconify';
+import Iconify from '../../components/Iconify';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
-import useDebouncedEffect from '../../../hooks/useDebounceEffect';
 import { red } from '@mui/material/colors';
 
-export default function AidsTitle({ handleFormOpen }) {
+export default function TransportTitle({ handleFormOpen }) {
   const { t, i18n } = useTranslation();
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up('sm'));
@@ -40,13 +30,12 @@ export default function AidsTitle({ handleFormOpen }) {
 
   const handleSelectMenu = (option) => {
     handleFormOpen(option);
-    handleClose()
   };
 
   return (
     <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
       <Typography variant="h4" gutterBottom>
-        {t('Aids')}
+        {t('Transport')}
       </Typography>
       {!matches && (
         <Box>
@@ -70,7 +59,8 @@ export default function AidsTitle({ handleFormOpen }) {
               'aria-labelledby': 'basic-button'
             }}
           >
-            <MenuItem onClick={() => handleSelectMenu('dam')}>{t('AddAid')}</MenuItem>
+            <MenuItem onClick={() => handleSelectMenu('dam')}>{t('AddTransport')}</MenuItem>
+            <MenuItem onClick={() => handleSelectMenu('szukam')}>{t('GetTransport')}</MenuItem>
           </Menu>
         </Box>
       )}
@@ -78,10 +68,19 @@ export default function AidsTitle({ handleFormOpen }) {
         <Box>
           <Button
             variant="contained"
+            color={'warning'}
+            sx={{ backgroundColor: red[300], mr: 1 }}
+            onClick={() => handleSelectMenu('szukam')}
+            startIcon={<Iconify icon="eva:plus-fill" />}
+          >
+            {t('GetTransport')}
+          </Button>
+          <Button
+            variant="contained"
             onClick={() => handleSelectMenu('dam')}
             startIcon={<Iconify icon="eva:plus-fill" />}
           >
-            {t('AddAid')}
+            {t('AddTransport')}
           </Button>
         </Box>
       )}

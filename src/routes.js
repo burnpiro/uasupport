@@ -17,6 +17,10 @@ import Fundraising from './pages/Fundraising/Fundraising';
 import ForgotPassword from './pages/ForgotPassword';
 import TC from './pages/TC';
 import PrivacyPolicy from './pages/PrivacyPolicy';
+import MyHomes from './pages/My/MyHomes/MyHomes';
+import MyContainer from './pages/My/MyContainer';
+import MyTransport from "./pages/My/MyTransport/MyTransport";
+import MyAids from "./pages/My/MyAids/MyAids";
 
 // ----------------------------------------------------------------------
 
@@ -32,9 +36,18 @@ export default function Router() {
         { path: 'homes*', element: <Homes /> },
         { path: 'aids*', element: <Aids /> },
         { path: 'tc', element: <TC /> },
-        { path: 'privacy-policy', element: <PrivacyPolicy /> }
+        { path: 'privacy-policy', element: <PrivacyPolicy /> },
         // { path: 'products', element: <Products /> },
         // { path: 'blog', element: <Blog /> }
+        {
+          path: 'my',
+          element: <MyContainer />,
+          children: [
+            { path: 'transport*', element: <MyTransport /> },
+            { path: 'homes*', element: <MyHomes /> },
+            { path: 'aids*', element: <MyAids /> }
+          ]
+        }
       ]
     },
     {

@@ -7,7 +7,7 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import ToggleButton from '@mui/material/ToggleButton';
 // component
 import { useTranslation } from 'react-i18next';
-import { getTypeIcon } from '../../../pages/Aids/Aids';
+import { getTypeIcon } from "../../../utils/getTypeIcon";
 
 export default function AidsListToolbar({ filter, onFilterChange }) {
   const { t, i18n } = useTranslation();

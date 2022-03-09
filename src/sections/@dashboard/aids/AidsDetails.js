@@ -2,32 +2,35 @@ import * as React from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import { Stack, Box, Link, useMediaQuery } from '@mui/material';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import { Stack, TextField, InputAdornment, Box, Link, Tooltip, useMediaQuery } from '@mui/material';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import Switch from '@mui/material/Switch';
 import Button from '@mui/material/Button';
-import Iconify from '../../components/Iconify';
+import Iconify from '../../../components/Iconify';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import DatePicker from '@mui/lab/DatePicker';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
+import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
+import Collapse from '@mui/material/Collapse';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import Alert from '@mui/material/Alert';
-import plLocale from 'date-fns/locale/pl';
-import ruLocale from 'date-fns/locale/ru';
-import enLocale from 'date-fns/locale/en-US';
-import { fDateTime } from '../../utils/formatTime';
-import Label from '../../components/Label';
+import Label from '../../../components/Label';
 import { useTranslation } from 'react-i18next';
-import Checkbox from '@mui/material/Checkbox';
+import { getTypeIcon } from "../../../utils/getTypeIcon";
 import { useTheme } from '@mui/material/styles';
-import { DialogTransition } from '../../components/DialogTransition';
-import { CustomDialogTitle } from '../../components/dialogs/CustomDialogTitle';
-import SecurityDialog from '../../components/dialogs/SecurityDialog';
+import { DialogTransition } from '../../../components/DialogTransition';
+import { CustomDialogTitle } from '../../../components/dialogs/CustomDialogTitle';
+import Alert from '@mui/material/Alert';
+import SecurityDialog from '../../../components/dialogs/SecurityDialog';
 
-function HomeItem(props) {
+function AidItem(props) {
   const {
     item: {
       avatarUrl,
@@ -35,20 +38,13 @@ function HomeItem(props) {
       addressFrom,
       from,
       isVerified,
-      status,
-      date,
-      people,
       description = '',
+      aidSubType,
+      aidType,
       phone,
       fb,
       email,
-      pet,
-      period,
-      child,
-      disability,
-      includingTransport,
-      separateBath,
-      kitchen
+      website
     }
   } = props;
   const [displayPhone, setDisplayPhone] = React.useState(false);
@@ -65,77 +61,30 @@ function HomeItem(props) {
   return (
     <Card sx={{ min: 345 }}>
       <CardHeader
-        avatar={<Avatar aria-label="recipe" src={avatarUrl} />}
+        avatar={<Avatar aria-label="recipe" src={getTypeIcon(aidType)} />}
         title={name}
-        subheader={t('CheckIn') + ': ' + fDateTime(date)}
         action={
-          <Label variant="ghost" color={(status === 'szukam' && 'info') || 'success'}>
-            {status != null && t(status || 'dam')}
+          <Label variant="ghost" color={(aidType === 'health-aid' && 'info') || 'success'}>
+            {aidType != null && t(aidType || 'standard-aid')}
           </Label>
         }
       />
       <CardContent>
-        <Box flexDirection={'row'} display={'flex'} sx={{ p: 1 }}>
-          <Iconify icon="eva:person-add-fill" width={24} height={28} />
-          <Typography variant="h5" sx={{ color: 'text.secondary', pl: 1 }}>
-            {people}
-          </Typography>
-        </Box>
         <Stack direction="column" spacing={2} sx={{ p: 2 }}>
           <Box flexDirection={'row'} display={'flex'}>
-            <Typography variant="subtitle2">{t('Mieszkanie-adres')}:</Typography>
+            <Typography variant="subtitle2">{t('Aid-address')}:</Typography>
             <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }}>
               {addressFrom}
             </Typography>
           </Box>
-          {period != null && period.length > 0 && (
+          {aidSubType && aidType === 'medical-aid' && (
             <Box flexDirection={'row'} display={'flex'}>
-              <Typography variant="subtitle2">{t('Mieszkanie-czas')}:</Typography>
+              <Typography variant="subtitle2">{t('MedicalAidType')}:</Typography>
               <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }}>
-                {period}
+                {aidSubType}
               </Typography>
             </Box>
           )}
-          {pet != null && pet.length > 0 && (
-            <Box flexDirection={'row'} display={'flex'}>
-              <Typography variant="subtitle2">{t('Mieszkanie-zwierze')}:</Typography>
-              <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }}>
-                {pet}
-              </Typography>
-            </Box>
-          )}
-          {child != null && child.length > 0 && (
-            <Box flexDirection={'row'} display={'flex'}>
-              <Typography variant="subtitle2">{t('Mieszkanie-dzieci')}:</Typography>
-              <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }}>
-                {child}
-              </Typography>
-            </Box>
-          )}
-          {disability != null && disability.length > 0 && (
-            <Box flexDirection={'row'} display={'flex'}>
-              <Typography variant="subtitle2">{t('Mieszkanie-disability')}:</Typography>
-              <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }}>
-                {disability}
-              </Typography>
-            </Box>
-          )}
-          {includingTransport != null && includingTransport.length > 0 && (
-            <Box flexDirection={'row'} display={'flex'}>
-              <Typography variant="subtitle2">{t('Mieszkanie-transport')}:</Typography>
-              <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }}>
-                {includingTransport}
-              </Typography>
-            </Box>
-          )}
-          <FormGroup>
-            {separateBath === true && (
-              <FormControlLabel control={<Checkbox checked={true} />} label={t('Separate Bath')} />
-            )}
-            {kitchen === true && (
-              <FormControlLabel control={<Checkbox checked={true} />} label={t('Kitchen Access')} />
-            )}
-          </FormGroup>
         </Stack>
         <Typography variant="body2" color="text.secondary" style={{ whiteSpace: 'pre-line' }}>
           {description.replace(/↵/g, '\n').replace('\\n', '\n')}
@@ -143,7 +92,7 @@ function HomeItem(props) {
         {displayPhone && (
           <Box flexDirection={'row'} display={'flex'} sx={{ pt: 1 }}>
             <Typography variant="subtitle2" noWrap>
-              {t('Phone')}
+              {t('Phone')}:
             </Typography>
             <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }}>
               {phone}
@@ -153,7 +102,7 @@ function HomeItem(props) {
         {displayEmail && (
           <Box flexDirection={'row'} display={'flex'} sx={{ pt: 1 }}>
             <Typography variant="subtitle2" noWrap>
-              {t('Email')}
+              {t('Email')}:
             </Typography>
             <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }}>
               {email}
@@ -199,17 +148,26 @@ function HomeItem(props) {
             <Iconify icon="fa-solid:map-marked-alt" width={24} height={24} />
           </IconButton>
         </Link>
+        <Link href={website ? website : undefined} target="_blank">
+          <IconButton
+            aria-label="website"
+            color={'warning'}
+            disabled={website == null || website === ''}
+          >
+            <Iconify icon="eva:globe-outline" width={24} height={24} />
+          </IconButton>
+        </Link>
       </CardActions>
     </Card>
   );
 }
 
-export default function HomesDetails(props) {
+export default function AidsDetails(props) {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down('sm'));
   const [locale, setLocale] = React.useState('pl');
   const [showSecurityDialog, setShowSecurityDialog] = React.useState(false);
-  const { onClose, open, home = [] } = props;
+  const { onClose, open, aid = [] } = props;
   const { t, i18n } = useTranslation();
 
   const handleClose = () => {
@@ -228,19 +186,19 @@ export default function HomesDetails(props) {
         fullScreen={matches}
         TransitionComponent={DialogTransition}
       >
-        <CustomDialogTitle onClose={handleClose}>{t('SzczegolyZakwaterowania')}</CustomDialogTitle>
+        <CustomDialogTitle onClose={handleClose}>{t('SzczegolyPomocy')}</CustomDialogTitle>
         <DialogContent>
           <Stack spacing={3} sx={{ p: 3, pr: 0, pl: 0 }}>
             <Alert severity="error" onClick={toggleSecurityDialog} style={{ cursor: 'pointer' }}>
               <strong>{t('SecurityInfo')}</strong>
             </Alert>
-            {home.map((homeItem) => (
-              <HomeItem key={homeItem.id} item={homeItem} />
+            {aid.map((aidItem) => (
+              <AidItem key={aidItem.id} item={aidItem} />
             ))}
           </Stack>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>OK</Button>
+          <Button onClick={handleClose}>{t('OK')}</Button>
         </DialogActions>
       </Dialog>
       {showSecurityDialog && <SecurityDialog handleClose={toggleSecurityDialog} open={true} />}

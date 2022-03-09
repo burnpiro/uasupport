@@ -6,6 +6,8 @@ const {
   collection,
   addDoc,
   setDoc,
+  query,
+  where,
   doc,
   deleteDoc
 } = require('firebase/firestore');
@@ -26,6 +28,18 @@ import { sample } from 'lodash';
 //     }))
 //     .map((doc) => ({ ...doc }));
 // }
+
+export async function getMyAids(uid) {
+  const cols = collection(db, 'aids');
+  const q = query(cols, where(`roles.${uid}`, '==', 'owner'))
+  const querySnapshot = await getDocs(q);
+  return querySnapshot.docs
+    .map((doc) => ({
+      ...doc.data(),
+      id: doc.id
+    }))
+    .map((doc) => ({ ...doc })) || []
+}
 
 export async function getAids() {
   const storage = getStorage();

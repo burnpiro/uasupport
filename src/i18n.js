@@ -175,7 +175,8 @@ const resources = {
       'Use current location': 'Use current location',
       Szukaj: 'Search...',
       'Loading map data, please wait...': 'Loading map data, please wait...',
-      SecurityInfo: 'Important security information!'
+      SecurityInfo: 'Important security information!',
+      'Loading data, please wait...': 'Loading data, please wait...'
     }
   },
   pl: {
@@ -352,7 +353,8 @@ const resources = {
       'Use current location': 'Użyj mojej lokalizacji',
       Szukaj: 'Szukaj...',
       'Loading map data, please wait...': 'Pobieranie danych mapy...',
-      SecurityInfo: 'Ważne informacje o bezpieczeństwie!'
+      SecurityInfo: 'Ważne informacje o bezpieczeństwie!',
+      'Loading data, please wait...': 'Pobieranie danych...',
     }
   },
   ua: {
@@ -529,7 +531,8 @@ const resources = {
       'Use current location': 'Використовуйте моє місцезнаходження',
       Szukaj: 'Шукати...',
       'Loading map data, please wait...': 'Завантаження даних карти...',
-      SecurityInfo: 'Важлива інформація з безпеки!'
+      SecurityInfo: 'Важлива інформація з безпеки!',
+      'Loading data, please wait...': 'Завантаження даних...'
     }
   },
   ru: {
@@ -707,7 +710,8 @@ const resources = {
       'Use current location': 'Использовать мое местоположение',
       Szukaj: 'Поиск...',
       'Loading map data, please wait...': 'Загрузка картографических данных...',
-      SecurityInfo: 'Важная информация по технике безопасности!'
+      SecurityInfo: 'Важная информация по технике безопасности!',
+      'Loading data, please wait...': 'Загрузка данных...'
     }
   }
 };

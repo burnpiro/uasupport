@@ -2,58 +2,27 @@ import { filter } from 'lodash';
 import { useEffect, useState } from 'react';
 import { useParams, useSearchParams, useNavigate } from 'react-router-dom';
 // material
-import {
-  Card,
-  Box,
-  Table,
-  Stack,
-  Avatar,
-  Button,
-  Checkbox,
-  TableRow,
-  TableBody,
-  TableCell,
-  Container,
-  Typography,
-  TableContainer,
-  TablePagination,
-  Tooltip,
-  CircularProgress
-} from '@mui/material';
+import Container from '@mui/material/Container';
+import Backdrop from '@mui/material/Backdrop';
+import Typography from '@mui/material/Typography';
+import CircularProgress from '@mui/material/CircularProgress';
 import { useTranslation } from 'react-i18next';
 // components
-import Page from '../../components/Page';
-import Label from '../../components/Label';
-import Scrollbar from '../../components/Scrollbar';
-import Iconify from '../../components/Iconify';
-import SearchNotFound from '../../components/SearchNotFound';
-import {
-  TransportMoreMenu,
-  TransportListToolbar,
-  TransportListHead
-} from '../../sections/@dashboard/transport';
+import Page from '../../../components/Page';
+import { HomeListToolbar } from '../../../sections/@dashboard/homes';
 //
-import i18next from './../../i18n';
-
+import i18next from './../../../i18n';
 import isSameDay from 'date-fns/isSameDay';
-import TransportMap from './TransportMap';
-import FilterDialog from '../../sections/@dashboard/transport/Filter';
-import TransportDetails from '../../sections/@dashboard/transport/TransportDetails';
-import {
-  addTransport,
-  getTransport,
-  removeTransport,
-  updateTransport
-} from '../../utils/dbService/transport';
-import TransportForm from '../../sections/@dashboard/transport/TransportForm';
-import TransportDeleteForm from '../../sections/@dashboard/transport/TransportDeleteForm';
-import { getFilterFromQuery, getSerializedQueryParam } from '../../utils/filters';
-import TransportTitle from './TransportTitle';
-import { hasLocationChanged, mapElToLocation } from '../../components/Map';
-import useAuth from '../../components/context/AuthContext';
+import FilterDialog from '../../../sections/@dashboard/homes/Filter';
+import HomesDetails from '../../../sections/@dashboard/homes/HomesDetails';
+import { addHome, getMyHomes, removeHome, updateHome } from '../../../utils/dbService/homes';
+import HomeForm from '../../../sections/@dashboard/homes/HomeForm';
+import HomeDeleteForm from '../../../sections/@dashboard/homes/HomeDeleteForm';
+import { getFilterFromQuery, getSerializedQueryParam } from '../../../utils/filters';
+import useAuth from '../../../components/context/AuthContext';
 import { useSnackbar } from 'notistack';
-import DataTable from '../../components/table/DataTable';
-import Backdrop from "@mui/material/Backdrop";
+import DataTable from '../../../components/table/DataTable';
+import MyHomesTitle from './MyHomesTitle';
 
 // ----------------------------------------------------------------------
 
@@ -68,7 +37,7 @@ const TABLE_HEAD = () => [
   {
     id: 'date',
     value: { field: 'date', type: 'date', variant: 'dateTillNow' },
-    label: i18next.t('Date'),
+    label: i18next.t('CheckIn'),
     alignRight: false
   },
   {
@@ -95,7 +64,7 @@ const TABLE_HEAD = () => [
   { id: '' }
 ];
 
-const queryMatchFields = ['name', 'addressFrom', 'description'];
+const queryMatchFields = ['name', 'addressFrom', 'description', 'period', 'pet', 'disability'];
 
 const ALLOWED_FILTER_KEYS = ['from', 'to', 'onlyVerified', 'status', 'phone'];
 
@@ -120,14 +89,17 @@ function applyDataFilter(array, { from, to, date, onlyVerified, status, phone })
     result = result.filter(
       (el) =>
         el.phone != null &&
-        el.phone.toLowerCase().replace(/\s/g, '').includes(phone.toLowerCase().replace(/\s/g, ''))
+        el.phone
+          .toLowerCase()
+          .replaceAll(/\s/g, '')
+          .includes(phone.toLowerCase().replaceAll(/\s/g, ''))
     );
   }
 
   return result;
 }
 
-export default function Transport() {
+export default function MyHomes() {
   const params = useParams();
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -136,18 +108,15 @@ export default function Transport() {
       ? getFilterFromQuery(searchParams.toString(), ALLOWED_FILTER_KEYS)
       : {};
   const initialQuery = searchParams.get('query') || '';
-
   const [selected, setSelected] = useState([]);
-  const [formType, setFormType] = useState('dam');
   const [filterName, setFilterName] = useState(initialQuery);
-  const [selectedLocations, setSelectedLocations] = useState([]);
+  const [formType, setFormType] = useState('dam');
   const [filterOpen, setFilterOpen] = useState(false);
   const [formOpen, setFormOpen] = useState(false);
   const [reloadList, setReloadList] = useState(true);
   const [filter, setFilter] = useState(initialParams);
   const [showDetails, setShowDetails] = useState([]);
   const [transportList, setTransportList] = useState([]);
-  const [locationList, setLocationList] = useState([]);
   const { t, i18n } = useTranslation();
   const [editElement, setEditElement] = useState(null);
   const [deleteElement, setDeleteElement] = useState(null);
@@ -158,7 +127,7 @@ export default function Transport() {
   useEffect(() => {
     const dbCall = async () => {
       setIsLoading(true);
-      const response = await getTransport();
+      const response = await getMyHomes(user.uid);
 
       setReloadList(false);
       setTransportList(response);
@@ -166,14 +135,13 @@ export default function Transport() {
       if (initialItems.length > 0) {
         setShowDetails(response.filter((el) => initialItems.includes(el.id)));
       }
-      setLocationList(response.map(mapElToLocation));
       setIsLoading(false);
     };
 
-    if (reloadList) {
+    if (reloadList && user != null) {
       dbCall();
     }
-  }, [reloadList]);
+  }, [user, reloadList]);
 
   useEffect(() => {
     const serialized = getSerializedQueryParam(filter, ALLOWED_FILTER_KEYS, filterName);
@@ -186,30 +154,15 @@ export default function Transport() {
     setFilterName(value);
   };
 
-  const filteredUsers = applyDataFilter(transportList, filter);
-
-  const displayedUsers = filteredUsers.filter((el) =>
-    Array.isArray(selectedLocations) && selectedLocations.length > 0
-      ? selectedLocations.includes(el.id)
-      : true
-  );
+  const filteredData = applyDataFilter(transportList, filter);
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = displayedUsers.map((n) => n.id);
+      const newSelecteds = filteredData.map((n) => n.id);
       setSelected(newSelecteds);
       return;
     }
     setSelected([]);
-  };
-
-  const onSelectMarkers = (markers) => {
-    if (markers.length === 1) {
-      const selectedMarkerRef = filteredUsers.find((el) => el.id === markers[0].id);
-      setDisplayDetails(selectedMarkerRef);
-    } else {
-      setSelectedLocations(markers.map((el) => el.id));
-    }
   };
 
   const handleClearFilter = () => {
@@ -217,9 +170,7 @@ export default function Transport() {
     setFilter({});
   };
 
-  const handleClearLocation = () => {
-    setSelectedLocations([]);
-  };
+  const handleClearLocation = () => {};
 
   const handleFilterClick = () => {
     setFilterOpen(true);
@@ -242,16 +193,7 @@ export default function Transport() {
   const onFormSubmitted = async (values) => {
     try {
       if (values.id != null && values.id.length > 0) {
-        const newDoc = await updateTransport(values);
-        const prevElement = transportList.find((el) => el.id === values.id);
-        if (hasLocationChanged(prevElement.from, newDoc.from)) {
-          locationList.forEach((el) => {
-            if (el.id === values.id) {
-              el.lat = Number(newDoc.from[0]);
-              el.lng = Number(newDoc.from[1]);
-            }
-          });
-        }
+        const newDoc = await updateHome(values);
         setTransportList(transportList.map((el) => (el.id === newDoc.id ? newDoc : el)));
         navigate(
           values.id + (searchParams.toString().length > 0 ? `?${searchParams.toString()}` : '')
@@ -262,9 +204,8 @@ export default function Transport() {
         values.roles = {
           [user.uid]: 'owner'
         };
-        const newDoc = await addTransport(values);
+        const newDoc = await addHome(values);
         if (newDoc.id) {
-          locationList.push(mapElToLocation(newDoc));
           navigate(
             newDoc.id + (searchParams.toString().length > 0 ? `?${searchParams.toString()}` : '')
           );
@@ -287,7 +228,7 @@ export default function Transport() {
 
   const handleCloseDetails = () => {
     navigate(
-      '/dashboard/transport' +
+      '/dashboard/my/homes' +
         (searchParams.toString().length > 0 ? `?${searchParams.toString()}` : '')
     );
     setShowDetails([]);
@@ -324,51 +265,41 @@ export default function Transport() {
   const onDeleteFormSubmitted = async (element) => {
     try {
       if (element.id != null && element.id.length > 0) {
-        const removedId = await removeTransport(element);
+        const removedId = await removeHome(element);
         setTransportList(transportList.filter((el) => el.id !== removedId));
-        const existingLocationIndex = locationList.findIndex((el) => el && el.id === removedId);
-        delete locationList[existingLocationIndex];
       }
       handleDeleteFormClose();
     } catch (error) {
-      console.error(error);
       enqueueSnackbar(t('Error'), { variant: 'error' });
       return false;
     }
   };
 
   return (
-    <Page title={t('Transport')}>
+    <Page title={t('MyHomes')}>
       <Container>
-        <TransportTitle handleFormOpen={handleFormOpen} />
-
-        <TransportMap
-          fullList={locationList}
-          places={filteredUsers}
-          onSelectMarkers={onSelectMarkers}
-        />
+        <MyHomesTitle handleFormOpen={handleFormOpen} />
 
         <DataTable
           isLoading={isLoading}
           TableHead={TableHead}
-          filteredData={displayedUsers}
+          filteredData={filteredData}
           handleSelectAllClick={handleSelectAllClick}
           onItemClick={setDisplayDetails}
           onItemEdit={handleEditElement}
           onItemDelete={handleDeleteElement}
           query={filterName}
           queryMatchFields={queryMatchFields}
-          isLocationFiltered={selectedLocations.length > 0}
+          isLocationFiltered={false}
           isFiltered={Object.keys(filter).length > 0}
           onClearFilter={handleClearFilter}
           onClearLocation={handleClearLocation}
           onFilterClick={handleFilterClick}
           onFilterQueryChange={handleFilterByName}
           showAllSelected={handleShowSelected}
-          searchPlaceholder={'Szukaj transport'}
-          ListToolbarItems={
-            <TransportListToolbar filter={filter} onFilterChange={handleSelectFilter} />
-          }
+          searchPlaceholder={'Szukaj zakwaterowania'}
+          ListToolbarItems={<HomeListToolbar filter={filter} onFilterChange={handleSelectFilter} />}
+          showAvatar={false}
         />
       </Container>
       <FilterDialog
@@ -377,13 +308,9 @@ export default function Transport() {
         selectFilter={handleSelectFilter}
         filter={filter}
       />
-      <TransportDetails
-        onClose={handleCloseDetails}
-        open={showDetails.length > 0}
-        transport={showDetails}
-      />
+      <HomesDetails onClose={handleCloseDetails} open={showDetails.length > 0} home={showDetails} />
       {formOpen && (
-        <TransportForm
+        <HomeForm
           open={formOpen}
           defaultStatus={formType}
           onClose={handleFormClose}
@@ -392,7 +319,7 @@ export default function Transport() {
         />
       )}
       {deleteElement != null && (
-        <TransportDeleteForm
+        <HomeDeleteForm
           open={true}
           onClose={handleDeleteFormClose}
           onFormSubmitted={onDeleteFormSubmitted}

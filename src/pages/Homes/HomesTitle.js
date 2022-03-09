@@ -19,13 +19,13 @@ import {
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 // component
-import Iconify from '../../../components/Iconify';
+import Iconify from '../../components/Iconify';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
-import useDebouncedEffect from '../../../hooks/useDebounceEffect';
+import useDebouncedEffect from '../../hooks/useDebounceEffect';
 import { red } from '@mui/material/colors';
 
-export default function TransportTitle({ handleFormOpen }) {
+export default function HomesTitle({ handleFormOpen }) {
   const { t, i18n } = useTranslation();
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up('sm'));
@@ -45,7 +45,7 @@ export default function TransportTitle({ handleFormOpen }) {
   return (
     <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
       <Typography variant="h4" gutterBottom>
-        {t('Transport')}
+        {t('Homes')}
       </Typography>
       {!matches && (
         <Box>
@@ -69,8 +69,8 @@ export default function TransportTitle({ handleFormOpen }) {
               'aria-labelledby': 'basic-button'
             }}
           >
-            <MenuItem onClick={() => handleSelectMenu('dam')}>{t('AddTransport')}</MenuItem>
-            <MenuItem onClick={() => handleSelectMenu('szukam')}>{t('GetTransport')}</MenuItem>
+            <MenuItem onClick={() => handleSelectMenu('dam')}>{t('AddHome')}</MenuItem>
+            <MenuItem onClick={() => handleSelectMenu('szukam')}>{t('GetHome')}</MenuItem>
           </Menu>
         </Box>
       )}
@@ -83,14 +83,14 @@ export default function TransportTitle({ handleFormOpen }) {
             onClick={() => handleSelectMenu('szukam')}
             startIcon={<Iconify icon="eva:plus-fill" />}
           >
-            {t('GetTransport')}
+            {t('GetHome')}
           </Button>
           <Button
             variant="contained"
             onClick={() => handleSelectMenu('dam')}
             startIcon={<Iconify icon="eva:plus-fill" />}
           >
-            {t('AddTransport')}
+            {t('AddHome')}
           </Button>
         </Box>
       )}

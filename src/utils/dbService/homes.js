@@ -5,6 +5,8 @@ import {
   setDoc,
   doc,
   deleteDoc,
+  query,
+  where,
   loadBundle,
   namedQuery,
   getDocsFromCache
@@ -15,15 +17,27 @@ import { getDownloadURL, getStorage, ref } from 'firebase/storage';
 import { shuffle } from 'lodash/collection';
 
 // export async function getHomes() {
-//   const transportCol = collection(db, 'homes');
-//   const transportSnapshot = await getDocs(transportCol);
-//   return transportSnapshot.docs
+//   const homesCol = collection(db, 'homes');
+//   const querySnapshot = await getDocs(homesCol);
+//   return querySnapshot.docs
 //     .map((doc) => ({
 //       ...doc.data(),
 //       id: doc.id
 //     }))
 //     .map((doc) => ({ ...doc, date: doc.date.toDate() }));
 // }
+
+export async function getMyHomes(uid) {
+  const cols = collection(db, 'homes');
+  const q = query(cols, where(`roles.${uid}`, '==', 'owner'))
+  const querySnapshot = await getDocs(q);
+  return querySnapshot.docs
+    .map((doc) => ({
+      ...doc.data(),
+      id: doc.id
+    }))
+    .map((doc) => ({ ...doc, date: doc.date.toDate() }));
+}
 
 export async function getHomes() {
   const storage = getStorage();

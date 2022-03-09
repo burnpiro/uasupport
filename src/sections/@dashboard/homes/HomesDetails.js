@@ -2,56 +2,53 @@ import * as React from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import { Stack, TextField, InputAdornment, Box, Link, Tooltip, useMediaQuery } from '@mui/material';
+import { Stack, Box, Link, useMediaQuery } from '@mui/material';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
 import Button from '@mui/material/Button';
-import Iconify from '../../components/Iconify';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import DatePicker from '@mui/lab/DatePicker';
+import Iconify from '../../../components/Iconify';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
-import Collapse from '@mui/material/Collapse';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import Alert from '@mui/material/Alert';
 import plLocale from 'date-fns/locale/pl';
 import ruLocale from 'date-fns/locale/ru';
 import enLocale from 'date-fns/locale/en-US';
-import { fDateTime } from '../../utils/formatTime';
-import Label from '../../components/Label';
+import { fDateTime } from '../../../utils/formatTime';
+import Label from '../../../components/Label';
 import { useTranslation } from 'react-i18next';
+import Checkbox from '@mui/material/Checkbox';
 import { useTheme } from '@mui/material/styles';
-import { DialogTransition } from '../../components/DialogTransition';
-import { CustomDialogTitle } from '../../components/dialogs/CustomDialogTitle';
-import SecurityDialog from '../../components/dialogs/SecurityDialog';
-import Alert from "@mui/material/Alert";
+import { DialogTransition } from '../../../components/DialogTransition';
+import { CustomDialogTitle } from '../../../components/dialogs/CustomDialogTitle';
+import SecurityDialog from '../../../components/dialogs/SecurityDialog';
 
-function TransportItem(props) {
+function HomeItem(props) {
   const {
     item: {
       avatarUrl,
       name,
       addressFrom,
-      addressTo,
       from,
-      to,
       isVerified,
       status,
-      car,
       date,
       people,
       description = '',
       phone,
       fb,
-      email
+      email,
+      pet,
+      period,
+      child,
+      disability,
+      includingTransport,
+      separateBath,
+      kitchen
     }
   } = props;
   const [displayPhone, setDisplayPhone] = React.useState(false);
@@ -70,7 +67,7 @@ function TransportItem(props) {
       <CardHeader
         avatar={<Avatar aria-label="recipe" src={avatarUrl} />}
         title={name}
-        subheader={t('Wyjazd-od') + ': ' + fDateTime(date)}
+        subheader={t('CheckIn') + ': ' + fDateTime(date)}
         action={
           <Label variant="ghost" color={(status === 'szukam' && 'info') || 'success'}>
             {status != null && t(status || 'dam')}
@@ -78,27 +75,67 @@ function TransportItem(props) {
         }
       />
       <CardContent>
-        <Tooltip title={car}>
-          <Box flexDirection={'row'} display={'flex'} sx={{ p: 1 }}>
-            <Iconify icon="eva:person-add-fill" width={24} height={28} />
-            <Typography variant="h5" sx={{ color: 'text.secondary', pl: 1 }}>
-              {people}
-            </Typography>
-          </Box>
-        </Tooltip>
+        <Box flexDirection={'row'} display={'flex'} sx={{ p: 1 }}>
+          <Iconify icon="eva:person-add-fill" width={24} height={28} />
+          <Typography variant="h5" sx={{ color: 'text.secondary', pl: 1 }}>
+            {people}
+          </Typography>
+        </Box>
         <Stack direction="column" spacing={2} sx={{ p: 2 }}>
           <Box flexDirection={'row'} display={'flex'}>
-            <Typography variant="subtitle2">{t('Jade-z')}:</Typography>
+            <Typography variant="subtitle2">{t('Mieszkanie-adres')}:</Typography>
             <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }}>
               {addressFrom}
             </Typography>
           </Box>
-          <Box flexDirection={'row'} display={'flex'}>
-            <Typography variant="subtitle2">{t('Jade-do')}:</Typography>
-            <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }}>
-              {addressTo}
-            </Typography>
-          </Box>
+          {period != null && period.length > 0 && (
+            <Box flexDirection={'row'} display={'flex'}>
+              <Typography variant="subtitle2">{t('Mieszkanie-czas')}:</Typography>
+              <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }}>
+                {period}
+              </Typography>
+            </Box>
+          )}
+          {pet != null && pet.length > 0 && (
+            <Box flexDirection={'row'} display={'flex'}>
+              <Typography variant="subtitle2">{t('Mieszkanie-zwierze')}:</Typography>
+              <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }}>
+                {pet}
+              </Typography>
+            </Box>
+          )}
+          {child != null && child.length > 0 && (
+            <Box flexDirection={'row'} display={'flex'}>
+              <Typography variant="subtitle2">{t('Mieszkanie-dzieci')}:</Typography>
+              <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }}>
+                {child}
+              </Typography>
+            </Box>
+          )}
+          {disability != null && disability.length > 0 && (
+            <Box flexDirection={'row'} display={'flex'}>
+              <Typography variant="subtitle2">{t('Mieszkanie-disability')}:</Typography>
+              <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }}>
+                {disability}
+              </Typography>
+            </Box>
+          )}
+          {includingTransport != null && includingTransport.length > 0 && (
+            <Box flexDirection={'row'} display={'flex'}>
+              <Typography variant="subtitle2">{t('Mieszkanie-transport')}:</Typography>
+              <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }}>
+                {includingTransport}
+              </Typography>
+            </Box>
+          )}
+          <FormGroup>
+            {separateBath === true && (
+              <FormControlLabel control={<Checkbox checked={true} />} label={t('Separate Bath')} />
+            )}
+            {kitchen === true && (
+              <FormControlLabel control={<Checkbox checked={true} />} label={t('Kitchen Access')} />
+            )}
+          </FormGroup>
         </Stack>
         <Typography variant="body2" color="text.secondary" style={{ whiteSpace: 'pre-line' }}>
           {description.replace(/↵/g, '\n').replace('\\n', '\n')}
@@ -106,7 +143,7 @@ function TransportItem(props) {
         {displayPhone && (
           <Box flexDirection={'row'} display={'flex'} sx={{ pt: 1 }}>
             <Typography variant="subtitle2" noWrap>
-              {t('Phone')}:
+              {t('Phone')}
             </Typography>
             <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }}>
               {phone}
@@ -116,7 +153,7 @@ function TransportItem(props) {
         {displayEmail && (
           <Box flexDirection={'row'} display={'flex'} sx={{ pt: 1 }}>
             <Typography variant="subtitle2" noWrap>
-              {t('Email')}:
+              {t('Email')}
             </Typography>
             <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }}>
               {email}
@@ -167,12 +204,12 @@ function TransportItem(props) {
   );
 }
 
-export default function TransportDetails(props) {
+export default function HomesDetails(props) {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down('sm'));
   const [locale, setLocale] = React.useState('pl');
   const [showSecurityDialog, setShowSecurityDialog] = React.useState(false);
-  const { onClose, open, transport = [] } = props;
+  const { onClose, open, home = [] } = props;
   const { t, i18n } = useTranslation();
 
   const handleClose = () => {
@@ -191,14 +228,14 @@ export default function TransportDetails(props) {
         fullScreen={matches}
         TransitionComponent={DialogTransition}
       >
-        <CustomDialogTitle onClose={handleClose}>{t('SzczegolyTransportu')}</CustomDialogTitle>
+        <CustomDialogTitle onClose={handleClose}>{t('SzczegolyZakwaterowania')}</CustomDialogTitle>
         <DialogContent>
           <Stack spacing={3} sx={{ p: 3, pr: 0, pl: 0 }}>
             <Alert severity="error" onClick={toggleSecurityDialog} style={{ cursor: 'pointer' }}>
               <strong>{t('SecurityInfo')}</strong>
             </Alert>
-            {transport.map((transportItem) => (
-              <TransportItem key={transportItem.id} item={transportItem} />
+            {home.map((homeItem) => (
+              <HomeItem key={homeItem.id} item={homeItem} />
             ))}
           </Stack>
         </DialogContent>

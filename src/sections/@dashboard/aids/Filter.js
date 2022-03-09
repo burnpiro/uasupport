@@ -9,7 +9,7 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import Button from '@mui/material/Button';
-import Iconify from '../../components/Iconify';
+import Iconify from '../../../components/Iconify';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import DatePicker from '@mui/lab/DatePicker';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
@@ -19,8 +19,8 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import {useTranslation} from "react-i18next";
 import {useEffect} from "react";
-import {getTypeIcon} from "./Aids";
-import {CustomDialogTitle} from "../../components/dialogs/CustomDialogTitle";
+import {getTypeIcon} from "../../../utils/getTypeIcon";
+import {CustomDialogTitle} from "../../../components/dialogs/CustomDialogTitle";
 
 export default function FilterDialog(props) {
   const { t, i18n } = useTranslation();

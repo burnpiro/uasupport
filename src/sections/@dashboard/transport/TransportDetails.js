@@ -9,7 +9,7 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import Button from '@mui/material/Button';
-import Iconify from '../../components/Iconify';
+import Iconify from '../../../components/Iconify';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import DatePicker from '@mui/lab/DatePicker';
 import Card from '@mui/material/Card';
@@ -21,30 +21,37 @@ import Collapse from '@mui/material/Collapse';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import Label from '../../components/Label';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import plLocale from 'date-fns/locale/pl';
+import ruLocale from 'date-fns/locale/ru';
+import enLocale from 'date-fns/locale/en-US';
+import { fDateTime } from '../../../utils/formatTime';
+import Label from '../../../components/Label';
 import { useTranslation } from 'react-i18next';
-import { getTypeIcon } from './Aids';
 import { useTheme } from '@mui/material/styles';
-import { DialogTransition } from '../../components/DialogTransition';
-import { CustomDialogTitle } from '../../components/dialogs/CustomDialogTitle';
-import Alert from '@mui/material/Alert';
-import SecurityDialog from '../../components/dialogs/SecurityDialog';
+import { DialogTransition } from '../../../components/DialogTransition';
+import { CustomDialogTitle } from '../../../components/dialogs/CustomDialogTitle';
+import SecurityDialog from '../../../components/dialogs/SecurityDialog';
+import Alert from "@mui/material/Alert";
 
-function AidItem(props) {
+function TransportItem(props) {
   const {
     item: {
       avatarUrl,
       name,
       addressFrom,
+      addressTo,
       from,
+      to,
       isVerified,
+      status,
+      car,
+      date,
+      people,
       description = '',
-      aidSubType,
-      aidType,
       phone,
       fb,
-      email,
-      website
+      email
     }
   } = props;
   const [displayPhone, setDisplayPhone] = React.useState(false);
@@ -61,30 +68,37 @@ function AidItem(props) {
   return (
     <Card sx={{ min: 345 }}>
       <CardHeader
-        avatar={<Avatar aria-label="recipe" src={getTypeIcon(aidType)} />}
+        avatar={<Avatar aria-label="recipe" src={avatarUrl} />}
         title={name}
+        subheader={t('Wyjazd-od') + ': ' + fDateTime(date)}
         action={
-          <Label variant="ghost" color={(aidType === 'health-aid' && 'info') || 'success'}>
-            {aidType != null && t(aidType || 'standard-aid')}
+          <Label variant="ghost" color={(status === 'szukam' && 'info') || 'success'}>
+            {status != null && t(status || 'dam')}
           </Label>
         }
       />
       <CardContent>
+        <Tooltip title={car}>
+          <Box flexDirection={'row'} display={'flex'} sx={{ p: 1 }}>
+            <Iconify icon="eva:person-add-fill" width={24} height={28} />
+            <Typography variant="h5" sx={{ color: 'text.secondary', pl: 1 }}>
+              {people}
+            </Typography>
+          </Box>
+        </Tooltip>
         <Stack direction="column" spacing={2} sx={{ p: 2 }}>
           <Box flexDirection={'row'} display={'flex'}>
-            <Typography variant="subtitle2">{t('Aid-address')}:</Typography>
+            <Typography variant="subtitle2">{t('Jade-z')}:</Typography>
             <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }}>
               {addressFrom}
             </Typography>
           </Box>
-          {aidSubType && aidType === 'medical-aid' && (
-            <Box flexDirection={'row'} display={'flex'}>
-              <Typography variant="subtitle2">{t('MedicalAidType')}:</Typography>
-              <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }}>
-                {aidSubType}
-              </Typography>
-            </Box>
-          )}
+          <Box flexDirection={'row'} display={'flex'}>
+            <Typography variant="subtitle2">{t('Jade-do')}:</Typography>
+            <Typography variant="body2" sx={{ color: 'text.secondary', pl: 1 }}>
+              {addressTo}
+            </Typography>
+          </Box>
         </Stack>
         <Typography variant="body2" color="text.secondary" style={{ whiteSpace: 'pre-line' }}>
           {description.replace(/↵/g, '\n').replace('\\n', '\n')}
@@ -148,26 +162,17 @@ function AidItem(props) {
             <Iconify icon="fa-solid:map-marked-alt" width={24} height={24} />
           </IconButton>
         </Link>
-        <Link href={website ? website : undefined} target="_blank">
-          <IconButton
-            aria-label="website"
-            color={'warning'}
-            disabled={website == null || website === ''}
-          >
-            <Iconify icon="eva:globe-outline" width={24} height={24} />
-          </IconButton>
-        </Link>
       </CardActions>
     </Card>
   );
 }
 
-export default function AidsDetails(props) {
+export default function TransportDetails(props) {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down('sm'));
   const [locale, setLocale] = React.useState('pl');
   const [showSecurityDialog, setShowSecurityDialog] = React.useState(false);
-  const { onClose, open, aid = [] } = props;
+  const { onClose, open, transport = [] } = props;
   const { t, i18n } = useTranslation();
 
   const handleClose = () => {
@@ -186,19 +191,19 @@ export default function AidsDetails(props) {
         fullScreen={matches}
         TransitionComponent={DialogTransition}
       >
-        <CustomDialogTitle onClose={handleClose}>{t('SzczegolyPomocy')}</CustomDialogTitle>
+        <CustomDialogTitle onClose={handleClose}>{t('SzczegolyTransportu')}</CustomDialogTitle>
         <DialogContent>
           <Stack spacing={3} sx={{ p: 3, pr: 0, pl: 0 }}>
             <Alert severity="error" onClick={toggleSecurityDialog} style={{ cursor: 'pointer' }}>
               <strong>{t('SecurityInfo')}</strong>
             </Alert>
-            {aid.map((aidItem) => (
-              <AidItem key={aidItem.id} item={aidItem} />
+            {transport.map((transportItem) => (
+              <TransportItem key={transportItem.id} item={transportItem} />
             ))}
           </Stack>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>{t('OK')}</Button>
+          <Button onClick={handleClose}>OK</Button>
         </DialogActions>
       </Dialog>
       {showSecurityDialog && <SecurityDialog handleClose={toggleSecurityDialog} open={true} />}

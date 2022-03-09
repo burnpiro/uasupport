@@ -5,6 +5,8 @@ import {
   setDoc,
   doc,
   deleteDoc,
+  query,
+  where,
   loadBundle,
   namedQuery,
   getDocsFromCache
@@ -23,6 +25,18 @@ import { getDownloadURL, getStorage, ref } from 'firebase/storage';
 //     }))
 //     .map((doc) => ({ ...doc, date: doc.date.toDate() }));
 // }
+
+export async function getMyTransport(uid) {
+  const cols = collection(db, 'transport');
+  const q = query(cols, where(`roles.${uid}`, '==', 'owner'))
+  const querySnapshot = await getDocs(q);
+  return querySnapshot.docs
+    .map((doc) => ({
+      ...doc.data(),
+      id: doc.id
+    }))
+    .map((doc) => ({ ...doc, date: doc.date.toDate() }));
+}
 
 export async function getTransport() {
   const storage = getStorage();

@@ -32,7 +32,7 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import RadioGroup from '@mui/material/RadioGroup';
 import Radio from '@mui/material/Radio';
-import { getTypeIcon } from '../../../pages/Aids/Aids';
+import { getTypeIcon } from "../../../utils/getTypeIcon";
 import { useRef, useState } from 'react';
 import { SITE_KEY } from '../../../utils/settings';
 import { useTheme } from '@mui/material/styles';

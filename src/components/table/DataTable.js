@@ -16,7 +16,6 @@ import {
 } from '@mui/material';
 import Label from '../Label';
 import SearchNotFound from '../SearchNotFound';
-import { getTypeIcon } from '../../pages/Aids/Aids';
 import { useState } from 'react';
 import ListHead from './ListHead';
 import MoreMenu from './MoreMenu';
@@ -26,7 +25,7 @@ import { useTranslation } from 'react-i18next';
 import ListToolbar from './ListToolbar';
 import { filter } from 'lodash';
 import { fToNow, fDateTime, fDate } from '../../utils/formatTime';
-import {isAfter} from "date-fns";
+import { isAfter } from 'date-fns';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -131,7 +130,8 @@ export default function DataTable({
   ListToolbarItems,
   searchPlaceholder,
   avatarGenerator,
-  queryMatchFields = ['name', 'addressFrom']
+  queryMatchFields = ['name', 'addressFrom'],
+  showAvatar = true
 }) {
   const { t, i18n } = useTranslation();
   const [order, setOrder] = useState('asc');
@@ -149,16 +149,16 @@ export default function DataTable({
   );
 
   const handleRequestSort = (event, property) => {
-    if(property === orderBy && order === 'desc') {
+    if (property === orderBy && order === 'desc') {
       setOrder('asc');
       setOrderBy(null);
     }
-    if(property === orderBy && order !== 'desc') {
+    if (property === orderBy && order !== 'desc') {
       const isAsc = order === 'asc';
       setOrder(isAsc ? 'desc' : 'asc');
       setOrderBy(property);
     }
-    if(orderBy !== property) {
+    if (orderBy !== property) {
       setOrder('asc');
       setOrderBy(property);
     }
@@ -301,14 +301,16 @@ export default function DataTable({
                         onClick={() => handleItemClick(row)}
                       >
                         <Stack direction="row" alignItems="center" spacing={2}>
-                          <Avatar
-                            alt={name}
-                            src={
-                              avatarGenerator != null && avatarGenerator.field
-                                ? avatarGenerator.method(row[avatarGenerator.field])
-                                : null
-                            }
-                          />
+                          {showAvatar !== false && (
+                            <Avatar
+                              alt={name}
+                              src={
+                                avatarGenerator != null && avatarGenerator.field
+                                  ? avatarGenerator.method(row[avatarGenerator.field])
+                                  : null
+                              }
+                            />
+                          )}
                           <Typography variant="subtitle2" noWrap>
                             {name}
                           </Typography>

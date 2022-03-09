@@ -9,20 +9,20 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import Button from '@mui/material/Button';
-import Iconify from '../../components/Iconify';
+import Iconify from '../../../components/Iconify';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import DatePicker from '@mui/lab/DatePicker';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import plLocale from 'date-fns/locale/pl';
 import ruLocale from 'date-fns/locale/ru';
 import enLocale from 'date-fns/locale/en-US';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
-import RadioGroup from '@mui/material/RadioGroup';
-import Radio from '@mui/material/Radio';
-import { useTranslation } from 'react-i18next';
-import { useEffect } from 'react';
-import {CustomDialogTitle} from "../../components/dialogs/CustomDialogTitle";
+import {useTranslation} from "react-i18next";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
+import RadioGroup from "@mui/material/RadioGroup";
+import Radio from "@mui/material/Radio";
+import {useEffect} from "react";
+import {CustomDialogTitle} from "../../../components/dialogs/CustomDialogTitle";
 
 const localeMap = {
   pl: plLocale,
@@ -45,8 +45,8 @@ export default function FilterDialog(props) {
   const [form, setForm] = React.useState({});
 
   useEffect(() => {
-    setForm(filter);
-  }, [filter]);
+    setForm(filter)
+  }, [filter])
 
   const handleClose = () => {
     onClose();
@@ -62,6 +62,7 @@ export default function FilterDialog(props) {
     handleFormChange('status', event.target.value);
   };
 
+
   const handleFilter = () => {
     selectFilter(form);
   };
@@ -70,7 +71,7 @@ export default function FilterDialog(props) {
     <Dialog onClose={handleClose} open={open}>
       <CustomDialogTitle onClose={handleClose}>{t('Filter')}</CustomDialogTitle>
       <DialogContent>
-        <Stack direction={{ xs: 'column' }} sx={{ mt: 2 }} spacing={2}>
+        <Stack direction={{ xs: 'column' }} sx={{ mt: 2}} spacing={2}>
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
             <TextField
               fullWidth
@@ -142,7 +143,11 @@ export default function FilterDialog(props) {
               onChange={handleStatusChange}
               name="aid-type-group"
             >
-              <FormControlLabel value="szukam" control={<Radio />} label={t('szukam')} />
+              <FormControlLabel
+                value="szukam"
+                control={<Radio />}
+                label={t('szukam')}
+              />
               <FormControlLabel value="dam" control={<Radio />} label={t('dam')} />
               <FormControlLabel value={''} control={<Radio />} label={t('all-statuses')} />
             </RadioGroup>
