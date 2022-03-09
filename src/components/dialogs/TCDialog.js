@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { CustomDialogTitle } from './CustomDialogTitle';
 import { useEffect, useState } from 'react';
 import { LANGS } from '../../layouts/dashboard/LanguagePopover';
-import { TCPL, TCUA } from '../../utils/data/TC';
+import { TCPL, TCUA, TCEN } from '../../utils/data/TC';
 export default function TCDialog({ open, handleClose }) {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
@@ -30,6 +30,9 @@ export default function TCDialog({ open, handleClose }) {
     case 'ua':
     case 'ru':
       selectedTC = TCUA;
+      break;
+    case 'en':
+      selectedTC = TCEN;
       break;
   }
 

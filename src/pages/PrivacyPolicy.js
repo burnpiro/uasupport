@@ -7,7 +7,7 @@ import Page from '../components/Page';
 import { useTranslation } from 'react-i18next';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { LANGS } from '../layouts/dashboard/LanguagePopover';
-import { PPPL, PPUA } from '../utils/data/PP';
+import { PPPL, PPUA, PPEN } from '../utils/data/PP';
 import { useEffect, useState } from 'react';
 
 export default function PrivacyPolicy() {
@@ -26,6 +26,9 @@ export default function PrivacyPolicy() {
     case 'ua':
     case 'ru':
       selectedPP = PPUA;
+      break;
+    case 'en':
+      selectedPP = PPEN;
       break;
   }
   return (

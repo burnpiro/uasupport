@@ -7,7 +7,7 @@ import Page from '../components/Page';
 import { useTranslation } from 'react-i18next';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { LANGS } from '../layouts/dashboard/LanguagePopover';
-import { TCUA, TCPL } from '../utils/data/TC';
+import {TCUA, TCPL, TCEN} from '../utils/data/TC';
 import { useEffect, useState } from 'react';
 
 export default function TC() {
@@ -26,6 +26,9 @@ export default function TC() {
     case 'ua':
     case 'ru':
       selectedTC = TCUA;
+      break;
+    case 'en':
+      selectedTC = TCEN;
       break;
   }
   return (
