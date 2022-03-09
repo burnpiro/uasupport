@@ -12,6 +12,7 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 import { db } from '../../firebase';
 import { getDownloadURL, getStorage, ref } from 'firebase/storage';
+import { shuffle } from 'lodash/collection';
 
 // export async function getHomes() {
 //   const transportCol = collection(db, 'homes');
@@ -38,7 +39,7 @@ export async function getHomes() {
   const query = await namedQuery(db, 'latest-homes-query');
   const storiesSnap = await getDocsFromCache(query);
   //
-  return (
+  return shuffle(
     storiesSnap.docs
       .map((doc) => ({
         ...doc.data(),

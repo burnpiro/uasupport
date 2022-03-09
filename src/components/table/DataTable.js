@@ -135,7 +135,7 @@ export default function DataTable({
 }) {
   const { t, i18n } = useTranslation();
   const [order, setOrder] = useState('asc');
-  const [orderBy, setOrderBy] = useState('name');
+  const [orderBy, setOrderBy] = useState(null);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [selected, setSelected] = useState([]);
@@ -149,9 +149,19 @@ export default function DataTable({
   );
 
   const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
+    if(property === orderBy && order === 'desc') {
+      setOrder('asc');
+      setOrderBy(null);
+    }
+    if(property === orderBy && order !== 'desc') {
+      const isAsc = order === 'asc';
+      setOrder(isAsc ? 'desc' : 'asc');
+      setOrderBy(property);
+    }
+    if(orderBy !== property) {
+      setOrder('asc');
+      setOrderBy(property);
+    }
   };
 
   const handleClick = (event, name) => {
