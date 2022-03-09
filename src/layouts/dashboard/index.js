@@ -5,9 +5,10 @@ import { styled } from '@mui/material/styles';
 //
 import DashboardNavbar from './DashboardNavbar';
 import DashboardSidebar from './DashboardSidebar';
-import GDPRDialog from "../../components/dialogs/GDPRDialog";
-import * as React from "react";
-import {GDPRContext} from "../../components/context/GDPRContext";
+import GDPRDialog from '../../components/dialogs/GDPRDialog';
+import * as React from 'react';
+import { GDPRContext } from '../../components/context/GDPRContext';
+import { ErrorBoundary } from '../../components/ErrorBoundary';
 
 // ----------------------------------------------------------------------
 
@@ -44,7 +45,9 @@ export default function DashboardLayout() {
       <DashboardNavbar onOpenSidebar={() => setOpen(true)} />
       <DashboardSidebar isOpenSidebar={open} onCloseSidebar={() => setOpen(false)} />
       <MainStyle>
-        <Outlet />
+        <ErrorBoundary>
+          <Outlet />
+        </ErrorBoundary>
       </MainStyle>
       <GDPRDialog open={showGDPR} handleClose={() => setShowGDPR(false)} />
     </RootStyle>
