@@ -113,7 +113,7 @@ function TransportItem({
           </Box>
         </Stack>
         <Typography variant="body2" color="text.secondary" style={{ whiteSpace: 'pre-line' }}>
-          {description.replace(/↵/g, '\n').replace('\\n', '\n')}
+          {description.replaceAll(/↵/g, '\n').replaceAll('\\n', '\n')}
         </Typography>
         {displayPhone && (
           <Box flexDirection={'row'} display={'flex'} sx={{ pt: 1 }}>

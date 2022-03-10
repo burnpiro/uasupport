@@ -72,8 +72,8 @@ function FundItem(props) {
             </Typography>
           </Box>
         </Stack>
-        <Typography variant="body2" color="text.secondary">
-          {description}
+        <Typography variant="body2" color="text.secondary" component={"pre"} style={{whiteSpace: 'break-spaces'}}>
+          {description.replaceAll(/↵/g, '\n').replaceAll('\\n', '\n')}
         </Typography>
         {displayPhone && (
           <Box flexDirection={'row'} display={'flex'} sx={{ pt: 1 }}>

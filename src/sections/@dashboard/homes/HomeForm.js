@@ -130,7 +130,7 @@ export default function HomeForm(props) {
     initialValues: editElement
       ? {
           ...editElement,
-          description: editElement.description.replace(/↵/g, '\n').replace('\\n', '\n')
+          description: editElement.description.replaceAll(/↵/g, '\n').replaceAll('\\n', '\n')
         }
       : {
           name: '',

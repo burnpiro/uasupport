@@ -110,7 +110,7 @@ export default function AidsForm(props) {
     initialValues: editElement
       ? {
           ...editElement,
-          description: editElement.description.replace(/↵/g, '\n').replace('\\n', '\n'),
+          description: editElement.description.replaceAll(/↵/g, '\n').replaceAll('\\n', '\n'),
           website: editElement.website || '',
           aidSubType: editElement.aidSubType || ''
         }
