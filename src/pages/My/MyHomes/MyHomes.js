@@ -108,7 +108,6 @@ export default function MyHomes() {
       ? getFilterFromQuery(searchParams.toString(), ALLOWED_FILTER_KEYS)
       : {};
   const initialQuery = searchParams.get('query') || '';
-  const [selected, setSelected] = useState([]);
   const [filterName, setFilterName] = useState(initialQuery);
   const [formType, setFormType] = useState('dam');
   const [filterOpen, setFilterOpen] = useState(false);
@@ -156,17 +155,7 @@ export default function MyHomes() {
 
   const filteredData = applyDataFilter(transportList, filter);
 
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = filteredData.map((n) => n.id);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
-
   const handleClearFilter = () => {
-    setSelected([]);
     setFilter({});
   };
 
@@ -234,7 +223,7 @@ export default function MyHomes() {
     setShowDetails([]);
   };
 
-  const handleShowSelected = () => {
+  const handleShowSelected = (selected) => {
     setDisplayDetails(transportList.filter((el) => selected.indexOf(el.id) !== -1));
   };
 
@@ -267,6 +256,9 @@ export default function MyHomes() {
       if (element.id != null && element.id.length > 0) {
         const removedId = await removeHome(element);
         setTransportList(transportList.filter((el) => el.id !== removedId));
+        if (showDetails.length > 0 && showDetails.findIndex((el) => el.id === removedId) > -1) {
+          setShowDetails(showDetails.filter((el) => el.id !== removedId));
+        }
       }
       handleDeleteFormClose();
     } catch (error) {
@@ -284,7 +276,6 @@ export default function MyHomes() {
           isLoading={isLoading}
           TableHead={TableHead}
           filteredData={filteredData}
-          handleSelectAllClick={handleSelectAllClick}
           onItemClick={setDisplayDetails}
           onItemEdit={handleEditElement}
           onItemDelete={handleDeleteElement}
@@ -308,7 +299,14 @@ export default function MyHomes() {
         selectFilter={handleSelectFilter}
         filter={filter}
       />
-      <HomesDetails onClose={handleCloseDetails} open={showDetails.length > 0} home={showDetails} />
+      <HomesDetails
+        onClose={handleCloseDetails}
+        open={showDetails.length > 0}
+        home={showDetails}
+        showAlert={false}
+        onClickEdit={handleEditElement}
+        onClickDelete={handleDeleteElement}
+      />
       {formOpen && (
         <HomeForm
           open={formOpen}

@@ -1,7 +1,11 @@
 import { Link as RouterLink } from 'react-router-dom';
 // material
 import { styled } from '@mui/material/styles';
-import { Card, Stack, Link, Container, Typography } from '@mui/material';
+import Card from '@mui/material/Card';
+import Stack from '@mui/material/Stack';
+import Link from '@mui/material/Link';
+import Container from '@mui/material/Container';
+import Typography from '@mui/material/Typography';
 // layouts
 import AuthLayout from '../layouts/AuthLayout';
 // components

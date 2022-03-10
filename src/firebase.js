@@ -16,6 +16,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+// external DB
 export const db = getFirestore(app);
 
 // localhost firebase

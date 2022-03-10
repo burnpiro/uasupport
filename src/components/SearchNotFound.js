@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 // material
-import { Paper, Typography } from '@mui/material';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
 import {useTranslation} from "react-i18next";
 
 // ----------------------------------------------------------------------

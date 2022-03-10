@@ -176,7 +176,8 @@ const resources = {
       Szukaj: 'Search...',
       'Loading map data, please wait...': 'Loading map data, please wait...',
       SecurityInfo: 'Important security information!',
-      'Loading data, please wait...': 'Loading data, please wait...'
+      'Loading data, please wait...': 'Loading data, please wait...',
+      UnexpectedError: 'An error has occurred, please contact system administrator'
     }
   },
   pl: {
@@ -355,6 +356,7 @@ const resources = {
       'Loading map data, please wait...': 'Pobieranie danych mapy...',
       SecurityInfo: 'Ważne informacje o bezpieczeństwie!',
       'Loading data, please wait...': 'Pobieranie danych...',
+      UnexpectedError: 'Wystąpił błąd, prosimy skontaktować się z administratorem systemu'
     }
   },
   ua: {
@@ -532,7 +534,8 @@ const resources = {
       Szukaj: 'Шукати...',
       'Loading map data, please wait...': 'Завантаження даних карти...',
       SecurityInfo: 'Важлива інформація з безпеки!',
-      'Loading data, please wait...': 'Завантаження даних...'
+      'Loading data, please wait...': 'Завантаження даних...',
+      UnexpectedError: 'Сталася помилка, зверніться до свого системного адміністратора'
     }
   },
   ru: {
@@ -711,7 +714,8 @@ const resources = {
       Szukaj: 'Поиск...',
       'Loading map data, please wait...': 'Загрузка картографических данных...',
       SecurityInfo: 'Важная информация по технике безопасности!',
-      'Loading data, please wait...': 'Загрузка данных...'
+      'Loading data, please wait...': 'Загрузка данных...',
+      UnexpectedError: 'Произошла ошибка, обратитесь к системному администратору'
     }
   }
 };

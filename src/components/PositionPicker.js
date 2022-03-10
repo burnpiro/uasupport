@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { GoogleMap, useJsApiLoader, Marker, Autocomplete } from '@react-google-maps/api';
 import { useTranslation } from 'react-i18next';
-import { Typography } from '@mui/material';
+import Typography from '@mui/material/Typography';
 import { GM_KEY } from '../utils/settings';
 
 const containerStyle = {

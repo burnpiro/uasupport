@@ -2,51 +2,47 @@ import * as React from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import { Stack, TextField, InputAdornment, Box, Link, Tooltip, useMediaQuery } from '@mui/material';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
+import Stack from '@mui/material/Stack';
+import Box from '@mui/material/Box';
+import Link from '@mui/material/Link';
+import Tooltip from '@mui/material/Tooltip';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import Button from '@mui/material/Button';
 import Iconify from '../../../components/Iconify';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import DatePicker from '@mui/lab/DatePicker';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
-import Collapse from '@mui/material/Collapse';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Label from '../../../components/Label';
 import { useTranslation } from 'react-i18next';
-import { getTypeIcon } from "../../../utils/getTypeIcon";
+import { getTypeIcon } from '../../../utils/getTypeIcon';
 import { useTheme } from '@mui/material/styles';
 import { DialogTransition } from '../../../components/DialogTransition';
 import { CustomDialogTitle } from '../../../components/dialogs/CustomDialogTitle';
 import Alert from '@mui/material/Alert';
 import SecurityDialog from '../../../components/dialogs/SecurityDialog';
 
-function AidItem(props) {
-  const {
-    item: {
-      avatarUrl,
-      name,
-      addressFrom,
-      from,
-      isVerified,
-      description = '',
-      aidSubType,
-      aidType,
-      phone,
-      fb,
-      email,
-      website
-    }
-  } = props;
+function AidItem({
+  item: {
+    avatarUrl,
+    name,
+    addressFrom,
+    from,
+    isVerified,
+    description = '',
+    aidSubType,
+    aidType,
+    phone,
+    fb,
+    email,
+    website
+  },
+  onClickEdit,
+  onClickDelete
+}) {
   const [displayPhone, setDisplayPhone] = React.useState(false);
   const [displayEmail, setDisplayEmail] = React.useState(false);
   const { t, i18n } = useTranslation();
@@ -64,9 +60,29 @@ function AidItem(props) {
         avatar={<Avatar aria-label="recipe" src={getTypeIcon(aidType)} />}
         title={name}
         action={
-          <Label variant="ghost" color={(aidType === 'health-aid' && 'info') || 'success'}>
-            {aidType != null && t(aidType || 'standard-aid')}
-          </Label>
+          <React.Fragment>
+            <Stack>
+              <Label variant="ghost" color={(aidType === 'health-aid' && 'info') || 'success'}>
+                {aidType != null && t(aidType || 'standard-aid')}
+              </Label>
+              <Stack direction={'row'} justifyContent={'right'} sx={{pt: 1}}>
+                {onClickEdit != null && (
+                  <Tooltip title={t('Edytuj')}>
+                    <IconButton color={'info'} onClick={onClickEdit}>
+                      <Iconify icon="eva:edit-2-fill" width={32} height={32} />
+                    </IconButton>
+                  </Tooltip>
+                )}
+                {onClickDelete != null && (
+                  <Tooltip title={t('Usuń')}>
+                    <IconButton onClick={onClickDelete}>
+                      <Iconify icon="flat-color-icons:cancel" width={32} height={32} />
+                    </IconButton>
+                  </Tooltip>
+                )}
+              </Stack>
+            </Stack>
+          </React.Fragment>
         }
       />
       <CardContent>
@@ -162,12 +178,18 @@ function AidItem(props) {
   );
 }
 
-export default function AidsDetails(props) {
+export default function AidsDetails({
+  onClose,
+  open,
+  aid = [],
+  onClickEdit,
+  onClickDelete,
+  showAlert = true
+}) {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down('sm'));
   const [locale, setLocale] = React.useState('pl');
   const [showSecurityDialog, setShowSecurityDialog] = React.useState(false);
-  const { onClose, open, aid = [] } = props;
   const { t, i18n } = useTranslation();
 
   const handleClose = () => {
@@ -189,11 +211,18 @@ export default function AidsDetails(props) {
         <CustomDialogTitle onClose={handleClose}>{t('SzczegolyPomocy')}</CustomDialogTitle>
         <DialogContent>
           <Stack spacing={3} sx={{ p: 3, pr: 0, pl: 0 }}>
-            <Alert severity="error" onClick={toggleSecurityDialog} style={{ cursor: 'pointer' }}>
-              <strong>{t('SecurityInfo')}</strong>
-            </Alert>
+            {showAlert && (
+              <Alert severity="error" onClick={toggleSecurityDialog} style={{ cursor: 'pointer' }}>
+                <strong>{t('SecurityInfo')}</strong>
+              </Alert>
+            )}
             {aid.map((aidItem) => (
-              <AidItem key={aidItem.id} item={aidItem} />
+              <AidItem
+                key={aidItem.id}
+                item={aidItem}
+                onClickEdit={onClickEdit ? () => onClickEdit(aidItem) : undefined}
+                onClickDelete={onClickDelete ? () => onClickDelete(aidItem) : undefined}
+              />
             ))}
           </Stack>
         </DialogContent>

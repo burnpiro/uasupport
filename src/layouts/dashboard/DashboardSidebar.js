@@ -3,7 +3,12 @@ import { useEffect, useState } from 'react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 // material
 import { styled } from '@mui/material/styles';
-import { Box, Link, Button, Drawer, Typography, Avatar, Stack } from '@mui/material';
+import Box from '@mui/material/Box';
+import Link from '@mui/material/Link';
+import Button from '@mui/material/Button';
+import Drawer from '@mui/material/Drawer';
+import Typography from '@mui/material/Typography';
+import Stack from '@mui/material/Stack';
 // mocks_
 import account from '../../_mocks_/account';
 // hooks

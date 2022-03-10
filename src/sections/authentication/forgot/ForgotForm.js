@@ -3,18 +3,11 @@ import { useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useFormik, Form, FormikProvider } from 'formik';
 // material
-import {
-  Link,
-  Stack,
-  Checkbox,
-  TextField,
-  IconButton,
-  InputAdornment,
-  FormControlLabel, Box
-} from '@mui/material';
-import { LoadingButton } from '@mui/lab';
+import Stack from '@mui/material/Stack';
+import TextField from '@mui/material/TextField';
+import Box from '@mui/material/Box';
+import LoadingButton from '@mui/lab/LoadingButton';
 // component
-import Iconify from '../../../components/Iconify';
 import {useTranslation} from "react-i18next";
 import useAuth from "../../../components/context/AuthContext";
 

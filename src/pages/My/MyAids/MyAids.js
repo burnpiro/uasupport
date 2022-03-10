@@ -13,7 +13,7 @@ import i18next from './../../../i18n';
 
 import FilterDialog from '../../../sections/@dashboard/aids/Filter';
 import AidsDetails from '../../../sections/@dashboard/aids/AidsDetails';
-import {addAid, getMyAids, removeAid, updateAid} from '../../../utils/dbService/aids';
+import { addAid, getMyAids, removeAid, updateAid } from '../../../utils/dbService/aids';
 import { AidsListToolbar } from '../../../sections/@dashboard/aids';
 import AidsForm from '../../../sections/@dashboard/aids/AidsForm';
 import AidsDeleteForm from '../../../sections/@dashboard/aids/AidsDeleteForm';
@@ -21,9 +21,9 @@ import { getFilterFromQuery, getSerializedQueryParam } from '../../../utils/filt
 import useAuth from '../../../components/context/AuthContext';
 import { useSnackbar } from 'notistack';
 import DataTable from '../../../components/table/DataTable';
-import Backdrop from "@mui/material/Backdrop";
-import MyAidsTitle from "./MyAidsTitle";
-import {getTypeIcon} from "../../../utils/getTypeIcon";
+import Backdrop from '@mui/material/Backdrop';
+import MyAidsTitle from './MyAidsTitle';
+import { getTypeIcon } from '../../../utils/getTypeIcon';
 
 // ----------------------------------------------------------------------
 
@@ -81,7 +81,6 @@ export default function MyAids() {
       : {};
   const initialQuery = searchParams.get('query') || '';
 
-  const [selected, setSelected] = useState([]);
   const [filterName, setFilterName] = useState(initialQuery);
   const [filterOpen, setFilterOpen] = useState(false);
   const [formOpen, setFormOpen] = useState(false);
@@ -124,22 +123,11 @@ export default function MyAids() {
 
   const filteredData = applyDataFilter(transportList, filter);
 
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = filteredData.map((n) => n.id);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
-
   const handleClearFilter = () => {
-    setSelected([]);
     setFilter({});
   };
 
-  const handleClearLocation = () => {
-  };
+  const handleClearLocation = () => {};
 
   const handleFilterClick = () => {
     setFilterOpen(true);
@@ -199,12 +187,13 @@ export default function MyAids() {
 
   const handleCloseDetails = () => {
     navigate(
-      '/dashboard/my/aids' + (searchParams.toString().length > 0 ? `?${searchParams.toString()}` : '')
+      '/dashboard/my/aids' +
+        (searchParams.toString().length > 0 ? `?${searchParams.toString()}` : '')
     );
     setShowDetails([]);
   };
 
-  const handleShowSelected = () => {
+  const handleShowSelected = (selected) => {
     setDisplayDetails(transportList.filter((el) => selected.indexOf(el.id) !== -1));
   };
 
@@ -237,6 +226,9 @@ export default function MyAids() {
       if (element.id != null && element.id.length > 0) {
         const removedId = await removeAid(element);
         setTransportList(transportList.filter((el) => el.id !== removedId));
+        if (showDetails.length > 0 && showDetails.findIndex((el) => el.id === removedId) > -1) {
+          setShowDetails(showDetails.filter((el) => el.id !== removedId));
+        }
       }
       handleDeleteFormClose();
     } catch (error) {
@@ -254,7 +246,6 @@ export default function MyAids() {
           isLoading={isLoading}
           TableHead={TableHead}
           filteredData={filteredData}
-          handleSelectAllClick={handleSelectAllClick}
           onItemClick={setDisplayDetails}
           onItemEdit={handleEditElement}
           onItemDelete={handleDeleteElement}
@@ -269,12 +260,7 @@ export default function MyAids() {
           showAllSelected={handleShowSelected}
           searchPlaceholder={'Szukaj pomocy'}
           avatarGenerator={avatarGenerator}
-          ListToolbarItems={
-            <AidsListToolbar
-              filter={filter}
-              onFilterChange={handleSelectFilter}
-            />
-          }
+          ListToolbarItems={<AidsListToolbar filter={filter} onFilterChange={handleSelectFilter} />}
         />
       </Container>
       <FilterDialog
@@ -283,7 +269,14 @@ export default function MyAids() {
         selectFilter={handleSelectFilter}
         filter={filter}
       />
-      <AidsDetails onClose={handleCloseDetails} open={showDetails.length > 0} aid={showDetails} />
+      <AidsDetails
+        onClose={handleCloseDetails}
+        open={showDetails.length > 0}
+        aid={showDetails}
+        showAlert={false}
+        onClickEdit={handleEditElement}
+        onClickDelete={handleDeleteElement}
+      />
       {formOpen && (
         <AidsForm
           open={formOpen}

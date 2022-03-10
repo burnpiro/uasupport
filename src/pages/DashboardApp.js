@@ -1,5 +1,8 @@
 // material
-import { Box, Grid, Container, Typography } from '@mui/material';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import Container from '@mui/material/Container';
+import Typography from '@mui/material/Typography';
 // components
 import Page from '../components/Page';
 import {

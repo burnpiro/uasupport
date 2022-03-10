@@ -2,15 +2,13 @@ import { useEffect, useRef, useState, Fragment } from 'react';
 // material
 import { alpha, useTheme } from '@mui/material/styles';
 import i18next from '../../i18n';
-import {
-  Box,
-  MenuItem,
-  ListItemIcon,
-  ListItemText,
-  IconButton,
-  useMediaQuery,
-  Tooltip
-} from '@mui/material';
+import Box from '@mui/material/Box';
+import MenuItem from '@mui/material/MenuItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import IconButton from '@mui/material/IconButton';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import Tooltip from '@mui/material/Tooltip';
 // components
 import MenuPopover from '../../components/MenuPopover';
 import { useLocalStorage } from '../../hooks/useLocalStorage';

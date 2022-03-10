@@ -1,7 +1,9 @@
 import { useFormik } from 'formik';
 import { useState } from 'react';
 // material
-import { Container, Stack, Typography } from '@mui/material';
+import Stack from '@mui/material/Stack';
+import Container from '@mui/material/Container';
+import Typography from '@mui/material/Typography';
 // components
 import Page from '../components/Page';
 import {

@@ -1,7 +1,10 @@
 import PropTypes from 'prop-types';
 // material
 import { styled } from '@mui/material/styles';
-import {TextField, Autocomplete, InputAdornment, Box} from '@mui/material';
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
+import InputAdornment from '@mui/material/InputAdornment';
+import Box from '@mui/material/Box';
 // component
 import Iconify from '../../../components/Iconify';
 import {useTranslation} from "react-i18next";

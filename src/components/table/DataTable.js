@@ -1,22 +1,20 @@
 import * as React from 'react';
-import {
-  Avatar,
-  Checkbox,
-  CircularProgress,
-  Stack,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TablePagination,
-  TableRow,
-  Typography,
-  Card,
-  Tooltip
-} from '@mui/material';
+import Avatar from '@mui/material/Avatar';
+import Checkbox from '@mui/material/Checkbox';
+import CircularProgress from '@mui/material/CircularProgress';
+import Stack from '@mui/material/Stack';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TablePagination from '@mui/material/TablePagination';
+import TableRow from '@mui/material/TableRow';
+import Typography from '@mui/material/Typography';
+import Card from '@mui/material/Card';
+import Tooltip from '@mui/material/Tooltip';
 import Label from '../Label';
 import SearchNotFound from '../SearchNotFound';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ListHead from './ListHead';
 import MoreMenu from './MoreMenu';
 import useAuth from '../context/AuthContext';
@@ -115,7 +113,6 @@ export default function DataTable({
   isLoading,
   TableHead,
   filteredData,
-  handleSelectAllClick,
   onItemClick,
   onItemEdit,
   onItemDelete,
@@ -140,6 +137,11 @@ export default function DataTable({
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [selected, setSelected] = useState([]);
   const { user } = useAuth();
+
+  useEffect(() => {
+    const allIds = filteredData.map((n) => n.id);
+    setSelected(selected.filter((el) => allIds.includes(el)));
+  }, [filteredData]);
 
   const displayedData = applySortFilter(
     filteredData,
@@ -214,6 +216,7 @@ export default function DataTable({
   };
 
   const handleClearFilter = () => {
+    setSelected([]);
     onClearFilter();
   };
 
@@ -226,12 +229,23 @@ export default function DataTable({
   };
 
   const handleShowSelected = () => {
-    showAllSelected();
+    showAllSelected(selected);
   };
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - displayedData.length) : 0;
 
   const isDataNotFound = displayedData.length === 0;
+
+  const handleSelectAllClick = (event) => {
+    if (event.target.checked && event.target.getAttribute('data-indeterminate') !== 'true') {
+      const newSelecteds = displayedData
+        .map((n) => n.id)
+        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+      setSelected(newSelecteds);
+      return;
+    }
+    setSelected([]);
+  };
 
   return (
     <Card>

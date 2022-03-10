@@ -2,30 +2,12 @@ import { filter } from 'lodash';
 import { useEffect, useState } from 'react';
 import { useParams, useSearchParams, useNavigate } from 'react-router-dom';
 // material
-import {
-  Card,
-  Table,
-  Stack,
-  Avatar,
-  Button,
-  Checkbox,
-  TableRow,
-  TableBody,
-  TableCell,
-  Container,
-  Typography,
-  TableContainer,
-  TablePagination,
-  Tooltip,
-  CircularProgress
-} from '@mui/material';
+import Container from '@mui/material/Container';
+import Typography from '@mui/material/Typography';
+import CircularProgress from '@mui/material/CircularProgress';
 import { useTranslation } from 'react-i18next';
 // components
 import Page from '../../components/Page';
-import Label from '../../components/Label';
-import Scrollbar from '../../components/Scrollbar';
-import Iconify from '../../components/Iconify';
-import SearchNotFound from '../../components/SearchNotFound';
 //
 import i18next from './../../i18n';
 
@@ -33,7 +15,7 @@ import AidsMap from './AidsMap';
 import FilterDialog from '../../sections/@dashboard/aids/Filter';
 import AidsDetails from '../../sections/@dashboard/aids/AidsDetails';
 import { addAid, getAids, removeAid, updateAid } from '../../utils/dbService/aids';
-import { AidsListHead, AidsListToolbar, AidsMoreMenu } from '../../sections/@dashboard/aids';
+import { AidsListToolbar } from '../../sections/@dashboard/aids';
 import AidsForm from '../../sections/@dashboard/aids/AidsForm';
 import AidsDeleteForm from '../../sections/@dashboard/aids/AidsDeleteForm';
 import { getFilterFromQuery, getSerializedQueryParam } from '../../utils/filters';
@@ -101,7 +83,6 @@ export default function Aids() {
       : {};
   const initialQuery = searchParams.get('query') || '';
 
-  const [selected, setSelected] = useState([]);
   const [filterName, setFilterName] = useState(initialQuery);
   const [selectedLocations, setSelectedLocations] = useState([]);
   const [filterOpen, setFilterOpen] = useState(false);
@@ -153,15 +134,6 @@ export default function Aids() {
       : true
   );
 
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = displayedUsers.map((n) => n.id);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
-
   const onSelectMarkers = (markers) => {
     if (markers.length === 1) {
       const selectedMarkerRef = filteredUsers.find((el) => el.id === markers[0].id);
@@ -172,7 +144,6 @@ export default function Aids() {
   };
 
   const handleClearFilter = () => {
-    setSelected([]);
     setFilter({});
   };
 
@@ -253,7 +224,7 @@ export default function Aids() {
     setShowDetails([]);
   };
 
-  const handleShowSelected = () => {
+  const handleShowSelected = (selected) => {
     setDisplayDetails(transportList.filter((el) => selected.indexOf(el.id) !== -1));
   };
 
@@ -312,7 +283,6 @@ export default function Aids() {
           isLoading={isLoading}
           TableHead={TableHead}
           filteredData={displayedUsers}
-          handleSelectAllClick={handleSelectAllClick}
           onItemClick={setDisplayDetails}
           onItemEdit={handleEditElement}
           onItemDelete={handleDeleteElement}

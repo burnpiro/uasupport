@@ -1,5 +1,8 @@
 // material
-import { Stack, Button, Divider, Typography } from '@mui/material';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
+import Typography from '@mui/material/Typography';
 // component
 import Iconify from '../../components/Iconify';
 import { useTranslation } from 'react-i18next';

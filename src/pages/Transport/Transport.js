@@ -2,35 +2,14 @@ import { filter } from 'lodash';
 import { useEffect, useState } from 'react';
 import { useParams, useSearchParams, useNavigate } from 'react-router-dom';
 // material
-import {
-  Card,
-  Box,
-  Table,
-  Stack,
-  Avatar,
-  Button,
-  Checkbox,
-  TableRow,
-  TableBody,
-  TableCell,
-  Container,
-  Typography,
-  TableContainer,
-  TablePagination,
-  Tooltip,
-  CircularProgress
-} from '@mui/material';
+import Container from '@mui/material/Container';
+import Typography from '@mui/material/Typography';
+import CircularProgress from '@mui/material/CircularProgress';
 import { useTranslation } from 'react-i18next';
 // components
 import Page from '../../components/Page';
-import Label from '../../components/Label';
-import Scrollbar from '../../components/Scrollbar';
-import Iconify from '../../components/Iconify';
-import SearchNotFound from '../../components/SearchNotFound';
 import {
-  TransportMoreMenu,
   TransportListToolbar,
-  TransportListHead
 } from '../../sections/@dashboard/transport';
 //
 import i18next from './../../i18n';
@@ -137,7 +116,6 @@ export default function Transport() {
       : {};
   const initialQuery = searchParams.get('query') || '';
 
-  const [selected, setSelected] = useState([]);
   const [formType, setFormType] = useState('dam');
   const [filterName, setFilterName] = useState(initialQuery);
   const [selectedLocations, setSelectedLocations] = useState([]);
@@ -194,15 +172,6 @@ export default function Transport() {
       : true
   );
 
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = displayedUsers.map((n) => n.id);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
-
   const onSelectMarkers = (markers) => {
     if (markers.length === 1) {
       const selectedMarkerRef = filteredUsers.find((el) => el.id === markers[0].id);
@@ -213,7 +182,6 @@ export default function Transport() {
   };
 
   const handleClearFilter = () => {
-    setSelected([]);
     setFilter({});
   };
 
@@ -293,7 +261,7 @@ export default function Transport() {
     setShowDetails([]);
   };
 
-  const handleShowSelected = () => {
+  const handleShowSelected = (selected) => {
     setDisplayDetails(transportList.filter((el) => selected.indexOf(el.id) !== -1));
   };
 
@@ -352,7 +320,6 @@ export default function Transport() {
           isLoading={isLoading}
           TableHead={TableHead}
           filteredData={displayedUsers}
-          handleSelectAllClick={handleSelectAllClick}
           onItemClick={setDisplayDetails}
           onItemEdit={handleEditElement}
           onItemDelete={handleDeleteElement}

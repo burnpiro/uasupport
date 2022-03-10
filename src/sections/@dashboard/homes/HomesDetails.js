@@ -2,7 +2,10 @@ import * as React from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import { Stack, Box, Link, useMediaQuery } from '@mui/material';
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
+import Link from '@mui/material/Link';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Button from '@mui/material/Button';
@@ -15,9 +18,6 @@ import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Alert from '@mui/material/Alert';
-import plLocale from 'date-fns/locale/pl';
-import ruLocale from 'date-fns/locale/ru';
-import enLocale from 'date-fns/locale/en-US';
 import { fDateTime } from '../../../utils/formatTime';
 import Label from '../../../components/Label';
 import { useTranslation } from 'react-i18next';
@@ -26,31 +26,33 @@ import { useTheme } from '@mui/material/styles';
 import { DialogTransition } from '../../../components/DialogTransition';
 import { CustomDialogTitle } from '../../../components/dialogs/CustomDialogTitle';
 import SecurityDialog from '../../../components/dialogs/SecurityDialog';
+import Tooltip from '@mui/material/Tooltip';
 
-function HomeItem(props) {
-  const {
-    item: {
-      avatarUrl,
-      name,
-      addressFrom,
-      from,
-      isVerified,
-      status,
-      date,
-      people,
-      description = '',
-      phone,
-      fb,
-      email,
-      pet,
-      period,
-      child,
-      disability,
-      includingTransport,
-      separateBath,
-      kitchen
-    }
-  } = props;
+function HomeItem({
+  item: {
+    avatarUrl,
+    name,
+    addressFrom,
+    from,
+    isVerified,
+    status,
+    date,
+    people,
+    description = '',
+    phone,
+    fb,
+    email,
+    pet,
+    period,
+    child,
+    disability,
+    includingTransport,
+    separateBath,
+    kitchen
+  },
+  onClickEdit,
+  onClickDelete
+}) {
   const [displayPhone, setDisplayPhone] = React.useState(false);
   const [displayEmail, setDisplayEmail] = React.useState(false);
   const { t, i18n } = useTranslation();
@@ -69,9 +71,29 @@ function HomeItem(props) {
         title={name}
         subheader={t('CheckIn') + ': ' + fDateTime(date)}
         action={
-          <Label variant="ghost" color={(status === 'szukam' && 'info') || 'success'}>
-            {status != null && t(status || 'dam')}
-          </Label>
+          <React.Fragment>
+            <Stack>
+              <Label variant="ghost" color={(status === 'szukam' && 'info') || 'success'}>
+                {status != null && t(status || 'dam')}
+              </Label>
+              <Stack direction={'row'} justifyContent={'right'}>
+                {onClickEdit != null && (
+                  <Tooltip title={t('Edytuj')}>
+                    <IconButton color={'info'} onClick={onClickEdit}>
+                      <Iconify icon="eva:edit-2-fill" width={32} height={32} />
+                    </IconButton>
+                  </Tooltip>
+                )}
+                {onClickDelete != null && (
+                  <Tooltip title={t('Usuń')}>
+                    <IconButton onClick={onClickDelete}>
+                      <Iconify icon="flat-color-icons:cancel" width={32} height={32} />
+                    </IconButton>
+                  </Tooltip>
+                )}
+              </Stack>
+            </Stack>
+          </React.Fragment>
         }
       />
       <CardContent>
@@ -204,12 +226,18 @@ function HomeItem(props) {
   );
 }
 
-export default function HomesDetails(props) {
+export default function HomesDetails({
+  onClose,
+  open,
+  home = [],
+  onClickEdit,
+  onClickDelete,
+  showAlert = true
+}) {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down('sm'));
   const [locale, setLocale] = React.useState('pl');
   const [showSecurityDialog, setShowSecurityDialog] = React.useState(false);
-  const { onClose, open, home = [] } = props;
   const { t, i18n } = useTranslation();
 
   const handleClose = () => {
@@ -231,11 +259,18 @@ export default function HomesDetails(props) {
         <CustomDialogTitle onClose={handleClose}>{t('SzczegolyZakwaterowania')}</CustomDialogTitle>
         <DialogContent>
           <Stack spacing={3} sx={{ p: 3, pr: 0, pl: 0 }}>
-            <Alert severity="error" onClick={toggleSecurityDialog} style={{ cursor: 'pointer' }}>
-              <strong>{t('SecurityInfo')}</strong>
-            </Alert>
+            {showAlert && (
+              <Alert severity="error" onClick={toggleSecurityDialog} style={{ cursor: 'pointer' }}>
+                <strong>{t('SecurityInfo')}</strong>
+              </Alert>
+            )}
             {home.map((homeItem) => (
-              <HomeItem key={homeItem.id} item={homeItem} />
+              <HomeItem
+                key={homeItem.id}
+                item={homeItem}
+                onClickEdit={onClickEdit ? () => onClickEdit(homeItem) : undefined}
+                onClickDelete={onClickDelete ? () => onClickDelete(homeItem) : undefined}
+              />
             ))}
           </Stack>
         </DialogContent>

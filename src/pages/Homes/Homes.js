@@ -6,6 +6,7 @@ import Container from '@mui/material/Container';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useTranslation } from 'react-i18next';
+import Typography from '@mui/material/Typography';
 // components
 import Page from '../../components/Page';
 import { HomeListToolbar } from '../../sections/@dashboard/homes';
@@ -25,7 +26,6 @@ import { hasLocationChanged, mapElToLocation } from '../../components/Map';
 import useAuth from '../../components/context/AuthContext';
 import { useSnackbar } from 'notistack';
 import DataTable from '../../components/table/DataTable';
-import { Typography } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
@@ -111,7 +111,6 @@ export default function Homes() {
       ? getFilterFromQuery(searchParams.toString(), ALLOWED_FILTER_KEYS)
       : {};
   const initialQuery = searchParams.get('query') || '';
-  const [selected, setSelected] = useState([]);
   const [filterName, setFilterName] = useState(initialQuery);
   const [formType, setFormType] = useState('dam');
   const [selectedLocations, setSelectedLocations] = useState([]);
@@ -168,15 +167,6 @@ export default function Homes() {
       : true
   );
 
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = displayedUsers.map((n) => n.id);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
-
   const onSelectMarkers = (markers) => {
     if (markers.length === 1) {
       const selectedMarkerRef = filteredUsers.find((el) => el.id === markers[0].id);
@@ -187,7 +177,6 @@ export default function Homes() {
   };
 
   const handleClearFilter = () => {
-    setSelected([]);
     setFilter({});
   };
 
@@ -266,7 +255,7 @@ export default function Homes() {
     setShowDetails([]);
   };
 
-  const handleShowSelected = () => {
+  const handleShowSelected = (selected) => {
     setDisplayDetails(transportList.filter((el) => selected.indexOf(el.id) !== -1));
   };
 
@@ -324,7 +313,6 @@ export default function Homes() {
           isLoading={isLoading}
           TableHead={TableHead}
           filteredData={displayedUsers}
-          handleSelectAllClick={handleSelectAllClick}
           onItemClick={setDisplayDetails}
           onItemEdit={handleEditElement}
           onItemDelete={handleDeleteElement}

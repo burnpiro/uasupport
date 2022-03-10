@@ -2,29 +2,20 @@ import * as React from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import { Stack, TextField, InputAdornment, Box, Link, Tooltip, useMediaQuery } from '@mui/material';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
+import Tooltip from '@mui/material/Tooltip';
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
+import Link from '@mui/material/Link';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import Button from '@mui/material/Button';
 import Iconify from '../../../components/Iconify';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import DatePicker from '@mui/lab/DatePicker';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
-import Collapse from '@mui/material/Collapse';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import plLocale from 'date-fns/locale/pl';
-import ruLocale from 'date-fns/locale/ru';
-import enLocale from 'date-fns/locale/en-US';
 import { fDateTime } from '../../../utils/formatTime';
 import Label from '../../../components/Label';
 import { useTranslation } from 'react-i18next';
@@ -32,28 +23,29 @@ import { useTheme } from '@mui/material/styles';
 import { DialogTransition } from '../../../components/DialogTransition';
 import { CustomDialogTitle } from '../../../components/dialogs/CustomDialogTitle';
 import SecurityDialog from '../../../components/dialogs/SecurityDialog';
-import Alert from "@mui/material/Alert";
+import Alert from '@mui/material/Alert';
 
-function TransportItem(props) {
-  const {
-    item: {
-      avatarUrl,
-      name,
-      addressFrom,
-      addressTo,
-      from,
-      to,
-      isVerified,
-      status,
-      car,
-      date,
-      people,
-      description = '',
-      phone,
-      fb,
-      email
-    }
-  } = props;
+function TransportItem({
+  item: {
+    avatarUrl,
+    name,
+    addressFrom,
+    addressTo,
+    from,
+    to,
+    isVerified,
+    status,
+    car,
+    date,
+    people,
+    description = '',
+    phone,
+    fb,
+    email
+  },
+  onClickEdit,
+  onClickDelete
+}) {
   const [displayPhone, setDisplayPhone] = React.useState(false);
   const [displayEmail, setDisplayEmail] = React.useState(false);
   const { t, i18n } = useTranslation();
@@ -72,9 +64,29 @@ function TransportItem(props) {
         title={name}
         subheader={t('Wyjazd-od') + ': ' + fDateTime(date)}
         action={
-          <Label variant="ghost" color={(status === 'szukam' && 'info') || 'success'}>
-            {status != null && t(status || 'dam')}
-          </Label>
+          <React.Fragment>
+            <Stack>
+              <Label variant="ghost" color={(status === 'szukam' && 'info') || 'success'}>
+                {status != null && t(status || 'dam')}
+              </Label>
+              <Stack direction={'row'} justifyContent={'right'} sx={{pt: 1}}>
+                {onClickEdit != null && (
+                  <Tooltip title={t('Edytuj')}>
+                    <IconButton color={'info'} onClick={onClickEdit}>
+                      <Iconify icon="eva:edit-2-fill" width={32} height={32} />
+                    </IconButton>
+                  </Tooltip>
+                )}
+                {onClickDelete != null && (
+                  <Tooltip title={t('Usuń')}>
+                    <IconButton onClick={onClickDelete}>
+                      <Iconify icon="flat-color-icons:cancel" width={32} height={32} />
+                    </IconButton>
+                  </Tooltip>
+                )}
+              </Stack>
+            </Stack>
+          </React.Fragment>
         }
       />
       <CardContent>
@@ -167,12 +179,18 @@ function TransportItem(props) {
   );
 }
 
-export default function TransportDetails(props) {
+export default function TransportDetails({
+  onClose,
+  open,
+  transport = [],
+  onClickEdit,
+  onClickDelete,
+  showAlert = true
+}) {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down('sm'));
   const [locale, setLocale] = React.useState('pl');
   const [showSecurityDialog, setShowSecurityDialog] = React.useState(false);
-  const { onClose, open, transport = [] } = props;
   const { t, i18n } = useTranslation();
 
   const handleClose = () => {
@@ -194,11 +212,18 @@ export default function TransportDetails(props) {
         <CustomDialogTitle onClose={handleClose}>{t('SzczegolyTransportu')}</CustomDialogTitle>
         <DialogContent>
           <Stack spacing={3} sx={{ p: 3, pr: 0, pl: 0 }}>
-            <Alert severity="error" onClick={toggleSecurityDialog} style={{ cursor: 'pointer' }}>
-              <strong>{t('SecurityInfo')}</strong>
-            </Alert>
+            {showAlert && (
+              <Alert severity="error" onClick={toggleSecurityDialog} style={{ cursor: 'pointer' }}>
+                <strong>{t('SecurityInfo')}</strong>
+              </Alert>
+            )}
             {transport.map((transportItem) => (
-              <TransportItem key={transportItem.id} item={transportItem} />
+              <TransportItem
+                key={transportItem.id}
+                item={transportItem}
+                onClickEdit={onClickEdit ? () => onClickEdit(transportItem) : undefined}
+                onClickDelete={onClickDelete ? () => onClickDelete(transportItem) : undefined}
+              />
             ))}
           </Stack>
         </DialogContent>

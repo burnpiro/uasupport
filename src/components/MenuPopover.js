@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 // material
-import { Popover } from '@mui/material';
+import Popover from '@mui/material/Popover';
 import { alpha, styled } from '@mui/material/styles';
 
 // ----------------------------------------------------------------------

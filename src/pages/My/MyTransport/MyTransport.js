@@ -28,7 +28,7 @@ import useAuth from '../../../components/context/AuthContext';
 import { useSnackbar } from 'notistack';
 import DataTable from '../../../components/table/DataTable';
 import Backdrop from '@mui/material/Backdrop';
-import MyTransportTitle from "./MyTransportTitle";
+import MyTransportTitle from './MyTransportTitle';
 
 // ----------------------------------------------------------------------
 
@@ -112,7 +112,6 @@ export default function MyTransport() {
       : {};
   const initialQuery = searchParams.get('query') || '';
 
-  const [selected, setSelected] = useState([]);
   const [formType, setFormType] = useState('dam');
   const [filterName, setFilterName] = useState(initialQuery);
   const [filterOpen, setFilterOpen] = useState(false);
@@ -160,17 +159,7 @@ export default function MyTransport() {
 
   const filteredData = applyDataFilter(transportList, filter);
 
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = displayedUsers.map((n) => n.id);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
-
   const handleClearFilter = () => {
-    setSelected([]);
     setFilter({});
   };
 
@@ -238,7 +227,7 @@ export default function MyTransport() {
     setShowDetails([]);
   };
 
-  const handleShowSelected = () => {
+  const handleShowSelected = (selected) => {
     setDisplayDetails(transportList.filter((el) => selected.indexOf(el.id) !== -1));
   };
 
@@ -271,6 +260,9 @@ export default function MyTransport() {
       if (element.id != null && element.id.length > 0) {
         const removedId = await removeTransport(element);
         setTransportList(transportList.filter((el) => el.id !== removedId));
+        if (showDetails.length > 0 && showDetails.findIndex((el) => el.id === removedId) > -1 ) {
+          setShowDetails(showDetails.filter((el) => el.id !== removedId));
+        }
       }
       handleDeleteFormClose();
     } catch (error) {
@@ -289,7 +281,6 @@ export default function MyTransport() {
           isLoading={isLoading}
           TableHead={TableHead}
           filteredData={filteredData}
-          handleSelectAllClick={handleSelectAllClick}
           onItemClick={setDisplayDetails}
           onItemEdit={handleEditElement}
           onItemDelete={handleDeleteElement}
@@ -319,6 +310,9 @@ export default function MyTransport() {
         onClose={handleCloseDetails}
         open={showDetails.length > 0}
         transport={showDetails}
+        onClickEdit={handleEditElement}
+        onClickDelete={handleDeleteElement}
+        showAlert={false}
       />
       {formOpen && (
         <TransportForm
