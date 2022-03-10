@@ -1,7 +1,6 @@
 import {
   FacebookAuthProvider,
   GoogleAuthProvider,
-  getAuth,
   linkWithCredential,
   OAuthProvider,
   signInWithCredential,
@@ -11,12 +10,13 @@ import {
   sendPasswordResetEmail
 } from 'firebase/auth';
 
+import {auth} from "../../firebase";
+
 export async function sighInWithFB({ errorCredential }) {
   const provider = new FacebookAuthProvider();
   provider.addScope('public_profile');
   provider.addScope('email');
   provider.addScope('user_link');
-  const auth = getAuth();
   try {
     const result = await signInWithPopup(auth, provider);
     // This gives you a Google Access Token. You can use it to access the Google API.
@@ -64,7 +64,6 @@ export async function sighInWithGoogle({ errorCredential }) {
   const provider = new GoogleAuthProvider();
   provider.addScope('https://www.googleapis.com/auth/userinfo.profile');
   provider.addScope('https://www.googleapis.com/auth/userinfo.email');
-  const auth = getAuth();
   try {
     const result = await signInWithPopup(auth, provider);
     // This gives you a Google Access Token. You can use it to access the Google API.
@@ -108,7 +107,6 @@ export async function sighInWithGoogle({ errorCredential }) {
 }
 
 export async function createUserAccount({ email, password }) {
-  const auth = getAuth();
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
@@ -130,7 +128,6 @@ export async function createUserAccount({ email, password }) {
 }
 
 export async function signInStandard({ email, password, errorCredential }) {
-  const auth = getAuth();
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
@@ -169,7 +166,6 @@ export async function resetPassword(
     handleCodeInApp: false
   }
 ) {
-  const auth = getAuth();
   try {
     await sendPasswordResetEmail(auth, email, actionCodeSettings);
 

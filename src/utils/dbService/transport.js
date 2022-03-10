@@ -12,8 +12,8 @@ import {
   getDocsFromCache
 } from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
-import { db } from '../../firebase';
-import { getDownloadURL, getStorage, ref } from 'firebase/storage';
+import { db, storage } from '../../firebase';
+import { getDownloadURL, ref } from 'firebase/storage';
 
 // export async function getTransport() {
 //   const transportCol = collection(db, 'transport');
@@ -39,7 +39,6 @@ export async function getMyTransport(uid) {
 }
 
 export async function getTransport() {
-  const storage = getStorage();
   const pathReference = ref(storage, 'transport-data');
   const url = await getDownloadURL(pathReference);
   const bundleData = await fetch(url, {

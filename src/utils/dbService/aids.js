@@ -11,9 +11,9 @@ const {
   doc,
   deleteDoc
 } = require('firebase/firestore');
-import { getStorage, ref, getDownloadURL } from 'firebase/storage';
+import { ref, getDownloadURL } from 'firebase/storage';
 import { v4 as uuidv4 } from 'uuid';
-import { db } from '../../firebase';
+import { db, storage } from '../../firebase';
 import { sample } from 'lodash';
 
 // import aids from './aid-zbior.json';
@@ -42,7 +42,6 @@ export async function getMyAids(uid) {
 }
 
 export async function getAids() {
-  const storage = getStorage();
   const pathReference = ref(storage, 'aids-data');
   const url = await getDownloadURL(pathReference);
   const bundleData = await fetch(url, {

@@ -10,9 +10,9 @@ import {
 } from '../../utils/authService/AuthService';
 import { useSnackbar } from 'notistack';
 import { useTranslation } from 'react-i18next';
+import {auth} from "../../firebase";
 
 const AuthContext = createContext({});
-const auth = getAuth();
 
 const ALLOWED_ERRORS = ['auth/account-exists-with-different-credential'];
 const REDIRECT_LOCATIONS = ['/login', '/register', '/forgot'];

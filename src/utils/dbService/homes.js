@@ -12,8 +12,8 @@ import {
   getDocsFromCache
 } from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
-import { db } from '../../firebase';
-import { getDownloadURL, getStorage, ref } from 'firebase/storage';
+import { db, storage } from '../../firebase';
+import { getDownloadURL, ref } from 'firebase/storage';
 import { shuffle } from 'lodash/collection';
 
 // export async function getHomes() {
@@ -40,7 +40,6 @@ export async function getMyHomes(uid) {
 }
 
 export async function getHomes() {
-  const storage = getStorage();
   const pathReference = ref(storage, 'homes-data');
   const url = await getDownloadURL(pathReference);
   const bundleData = await fetch(url, {

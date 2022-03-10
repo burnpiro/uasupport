@@ -7,8 +7,8 @@ import {
   getDocsFromCache
 } from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
-import { db } from '../../firebase';
-import { getDownloadURL, getStorage, ref } from 'firebase/storage';
+import { db, storage } from '../../firebase';
+import { getDownloadURL, ref } from 'firebase/storage';
 
 export async function getFundraising() {
   // const transportCol = collection(db, 'fundraising');
@@ -19,7 +19,6 @@ export async function getFundraising() {
   //     id: doc.id,
   //   }))
   //   .map((doc) => ({ ...doc, createdAt: doc.createdAt.toDate() }));
-  const storage = getStorage();
   const pathReference = ref(storage, 'fundraising-data');
   const url = await getDownloadURL(pathReference);
   const bundleData = await fetch(url, {
