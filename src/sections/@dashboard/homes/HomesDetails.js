@@ -218,7 +218,7 @@ function HomeItem({
           target="_blank"
         >
           <IconButton aria-label="location" color={'info'} disabled={from == null}>
-            <Iconify icon="fa-solid:map-marked-alt" width={24} height={24} />
+            <Iconify icon="ion:navigate-circle-outline" width={24} height={24} />
           </IconButton>
         </Link>
       </CardActions>

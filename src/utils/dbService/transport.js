@@ -57,6 +57,7 @@ export async function getTransport() {
         ...doc.data(),
         id: doc.id
       }))
+      .filter((doc) => doc.status === 'dam')
       .map((doc) => ({ ...doc, date: doc.date.toDate() })) || []
   );
 }
