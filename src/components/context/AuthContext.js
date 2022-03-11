@@ -10,7 +10,7 @@ import {
 } from '../../utils/authService/AuthService';
 import { useSnackbar } from 'notistack';
 import { useTranslation } from 'react-i18next';
-import {auth} from "../../firebase";
+import { auth } from '../../firebase';
 
 const AuthContext = createContext({});
 
@@ -19,6 +19,9 @@ const REDIRECT_LOCATIONS = ['/login', '/register', '/forgot'];
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isVolunteer, setIsVolunteer] = useState(false);
+  const [isManager, setIsManager] = useState(false);
   const [error, setError] = useState();
   const [loading, setLoading] = useState(false);
   const [errorCredential, setErrorCredential] = useState(null);
@@ -33,10 +36,32 @@ export function AuthProvider({ children }) {
     if (error) setError(null);
   }, [location.pathname]);
 
+  async function setUserData(user) {
+    if(user) {
+      const token = await user.getIdTokenResult();
+      console.log(token);
+      if (token.claims.admin === true) {
+        setIsAdmin(true);
+      }
+      if (token.claims.volunteer === true) {
+        setIsVolunteer(true);
+      }
+      if (token.claims.manager === true) {
+        setIsManager(true);
+      }
+      setUser(user);
+    } else {
+      setUser(null);
+      setIsAdmin(true);
+      setIsVolunteer(true);
+      setIsManager(true);
+    }
+  }
+
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        setUser(user);
+        setUserData(user);
       } else {
         // User is signed out
         setUser(null);
@@ -49,7 +74,7 @@ export function AuthProvider({ children }) {
 
     const res = await sighInWithGoogle({ errorCredential });
     if (res.user != null) {
-      setUser(res.user);
+      setUserData(res.user);
       if (REDIRECT_LOCATIONS.includes(location.pathname)) {
         navigate('/', { replace: true });
       }
@@ -71,7 +96,7 @@ export function AuthProvider({ children }) {
 
     const res = await sighInWithFB({ errorCredential });
     if (res.user != null) {
-      setUser(res.user);
+      setUserData(res.user);
       if (REDIRECT_LOCATIONS.includes(location.pathname)) {
         navigate('/', { replace: true });
       }
@@ -97,7 +122,7 @@ export function AuthProvider({ children }) {
       errorCredential
     });
     if (res.user != null) {
-      setUser(res.user);
+      setUserData(res.user);
       if (REDIRECT_LOCATIONS.includes(location.pathname)) {
         navigate('/', { replace: true });
       }
@@ -119,7 +144,7 @@ export function AuthProvider({ children }) {
 
     const res = await createUserAccount({ email: email.trim(), password: password.trim() });
     if (res.user != null) {
-      setUser(res.user);
+      setUserData(res.user);
       if (REDIRECT_LOCATIONS.includes(location.pathname)) {
         navigate('/', { replace: true });
       }
@@ -141,7 +166,7 @@ export function AuthProvider({ children }) {
 
     const res = await resetPassword({ email: email.trim() });
     if (res.status == 200) {
-      if(location.pathname === '/forgot') {
+      if (location.pathname === '/forgot') {
         navigate('/login', { replace: true });
       }
       enqueueSnackbar(t('Message was sent to your email address'), { variant: 'success' });
@@ -172,6 +197,9 @@ export function AuthProvider({ children }) {
   const memoedValue = useMemo(
     () => ({
       user,
+      isAdmin,
+      isVolunteer,
+      isManager,
       loading,
       error,
       login,

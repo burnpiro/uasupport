@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 // material
 import { styled } from '@mui/material/styles';
@@ -9,6 +9,8 @@ import Button from '@mui/material/Button';
 import Drawer from '@mui/material/Drawer';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
+import Divider from '@mui/material/Divider';
+import Chip from '@mui/material/Chip';
 // mocks_
 import account from '../../_mocks_/account';
 // hooks
@@ -18,12 +20,13 @@ import Logo from '../../components/Logo';
 import Scrollbar from '../../components/Scrollbar';
 import NavSection from '../../components/NavSection';
 //
-import sidebarConfig from './SidebarConfig';
+import sidebarConfig, { adminMenu } from './SidebarConfig';
 import { useTranslation } from 'react-i18next';
 import IconButton from '@mui/material/IconButton';
 import Iconify from '../../components/Iconify';
 import * as React from 'react';
 import { GDPRContext } from '../../components/context/GDPRContext';
+import useAuth from '../../components/context/AuthContext';
 
 // ----------------------------------------------------------------------
 
@@ -56,8 +59,9 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
   const { t, i18n } = useTranslation();
   const [emailOpen, setEmailOpen] = useState(false);
   const [showGDPR, setShowGDPR] = React.useContext(GDPRContext);
-
   const isDesktop = useResponsive('up', 'lg');
+  const { isAdmin } = useAuth();
+  console.log(isAdmin);
 
   useEffect(() => {
     if (isOpenSidebar) {
@@ -66,6 +70,10 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
   }, [pathname]);
 
   const navConfig = sidebarConfig.map((el) => ({
+    ...el,
+    title: t(el.title)
+  }));
+  const adminConfig = adminMenu.map((el) => ({
     ...el,
     title: t(el.title)
   }));
@@ -105,6 +113,12 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
       {/*</Box>*/}
 
       <NavSection navConfig={navConfig} />
+      {isAdmin && (
+        <Fragment>
+          <Divider textAlign="left">{t('Admin')}</Divider>
+          <NavSection navConfig={adminConfig} />
+        </Fragment>
+      )}
 
       <Box sx={{ flexGrow: 1 }} />
       <Stack spacing={1} sx={{ pb: 2, pt: 4 }}>
@@ -135,7 +149,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
               sx={{
                 lineHeight: '20px',
                 color: 'text.primary',
-                textAlign: 'right',
+                textAlign: 'right'
               }}
             >
               {t('GDPR')}

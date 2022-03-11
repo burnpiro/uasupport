@@ -21,6 +21,9 @@ import MyHomes from './pages/My/MyHomes/MyHomes';
 import MyContainer from './pages/My/MyContainer';
 import MyTransport from "./pages/My/MyTransport/MyTransport";
 import MyAids from "./pages/My/MyAids/MyAids";
+import Landing from "./pages/Landing/Landing";
+// import AdminContainer from "./pages/Admin/AdminContainer";
+// import AdminPanel from "./pages/Admin/AdminPanel";
 
 // ----------------------------------------------------------------------
 
@@ -31,6 +34,7 @@ export default function Router() {
       element: <DashboardLayout />,
       children: [
         // { path: 'app', element: <DashboardApp /> },
+        { path: 'landing', element: <Landing /> },
         { path: 'fundraising*', element: <Fundraising /> },
         { path: 'transport*', element: <Transport /> },
         { path: 'homes*', element: <Homes /> },
@@ -47,14 +51,22 @@ export default function Router() {
             { path: 'homes*', element: <MyHomes /> },
             { path: 'aids*', element: <MyAids /> }
           ]
-        }
+        },
+        // {
+        //   path: 'admin',
+        //   element: <AdminContainer />,
+        //   children: [
+        //     { path: 'panel*', element: <AdminPanel /> },
+        //     { path: 'organisations*', element: <div /> },
+        //   ]
+        // }
       ]
     },
     {
       path: '/',
       element: <LogoOnlyLayout />,
       children: [
-        { path: '/', element: <Navigate to="/dashboard/homes" /> },
+        { path: '/', element: <Navigate to="/dashboard/landing" /> },
         { path: 'login', element: <Login /> },
         { path: 'register', element: <Register /> },
         { path: 'forgot', element: <ForgotPassword /> },

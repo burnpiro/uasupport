@@ -177,7 +177,15 @@ const resources = {
       'Loading map data, please wait...': 'Loading map data, please wait...',
       SecurityInfo: 'Important security information!',
       'Loading data, please wait...': 'Loading data, please wait...',
-      UnexpectedError: 'An error has occurred, please contact system administrator'
+      UnexpectedError: 'An error has occurred, please contact system administrator',
+      Admin: 'Administration',
+      'Add Admin': 'Add admin',
+      'Admin Panel': 'Admin Panel',
+      'Organisations': 'Organisations',
+      'Landing': 'Landing',
+      'For the offerors': 'For the offerors',
+      'For those who seek': 'For seekers',
+      RemoveMyHome: 'Remove My Home',
     }
   },
   pl: {
@@ -356,7 +364,15 @@ const resources = {
       'Loading map data, please wait...': 'Pobieranie danych mapy...',
       SecurityInfo: 'Ważne informacje o bezpieczeństwie!',
       'Loading data, please wait...': 'Pobieranie danych...',
-      UnexpectedError: 'Wystąpił błąd, prosimy skontaktować się z administratorem systemu'
+      UnexpectedError: 'Wystąpił błąd, prosimy skontaktować się z administratorem systemu',
+      Admin: 'Administracja',
+      'Add Admin': 'Stwórz konto admina',
+      'Admin Panel': 'Panel Admina',
+      'Organisations': 'Organizacje',
+      'Landing': 'Strona główna',
+      'For the offerors': 'Dla Oferujących',
+      'For those who seek': 'Dla Szukających',
+      RemoveMyHome: 'Usuń Moje Mieszkanie',
     }
   },
   ua: {
@@ -535,7 +551,15 @@ const resources = {
       'Loading map data, please wait...': 'Завантаження даних карти...',
       SecurityInfo: 'Важлива інформація з безпеки!',
       'Loading data, please wait...': 'Завантаження даних...',
-      UnexpectedError: 'Сталася помилка, зверніться до свого системного адміністратора'
+      UnexpectedError: 'Сталася помилка, зверніться до свого системного адміністратора',
+      Admin: 'Адміністрація',
+      'Add Admin': 'Додати адміністратора',
+      'Admin Panel': 'Панель адміністратора',
+      'Organisations': 'організації',
+      'Landing': 'Додому',
+      'For the offerors': 'Для Оферентів',
+      'For those who seek': 'Для шукачів',
+      RemoveMyHome: 'Видалити мою квартиру',
     }
   },
   ru: {
@@ -715,7 +739,15 @@ const resources = {
       'Loading map data, please wait...': 'Загрузка картографических данных...',
       SecurityInfo: 'Важная информация по технике безопасности!',
       'Loading data, please wait...': 'Загрузка данных...',
-      UnexpectedError: 'Произошла ошибка, обратитесь к системному администратору'
+      UnexpectedError: 'Произошла ошибка, обратитесь к системному администратору',
+      Admin: 'Administracja',
+      'Add Admin': 'Добавить администратора',
+      'Admin Panel': 'Панель администратора',
+      'Organisations': 'Организации',
+      'Landing': 'Дома',
+      'For the offerors': 'Для оферентов',
+      'For those who seek': 'Для искателей',
+      RemoveMyHome: 'Удалить мою квартиру',
     }
   }
 };

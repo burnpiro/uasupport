@@ -44,4 +44,17 @@ const sidebarConfig = [
   // }
 ];
 
+export const adminMenu = [
+  {
+    title: 'Admin Panel',
+    path: '/dashboard/admin/panel',
+    icon: getIcon('eos-icons:admin-outlined')
+  },
+  {
+    title: 'Organisations',
+    path: '/dashboard/admin/organisations',
+    icon: getIcon('ps:organisation')
+  },
+]
+
 export default sidebarConfig;
