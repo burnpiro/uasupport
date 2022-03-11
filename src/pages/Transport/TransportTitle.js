@@ -14,6 +14,7 @@ import Iconify from '../../components/Iconify';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import { red } from '@mui/material/colors';
+import {Link as RouterLink} from "react-router-dom";
 
 export default function TransportTitle({ handleFormOpen }) {
   const { t, i18n } = useTranslation();
@@ -60,20 +61,33 @@ export default function TransportTitle({ handleFormOpen }) {
             }}
           >
             <MenuItem onClick={() => handleSelectMenu('dam')}>{t('AddTransport')}</MenuItem>
-            <MenuItem onClick={() => handleSelectMenu('szukam')}>{t('GetTransport')}</MenuItem>
+            {/*<MenuItem onClick={() => handleSelectMenu('szukam')}>{t('GetTransport')}</MenuItem>*/}
+            <MenuItem component={RouterLink} to="/dashboard/my/transport">
+              {t('RemoveTransport')}
+            </MenuItem>
           </Menu>
         </Box>
       )}
       {matches && (
         <Box>
+          {/*<Button*/}
+          {/*  variant="contained"*/}
+          {/*  color={'warning'}*/}
+          {/*  sx={{ backgroundColor: red[300], mr: 1 }}*/}
+          {/*  onClick={() => handleSelectMenu('szukam')}*/}
+          {/*  startIcon={<Iconify icon="eva:plus-fill" />}*/}
+          {/*>*/}
+          {/*  {t('GetTransport')}*/}
+          {/*</Button>*/}
           <Button
-            variant="contained"
-            color={'warning'}
-            sx={{ backgroundColor: red[300], mr: 1 }}
-            onClick={() => handleSelectMenu('szukam')}
-            startIcon={<Iconify icon="eva:plus-fill" />}
+            variant={'outlined'}
+            color="error"
+            startIcon={<Iconify icon="ant-design:minus-circle-outlined" />}
+            component={RouterLink}
+            sx={{ mr: 1 }}
+            to="/dashboard/my/transport"
           >
-            {t('GetTransport')}
+            {t('RemoveTransport')}
           </Button>
           <Button
             variant="contained"

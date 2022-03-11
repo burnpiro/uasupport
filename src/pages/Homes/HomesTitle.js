@@ -14,6 +14,7 @@ import Iconify from '../../components/Iconify';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import { red } from '@mui/material/colors';
+import { Link as RouterLink } from 'react-router-dom';
 
 export default function HomesTitle({ handleFormOpen }) {
   const { t, i18n } = useTranslation();
@@ -44,11 +45,13 @@ export default function HomesTitle({ handleFormOpen }) {
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
             onClick={handleClick}
-            style={{alignItems: 'center'}}
+            style={{ alignItems: 'center' }}
           >
-            <Iconify icon="eva:plus-fill" sx={{ fontSize: '24px', fontWeight: 'bold', color: theme.palette.primary.main }} />
+            <Iconify
+              icon="eva:plus-fill"
+              sx={{ fontSize: '24px', fontWeight: 'bold', color: theme.palette.primary.main }}
+            />
             <Typography variant={'subtitle1'}>{t('Add')}</Typography>
-
           </IconButton>
           <Menu
             id="basic-menu"
@@ -60,20 +63,33 @@ export default function HomesTitle({ handleFormOpen }) {
             }}
           >
             <MenuItem onClick={() => handleSelectMenu('dam')}>{t('AddHome')}</MenuItem>
-            <MenuItem onClick={() => handleSelectMenu('szukam')}>{t('GetHome')}</MenuItem>
+            {/*<MenuItem onClick={() => handleSelectMenu('szukam')}>{t('GetHome')}</MenuItem>*/}
+            <MenuItem component={RouterLink} to="/dashboard/my/homes">
+              {t('RemoveMyHome')}
+            </MenuItem>
           </Menu>
         </Box>
       )}
       {matches && (
         <Box>
+          {/*<Button*/}
+          {/*  variant="contained"*/}
+          {/*  color={'warning'}*/}
+          {/*  sx={{ backgroundColor: red[300], mr: 1 }}*/}
+          {/*  onClick={() => handleSelectMenu('szukam')}*/}
+          {/*  startIcon={<Iconify icon="eva:plus-fill" />}*/}
+          {/*>*/}
+          {/*  {t('GetHome')}*/}
+          {/*</Button>*/}
           <Button
-            variant="contained"
-            color={'warning'}
-            sx={{ backgroundColor: red[300], mr: 1 }}
-            onClick={() => handleSelectMenu('szukam')}
-            startIcon={<Iconify icon="eva:plus-fill" />}
+            variant={'outlined'}
+            color="error"
+            startIcon={<Iconify icon="ant-design:minus-circle-outlined" />}
+            component={RouterLink}
+            sx={{ mr: 1 }}
+            to="/dashboard/my/homes"
           >
-            {t('GetHome')}
+            {t('RemoveMyHome')}
           </Button>
           <Button
             variant="contained"

@@ -286,12 +286,8 @@ export default function DataTable({
                   const { id, name, addressFrom, aidType, aidSubType } = row;
                   const isItemSelected = selected.indexOf(id) !== -1;
 
-                  const canEdit =
-                    row.roles == null ||
-                    (row.roles != null && user != null && row.roles[user.uid] === 'owner');
-                  const canRemove =
-                    row.roles == null ||
-                    (row.roles != null && user != null && row.roles[user.uid] === 'owner');
+                  const canEdit = (row.roles != null && user != null && row.roles[user.uid] === 'owner');
+                  const canRemove = (row.roles != null && user != null && row.roles[user.uid] === 'owner');
 
                   return (
                     <TableRow
