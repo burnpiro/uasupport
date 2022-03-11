@@ -17,7 +17,7 @@ export default function MyContainer() {
         <Typography variant={'subtitle1'} sx={{ pb: 1, textAlign: 'center' }}>
           {t('Login to add new data')}
         </Typography>
-        <AuthSocial />
+        <AuthSocial showMore={false} />
         <Typography variant="body2" align="center" sx={{ color: 'text.secondary', mt: 3 }}>
           {t('By registering, I agree to')} &nbsp;
           <Link

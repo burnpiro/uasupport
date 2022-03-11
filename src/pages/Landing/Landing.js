@@ -26,9 +26,6 @@ export default function Landing() {
   return (
     <Page title={t('Landing')}>
       <Container maxWidth="xl">
-        <Box sx={{ pb: 5 }}>
-          <Typography variant="h4">{t('Hi, Welcome Back')}</Typography>
-        </Box>
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6}>
             <Grid item>
