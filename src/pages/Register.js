@@ -78,9 +78,9 @@ export default function Register() {
             </Typography>
           </Box>
 
-          <AuthSocial />
+          <AuthSocial showMore={false} />
 
-          <RegisterForm />
+          {/*<RegisterForm />*/}
 
           <Typography variant="body2" align="center" sx={{ color: 'text.secondary', mt: 3 }}>
             {t('By registering, I agree to')} &nbsp;

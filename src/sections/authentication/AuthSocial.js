@@ -11,7 +11,7 @@ import { useState } from 'react';
 
 // ----------------------------------------------------------------------
 
-export default function AuthSocial() {
+export default function AuthSocial({ showMore = true }) {
   const { t, i18n } = useTranslation();
   const { loginGoogle, loginFB } = useAuth();
   const [error, setError] = useState(null);
@@ -50,12 +50,18 @@ export default function AuthSocial() {
         {/*  <Iconify icon="eva:twitter-fill" color="#1C9CEA" height={24} />*/}
         {/*</Button>*/}
       </Stack>
-      {error && <Typography color={'error'} sx={{pt: 1}}>{t(error)}</Typography>}
-      <Divider sx={{ my: 3 }}>
-        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-          {t('OR')}
+      {error && (
+        <Typography color={'error'} sx={{ pt: 1 }}>
+          {t(error)}
         </Typography>
-      </Divider>
+      )}
+      {showMore && (
+        <Divider sx={{ my: 3 }}>
+          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+            {t('OR')}
+          </Typography>
+        </Divider>
+      )}
     </>
   );
 }
