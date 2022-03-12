@@ -48,8 +48,8 @@ function applySortFilter(array, comparator, query, fieldsToQuery = []) {
     if (order !== 0) return order;
     return a[1] - b[1];
   });
-  if (typeof query === "string" && query.length > 2) {
-    return array.filter( (_user) =>
+  if (typeof query === 'string' && query.length > 2) {
+    return array.filter((_user) =>
       fieldsToQuery.some((fieldName) => {
         return (
           _user[fieldName] != null &&
@@ -128,7 +128,9 @@ export default function DataTable({
   searchPlaceholder,
   avatarGenerator,
   queryMatchFields = ['name', 'addressFrom'],
-  showAvatar = true
+  showAvatar = true,
+  selectable = true,
+  showMenu = true
 }) {
   const { t, i18n } = useTranslation();
   const [order, setOrder] = useState('asc');
@@ -142,6 +144,10 @@ export default function DataTable({
     const allIds = filteredData.map((n) => n.id);
     setSelected(selected.filter((el) => allIds.includes(el)));
   }, [filteredData]);
+
+  useEffect(() => {
+    setPage(0);
+  }, [filteredData, query]);
 
   const displayedData = applySortFilter(
     filteredData,
@@ -278,6 +284,8 @@ export default function DataTable({
               numSelected={selected.length}
               onRequestSort={handleRequestSort}
               onSelectAllClick={handleSelectAllClick}
+              selectable={selectable}
+              showMenu={showMenu}
             />
             <TableBody>
               {displayedData
@@ -286,8 +294,11 @@ export default function DataTable({
                   const { id, name } = row;
                   const isItemSelected = selected.indexOf(id) !== -1;
 
-                  const canEdit = isAdmin || (row.roles != null && user != null && row.roles[user.uid] === 'owner');
-                  const canRemove = isAdmin || (row.roles != null && user != null && row.roles[user.uid] === 'owner');
+                  const canEdit =
+                    isAdmin ||
+                    (row.roles != null && user != null && row.roles[user.uid] === 'owner');
+                  const canRemove =
+                    true || (row.roles != null && user != null && row.roles[user.uid] === 'owner');
 
                   return (
                     <TableRow
@@ -299,10 +310,12 @@ export default function DataTable({
                       aria-checked={isItemSelected}
                     >
                       <TableCell padding="checkbox">
-                        <Checkbox
-                          checked={isItemSelected}
-                          onChange={(event) => handleClick(event, id)}
-                        />
+                        {selectable && (
+                          <Checkbox
+                            checked={isItemSelected}
+                            onChange={(event) => handleClick(event, id)}
+                          />
+                        )}
                       </TableCell>
                       <TableCell
                         component="th"
@@ -340,13 +353,15 @@ export default function DataTable({
                         </TableCell>
                       ))}
 
-                      <TableCell align="right">
-                        <MoreMenu
-                          onClickShow={() => handleItemClick(row)}
-                          onClickEdit={canEdit ? () => handleItemEditClick(row) : undefined}
-                          onClickDelete={canRemove ? () => handleItemDeleteClick(row) : undefined}
-                        />
-                      </TableCell>
+                      {showMenu && (
+                        <TableCell align="right">
+                          <MoreMenu
+                            onClickShow={() => handleItemClick(row)}
+                            onClickEdit={canEdit ? () => handleItemEditClick(row) : undefined}
+                            onClickDelete={canRemove ? () => handleItemDeleteClick(row) : undefined}
+                          />
+                        </TableCell>
+                      )}
                     </TableRow>
                   );
                 })}

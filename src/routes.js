@@ -24,6 +24,8 @@ import MyAids from "./pages/My/MyAids/MyAids";
 import Landing from "./pages/Landing/Landing";
 import AdminContainer from "./pages/Admin/AdminContainer";
 import AdminPanel from "./pages/Admin/AdminPanel";
+import Organizations from "./pages/Admin/Organizations/Organizations";
+import OrganizationDetails from "./pages/Admin/Organizations/OrganizationDetails";
 // import Info from "./pages/info/Info";
 
 // ----------------------------------------------------------------------
@@ -59,7 +61,8 @@ export default function Router() {
           element: <AdminContainer />,
           children: [
             { path: 'panel*', element: <AdminPanel /> },
-            { path: 'organisations*', element: <div /> },
+            { path: 'organisations/:organizationId', element: <OrganizationDetails /> },
+            { path: 'organisations', element: <Organizations /> },
           ]
         }
       ]

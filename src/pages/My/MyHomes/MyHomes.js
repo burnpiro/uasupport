@@ -335,7 +335,7 @@ export default function MyHomes() {
           open={true}
         >
           <Typography variant={'h3'} color={'inherit'}>
-            {t('Loading map data, please wait...')}
+            {t('Loading data, please wait...')}
           </Typography>
           <CircularProgress color="inherit" />
         </Backdrop>

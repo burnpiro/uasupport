@@ -9,18 +9,6 @@ import TableHead from '@mui/material/TableHead';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import { useTranslation } from 'react-i18next';
 
-// ----------------------------------------------------------------------
-
-ListHead.propTypes = {
-  order: PropTypes.oneOf(['asc', 'desc']),
-  orderBy: PropTypes.string,
-  rowCount: PropTypes.number,
-  headLabel: PropTypes.array,
-  numSelected: PropTypes.number,
-  onRequestSort: PropTypes.func,
-  onSelectAllClick: PropTypes.func
-};
-
 export default function ListHead({
   order,
   orderBy,
@@ -28,7 +16,8 @@ export default function ListHead({
   headLabel,
   numSelected,
   onRequestSort,
-  onSelectAllClick
+  onSelectAllClick,
+  selectable
 }) {
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
@@ -38,11 +27,13 @@ export default function ListHead({
     <TableHead>
       <TableRow>
         <TableCell padding="checkbox">
-          <Checkbox
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
-          />
+          {selectable && (
+            <Checkbox
+              indeterminate={numSelected > 0 && numSelected < rowCount}
+              checked={rowCount > 0 && numSelected === rowCount}
+              onChange={onSelectAllClick}
+            />
+          )}
         </TableCell>
         {headLabel.map((headCell) => (
           <TableCell

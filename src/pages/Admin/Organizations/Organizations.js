@@ -1,4 +1,3 @@
-import { filter } from 'lodash';
 import { useEffect, useState } from 'react';
 import { useParams, useSearchParams, useNavigate } from 'react-router-dom';
 // material
@@ -9,26 +8,28 @@ import { useTranslation } from 'react-i18next';
 // components
 import Page from '../../../components/Page';
 //
-import i18next from './../../../i18n';
+import i18next from '../../../i18n';
 
 import FilterDialog from '../../../sections/@dashboard/aids/Filter';
-import AidsDetails from '../../../sections/@dashboard/aids/AidsDetails';
-import { addAid, getMyAids, removeAid, updateAid } from '../../../utils/dbService/aids';
-import { AidsListToolbar } from '../../../sections/@dashboard/aids';
-import AidsForm from '../../../sections/@dashboard/aids/AidsForm';
-import AidsDeleteForm from '../../../sections/@dashboard/aids/AidsDeleteForm';
 import { getFilterFromQuery, getSerializedQueryParam } from '../../../utils/filters';
 import useAuth from '../../../components/context/AuthContext';
 import { useSnackbar } from 'notistack';
 import DataTable from '../../../components/table/DataTable';
 import Backdrop from '@mui/material/Backdrop';
-import MyAidsTitle from './MyAidsTitle';
 import { getTypeIcon } from '../../../utils/getTypeIcon';
+import OrganizationsTitle from './OrganizationTitle';
+import {
+  addOrganization,
+  getOrganizations,
+  updateOrganization
+} from '../../../utils/dbService/organizations';
+import OrganizationForm from '../../../sections/@dashboard/organization/OrganizationForm';
+import OrganizationListToolbar from '../../../sections/@dashboard/organization/OrganizationListToolbar';
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = () => [
-  { id: 'name', label: i18next.t('AidName'), alignRight: false },
+  { id: 'name', label: i18next.t('Organization Name'), alignRight: false },
   {
     id: 'addressFrom',
     value: { field: 'addressFrom', type: 'string' },
@@ -37,41 +38,45 @@ const TABLE_HEAD = () => [
   },
   // { id: 'isVerified', label: i18next.t('Verified'), alignRight: false },
   {
-    id: 'aidType',
+    id: 'type',
     value: [
-      { field: 'aidType', type: 'label', variant: 'success' },
-      { field: 'aidSubType', type: 'label', variant: 'info' }
+      {
+        field: 'type',
+        type: 'label',
+        variant: 'success',
+        variantConditions: {
+          'foundation-type': 'success',
+          'association-type': 'info',
+          'non-profit-company-type': 'warning'
+        }
+      }
     ],
-    label: i18next.t('AidType'),
+    label: i18next.t('Organization Type'),
     alignRight: false
-  },
-  { id: '' }
+  }
 ];
 
 // ----------------------------------------------------------------------
 
-const ALLOWED_FILTER_KEYS = ['onlyVerified', 'aidType'];
+const ALLOWED_FILTER_KEYS = ['type'];
 
-function applyDataFilter(array, { aidType, onlyVerified }) {
+function applyDataFilter(array, { type }) {
   let result = array;
-  if (onlyVerified != null && onlyVerified) {
-    result = result.filter((el) => el.isVerified);
-  }
-  if (aidType != null && aidType !== '') {
-    result = result.filter((el) => el.aidType === aidType);
+  if (type != null && type !== '') {
+    result = result.filter((el) => el.type === type);
   }
 
   return result;
 }
 
-const queryMatchFields = ['name', 'addressFrom', 'aidSubType'];
+const queryMatchFields = ['name', 'addressFrom', 'type'];
 
 const avatarGenerator = {
-  field: 'aidType',
+  field: 'type',
   method: getTypeIcon
 };
 
-export default function MyAids() {
+export default function Organizations() {
   const params = useParams();
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -86,11 +91,8 @@ export default function MyAids() {
   const [formOpen, setFormOpen] = useState(false);
   const [reloadList, setReloadList] = useState(true);
   const [filter, setFilter] = useState(initialParams);
-  const [showDetails, setShowDetails] = useState([]);
   const [transportList, setTransportList] = useState([]);
   const { t, i18n } = useTranslation();
-  const [editElement, setEditElement] = useState(null);
-  const [deleteElement, setDeleteElement] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useAuth();
   const { enqueueSnackbar } = useSnackbar();
@@ -98,14 +100,13 @@ export default function MyAids() {
   useEffect(() => {
     const dbCall = async () => {
       setIsLoading(true);
-      const response = await getMyAids(user.uid);
+      const response = await getOrganizations(user);
 
       setReloadList(false);
-      setTransportList(response);
-      const initialItems = params['*'] === '' ? [] : params['*'].split('/');
-      if (initialItems.length > 0) {
-        setShowDetails(response.filter((el) => initialItems.includes(el.id)));
+      if (!Array.isArray(response)) {
+        enqueueSnackbar(t(response.code), { variant: 'error' });
       }
+      setTransportList(Array.isArray(response) ? response : []);
       setIsLoading(false);
     };
 
@@ -127,8 +128,6 @@ export default function MyAids() {
     setFilter({});
   };
 
-  const handleClearLocation = () => {};
-
   const handleFilterClick = () => {
     setFilterOpen(true);
   };
@@ -143,13 +142,12 @@ export default function MyAids() {
 
   const handleFormClose = () => {
     setFormOpen(false);
-    setEditElement(null);
   };
 
   const onFormSubmitted = async (values) => {
     try {
       if (values.id != null && values.id.length > 0) {
-        const newDoc = await updateAid(values);
+        const newDoc = await updateOrganization(values);
         setTransportList(transportList.map((el) => (el.id === newDoc.id ? newDoc : el)));
         navigate(
           values.id + (searchParams.toString().length > 0 ? `?${searchParams.toString()}` : '')
@@ -160,7 +158,7 @@ export default function MyAids() {
         values.roles = {
           [user.uid]: 'owner'
         };
-        const newDoc = await addAid(values);
+        const newDoc = await addOrganization(values);
         if (newDoc.id) {
           navigate(
             newDoc.id + (searchParams.toString().length > 0 ? `?${searchParams.toString()}` : '')
@@ -185,82 +183,42 @@ export default function MyAids() {
     setFilterName(value);
   };
 
-  const handleCloseDetails = () => {
-    navigate(
-      '/dashboard/my/aids' +
-        (searchParams.toString().length > 0 ? `?${searchParams.toString()}` : '')
-    );
-    setShowDetails([]);
-  };
-
   const handleShowSelected = (selected) => {
     setDisplayDetails(transportList.filter((el) => selected.indexOf(el.id) !== -1));
   };
 
   const setDisplayDetails = (element) => {
-    if (Array.isArray(element)) {
-      setShowDetails(element);
-    } else {
-      navigate(
-        element.id + (searchParams.toString().length > 0 ? `?${searchParams.toString()}` : '')
-      );
-      setShowDetails([element]);
-    }
-  };
-
-  const handleEditElement = (element) => {
-    setEditElement(element);
-    setFormOpen(true);
-  };
-
-  const handleDeleteElement = (element) => {
-    setDeleteElement(element);
-  };
-
-  const handleDeleteFormClose = () => {
-    setDeleteElement(null);
-  };
-
-  const onDeleteFormSubmitted = async (element) => {
-    try {
-      if (element.id != null && element.id.length > 0) {
-        const removedId = await removeAid(element);
-        setTransportList(transportList.filter((el) => el.id !== removedId));
-        if (showDetails.length > 0 && showDetails.findIndex((el) => el.id === removedId) > -1) {
-          setShowDetails(showDetails.filter((el) => el.id !== removedId));
-        }
-      }
-      handleDeleteFormClose();
-    } catch (error) {
-      enqueueSnackbar(t('Error'), { variant: 'error' });
-      return false;
-    }
+    navigate(
+      element.id + (searchParams.toString().length > 0 ? `?${searchParams.toString()}` : '')
+    );
   };
 
   return (
     <Page title={t('MyAid')}>
       <Container>
-        <MyAidsTitle handleFormOpen={handleFormOpen} />
+        <OrganizationsTitle handleFormOpen={handleFormOpen} />
 
         <DataTable
           isLoading={isLoading}
           TableHead={TableHead}
           filteredData={filteredData}
           onItemClick={setDisplayDetails}
-          onItemEdit={handleEditElement}
-          onItemDelete={handleDeleteElement}
           query={filterName}
           queryMatchFields={queryMatchFields}
           isLocationFiltered={false}
           isFiltered={Object.keys(filter).length > 0}
           onClearFilter={handleClearFilter}
-          onClearLocation={handleClearLocation}
+          onClearLocation={undefined}
           onFilterClick={handleFilterClick}
           onFilterQueryChange={handleFilterByName}
           showAllSelected={handleShowSelected}
-          searchPlaceholder={'Szukaj pomocy'}
+          searchPlaceholder={'Organization search'}
           avatarGenerator={avatarGenerator}
-          ListToolbarItems={<AidsListToolbar filter={filter} onFilterChange={handleSelectFilter} />}
+          selectable={false}
+          showMenu={false}
+          ListToolbarItems={
+            <OrganizationListToolbar filter={filter} onFilterChange={handleSelectFilter} />
+          }
         />
       </Container>
       <FilterDialog
@@ -269,28 +227,11 @@ export default function MyAids() {
         selectFilter={handleSelectFilter}
         filter={filter}
       />
-      <AidsDetails
-        onClose={handleCloseDetails}
-        open={showDetails.length > 0}
-        aid={showDetails}
-        showAlert={false}
-        onClickEdit={handleEditElement}
-        onClickDelete={handleDeleteElement}
-      />
       {formOpen && (
-        <AidsForm
+        <OrganizationForm
           open={formOpen}
           onClose={handleFormClose}
           onFormSubmitted={onFormSubmitted}
-          editElement={editElement}
-        />
-      )}
-      {deleteElement != null && (
-        <AidsDeleteForm
-          open={true}
-          onClose={handleDeleteFormClose}
-          onFormSubmitted={onDeleteFormSubmitted}
-          deleteElement={deleteElement}
         />
       )}
       {isLoading && (
