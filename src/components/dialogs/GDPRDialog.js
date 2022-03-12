@@ -38,7 +38,7 @@ export default function GDPRDialog({ open, handleClose }) {
 
   return (
     <Dialog fullScreen={fullScreen} open={open} onClose={handleClose} aria-labelledby="gdpr-dialog">
-      <CustomDialogTitle onClose={handleClose} id="gdpr-dialog">{t('Informacja RODO')}</CustomDialogTitle>
+      <CustomDialogTitle onClose={handleClose} id="gdpr-dialog">{t('GDPR')}</CustomDialogTitle>
       <DialogContent>
         <Typography component={'pre'} variant={"body1"} style={{whiteSpace: 'break-spaces'}}>
           {selectedTC}
