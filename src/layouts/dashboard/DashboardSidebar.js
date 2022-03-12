@@ -224,7 +224,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
                 pl: 2
               }}
             >
-              <img src={'/static/icons/google-logo.svg'} style={{ height: '20px' }} />
+              <img alt={"Google Logo"} src={'/static/icons/google-logo.svg'} style={{ height: '20px' }} />
               <Typography
                 sx={{
                   fontSize: '18px',

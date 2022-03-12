@@ -71,7 +71,7 @@ export default function AppInfoGet() {
           direction={'row'}
           sx={{ alignItems: 'center', justifyContent: 'center' }}
         >
-          <IconButton>
+          <IconButton aria-label={"Border Info"}>
             <IconWrapperStyle>
               <Iconify icon="emojione-monotone:passport-control" width={48} height={48} />
             </IconWrapperStyle>

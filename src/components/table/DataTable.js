@@ -48,8 +48,8 @@ function applySortFilter(array, comparator, query, fieldsToQuery = []) {
     if (order !== 0) return order;
     return a[1] - b[1];
   });
-  if (query) {
-    return filter(array, (_user) =>
+  if (typeof query === "string" && query.length > 2) {
+    return array.filter( (_user) =>
       fieldsToQuery.some((fieldName) => {
         return (
           _user[fieldName] != null &&

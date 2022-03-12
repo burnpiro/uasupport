@@ -5,14 +5,10 @@ import Box from '@mui/material/Box';
 
 // ----------------------------------------------------------------------
 
-Logo.propTypes = {
-  sx: PropTypes.object
-};
-
 export default function Logo({ sx }) {
   return (
     <RouterLink to="/">
-      <Box component="img" src="/static/logo.png" sx={{ width: 40, height: 40, ...sx }} />
+      <Box alt={"Logo"} component="img" src="/static/logo.png" sx={{ width: 40, height: 40, ...sx }} />
     </RouterLink>
   );
 }

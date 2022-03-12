@@ -44,8 +44,7 @@ export default function SecurityDialog({ open, handleClose }) {
         {t('SecurityInfo')}
       </CustomDialogTitle>
       <DialogContent>
-        <Typography component={'pre'} variant={'body1'} style={{ whiteSpace: 'break-spaces' }}>
-          {selectedTC}
+        <Typography component={'pre'} variant={'body1'} style={{ whiteSpace: 'break-spaces' }} dangerouslySetInnerHTML={{ __html: selectedTC }}>
         </Typography>
       </DialogContent>
       <DialogActions>
