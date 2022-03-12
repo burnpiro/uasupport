@@ -298,7 +298,7 @@ export default function DataTable({
                     isAdmin ||
                     (row.roles != null && user != null && row.roles[user.uid] === 'owner');
                   const canRemove =
-                    true || (row.roles != null && user != null && row.roles[user.uid] === 'owner');
+                    isAdmin || (row.roles != null && user != null && row.roles[user.uid] === 'owner');
 
                   return (
                     <TableRow
