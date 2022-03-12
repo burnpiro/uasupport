@@ -186,6 +186,14 @@ const resources = {
       'For the offerors': 'For the offerors',
       'For those who seek': 'For seekers',
       RemoveMyHome: 'Remove My Home',
+      Info: 'Information',
+      'Border Information': 'Border information',
+      Borders: 'Border',
+      Offices: 'Offices',
+      Regulations: 'Regulations',
+      Work: 'Work',
+      Health: 'Health',
+      Education: 'Education'
     }
   },
   pl: {
@@ -373,6 +381,14 @@ const resources = {
       'For the offerors': 'Dla Oferujących',
       'For those who seek': 'Dla Szukających',
       RemoveMyHome: 'Usuń Moje Mieszkanie',
+      Info: 'Informacje',
+      'Border Information': 'Informacja z granicy',
+      Borders: 'Granica',
+      Offices: 'Urzędy',
+      Regulations: 'Przepisy',
+      Work: 'Praca',
+      Health: 'Zdrowie',
+      Education: 'Edukacja'
     }
   },
   ua: {
@@ -560,6 +576,14 @@ const resources = {
       'For the offerors': 'Для Оферентів',
       'For those who seek': 'Для шукачів',
       RemoveMyHome: 'Видалити мою квартиру',
+      Info: 'Інформація',
+      'Border Information': 'Інформація з кордону',
+      Borders: 'Кордон',
+      Offices: 'Офіси',
+      Regulations: 'Рецепти',
+      Work: 'працювати',
+      Health: 'Здоров\'я',
+      Education: 'Освіта'
     }
   },
   ru: {
@@ -748,6 +772,14 @@ const resources = {
       'For the offerors': 'Для оферентов',
       'For those who seek': 'Для искателей',
       RemoveMyHome: 'Удалить мою квартиру',
+      Info: 'Информация',
+      'Border Information': 'Информация с границы',
+      Borders: 'Граница',
+      Offices: 'Офисы',
+      Regulations: 'Рецепты',
+      Work: 'работай',
+      Health: 'Здоровье',
+      Education: 'Образование'
     }
   }
 };

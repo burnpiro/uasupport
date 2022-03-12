@@ -136,7 +136,7 @@ export default function DataTable({
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [selected, setSelected] = useState([]);
-  const { user } = useAuth();
+  const { user, isAdmin } = useAuth();
 
   useEffect(() => {
     const allIds = filteredData.map((n) => n.id);
@@ -283,11 +283,11 @@ export default function DataTable({
               {displayedData
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => {
-                  const { id, name, addressFrom, aidType, aidSubType } = row;
+                  const { id, name } = row;
                   const isItemSelected = selected.indexOf(id) !== -1;
 
-                  const canEdit = (row.roles != null && user != null && row.roles[user.uid] === 'owner');
-                  const canRemove = (row.roles != null && user != null && row.roles[user.uid] === 'owner');
+                  const canEdit = isAdmin || (row.roles != null && user != null && row.roles[user.uid] === 'owner');
+                  const canRemove = isAdmin || (row.roles != null && user != null && row.roles[user.uid] === 'owner');
 
                   return (
                     <TableRow

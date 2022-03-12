@@ -1,12 +1,12 @@
 // material
-import {alpha, styled, useTheme} from '@mui/material/styles';
+import { alpha, lighten, styled, useTheme } from '@mui/material/styles';
 import { Card, Typography, Button } from '@mui/material';
 // utils
 // component
 import Iconify from '../../components/Iconify';
 import { useTranslation } from 'react-i18next';
-import Stack from "@mui/material/Stack";
-import {Link as RouterLink} from "react-router-dom";
+import Stack from '@mui/material/Stack';
+import { Link as RouterLink } from 'react-router-dom';
 
 // ----------------------------------------------------------------------
 
@@ -15,7 +15,7 @@ const RootStyle = styled(Card)(({ theme }) => ({
   textAlign: 'center',
   padding: theme.spacing(5, 0),
   color: theme.palette.warning.darker,
-  backgroundColor: theme.palette.warning.lighter
+  backgroundColor: lighten(theme.palette.warning.light, 0.6)
 }));
 
 const IconWrapperStyle = styled('div')(({ theme }) => ({
@@ -48,11 +48,24 @@ export default function AppTransportOffer() {
         <Iconify icon="eva:car-fill" width={24} height={24} />
       </IconWrapperStyle>
       <Typography variant="h3">{t('MyTransport')}</Typography>
-      <Stack spacing={2} sx={{pl: 4, pr: 4, pt: 2}}>
-        <Button variant={'outlined'} style={{color: theme.palette.success.dark}} startIcon={<Iconify icon="eva:plus-fill" />} component={RouterLink} to="/dashboard/my/transport">
+      <Stack spacing={2} sx={{ pl: 4, pr: 4, pt: 2 }}>
+        <Button
+          variant={'outlined'}
+          style={{ color: theme.palette.success.dark, borderColor: theme.palette.success.dark }}
+          startIcon={<Iconify icon="eva:plus-fill" />}
+          component={RouterLink}
+          to="/dashboard/my/transport"
+        >
           {t('AddTransport')}
         </Button>
-        <Button variant={'outlined'} color="error" startIcon={<Iconify icon="ant-design:minus-circle-outlined" />} component={RouterLink} to="/dashboard/my/transport">
+        <Button
+          variant={'outlined'}
+          color="error"
+          style={{ color: theme.palette.error.dark, borderColor: theme.palette.error.dark }}
+          startIcon={<Iconify icon="ant-design:minus-circle-outlined" />}
+          component={RouterLink}
+          to="/dashboard/my/transport"
+        >
           {t('RemoveTransport')}
         </Button>
       </Stack>

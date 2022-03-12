@@ -1,5 +1,5 @@
 // material
-import {alpha, styled, useTheme} from '@mui/material/styles';
+import {alpha, styled, useTheme, lighten} from '@mui/material/styles';
 import { Card, Typography, Button } from '@mui/material';
 // utils
 // component
@@ -15,7 +15,7 @@ const RootStyle = styled(Card)(({ theme }) => ({
   textAlign: 'center',
   padding: theme.spacing(5, 0),
   color: theme.palette.error.darker,
-  backgroundColor: theme.palette.error.lighter
+  backgroundColor: lighten(theme.palette.error.light, 0.8)
 }));
 
 const IconWrapperStyle = styled('div')(({ theme }) => ({

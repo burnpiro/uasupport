@@ -11,6 +11,11 @@ const sidebarConfig = [
   //   path: '/dashboard/app',
   //   icon: getIcon('ic:round-perm-device-information')
   // },
+  // {
+  //   title: 'Info',
+  //   path: '/dashboard/info',
+  //   icon: getIcon('fontisto:info')
+  // },
   {
     title: 'Zbiórki Pieniędzy',
     path: '/dashboard/fundraising',

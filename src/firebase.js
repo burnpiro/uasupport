@@ -29,4 +29,5 @@ export const functions = getFunctions(app);
 // localhost firebase (it works only on emulated env)
 // connectFirestoreEmulator(db, 'localhost', 8081);
 // connectStorageEmulator(storage, 'localhost', 9199);
-// connectAuthEmulator(auth, "http://localhost:9099");
+// connectAuthEmulator(auth, 'http://localhost:9099');
+// connectFunctionsEmulator(functions, 'localhost', 5001);

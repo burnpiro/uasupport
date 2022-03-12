@@ -46,7 +46,7 @@ export default function AddAdminForm({ onClose, open, onFormSubmitted }) {
   const submitForm = () => {
     // const recaptchaValue = recaptchaRef.current.getValue();
     // if (recaptchaValue.length > 3) {
-      handleSubmitConfirmed();
+    handleSubmitConfirmed();
     // } else {
     //   handleCaptchaError(true);
     // }
@@ -59,7 +59,7 @@ export default function AddAdminForm({ onClose, open, onFormSubmitted }) {
     <Dialog onClose={handleClose} fullWidth open={open} maxWidth={false}>
       <CustomDialogTitle onClose={handleClose}>{t('Add Admin')}</CustomDialogTitle>
       <DialogContent>
-        <Stack spacing={3}>
+        <Stack spacing={3} sx={{ pt: 2 }}>
           <TextField
             fullWidth
             value={typedEmail}

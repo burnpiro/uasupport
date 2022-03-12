@@ -22,8 +22,9 @@ import MyContainer from './pages/My/MyContainer';
 import MyTransport from "./pages/My/MyTransport/MyTransport";
 import MyAids from "./pages/My/MyAids/MyAids";
 import Landing from "./pages/Landing/Landing";
-// import AdminContainer from "./pages/Admin/AdminContainer";
-// import AdminPanel from "./pages/Admin/AdminPanel";
+import AdminContainer from "./pages/Admin/AdminContainer";
+import AdminPanel from "./pages/Admin/AdminPanel";
+// import Info from "./pages/info/Info";
 
 // ----------------------------------------------------------------------
 
@@ -35,6 +36,7 @@ export default function Router() {
       children: [
         // { path: 'app', element: <DashboardApp /> },
         { path: 'landing', element: <Landing /> },
+        // { path: 'info', element: <Info /> },
         { path: 'fundraising*', element: <Fundraising /> },
         { path: 'transport*', element: <Transport /> },
         { path: 'homes*', element: <Homes /> },
@@ -52,14 +54,14 @@ export default function Router() {
             { path: 'aids*', element: <MyAids /> }
           ]
         },
-        // {
-        //   path: 'admin',
-        //   element: <AdminContainer />,
-        //   children: [
-        //     { path: 'panel*', element: <AdminPanel /> },
-        //     { path: 'organisations*', element: <div /> },
-        //   ]
-        // }
+        {
+          path: 'admin',
+          element: <AdminContainer />,
+          children: [
+            { path: 'panel*', element: <AdminPanel /> },
+            { path: 'organisations*', element: <div /> },
+          ]
+        }
       ]
     },
     {
