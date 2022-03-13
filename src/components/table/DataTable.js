@@ -2,6 +2,7 @@ import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Checkbox from '@mui/material/Checkbox';
 import CircularProgress from '@mui/material/CircularProgress';
+import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -21,9 +22,10 @@ import useAuth from '../context/AuthContext';
 import Scrollbar from '../Scrollbar';
 import { useTranslation } from 'react-i18next';
 import ListToolbar from './ListToolbar';
-import { filter } from 'lodash';
 import { fToNow, fDateTime, fDate } from '../../utils/formatTime';
 import { isAfter } from 'date-fns';
+import Link from '@mui/material/Link';
+import Iconify from '../Iconify';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -61,8 +63,23 @@ function applySortFilter(array, comparator, query, fieldsToQuery = []) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-function CellValue({ row, value: { type, field, variant, variantConditions } }) {
+function CellValue({ row, value: { type, field, variant, variantConditions, mask, icon } }) {
   const { t, i18n } = useTranslation();
+  const [showMask, setShowMask] = useState(mask);
+
+  const onShowClick = (e) => {
+    e.stopPropagation();
+    setShowMask(false);
+  };
+
+  if (showMask === true) {
+    return (
+      <Button onClick={onShowClick} variant={'text'}>
+        {t('Show')}
+      </Button>
+    );
+  }
+
   switch (type) {
     case 'label':
       return row[field] != null && row[field] !== '' ? (
@@ -95,6 +112,22 @@ function CellValue({ row, value: { type, field, variant, variantConditions } }) 
             {row[field] ? t('Tak') : t('Nie')}
           </span>
         </Label>
+      );
+    case 'link':
+      return (
+        <Link href={row[field] || undefined} target={'_blank'}>
+          <span style={{ display: 'block', lineHeight: 'initial' }}>
+            {icon ? (
+              <Iconify
+                icon={icon}
+                style={{ width: '24px', height: '24px' }}
+                sx={{ color: row[field] ? 'primary' : 'lightgray' }}
+              />
+            ) : (
+              row[field]
+            )}
+          </span>
+        </Link>
       );
     default:
       return t(String(row[field]));
@@ -130,7 +163,9 @@ export default function DataTable({
   queryMatchFields = ['name', 'addressFrom'],
   showAvatar = true,
   selectable = true,
-  showMenu = true
+  showMenu = true,
+  allowEditAll = false,
+  allowRemoveAll = false,
 }) {
   const { t, i18n } = useTranslation();
   const [order, setOrder] = useState('asc');
@@ -263,7 +298,7 @@ export default function DataTable({
         onFilterName={handleFilterByName}
         onClearFilter={handleClearFilter}
         onClearLocation={handleClearLocation}
-        onFilterClick={handleFilterClick}
+        onFilterClick={onFilterClick ? handleFilterClick : undefined}
         showAllSelected={handleShowSelected}
         ListToolbarItems={ListToolbarItems}
         searchPlaceholder={searchPlaceholder}
@@ -295,10 +330,15 @@ export default function DataTable({
                   const isItemSelected = selected.indexOf(id) !== -1;
 
                   const canEdit =
-                    isAdmin ||
+                    isAdmin || allowEditAll ||
                     (row.roles != null && user != null && row.roles[user.uid] === 'owner');
                   const canRemove =
-                    isAdmin || (row.roles != null && user != null && row.roles[user.uid] === 'owner');
+                    isAdmin || allowRemoveAll ||
+                    (row.roles != null && user != null && row.roles[user.uid] === 'owner');
+
+                  const shouldShowMenu =
+                    showMenu &&
+                    (onItemClick || (canEdit && onItemEdit) || (canRemove && onItemDelete));
 
                   return (
                     <TableRow
@@ -321,7 +361,7 @@ export default function DataTable({
                         component="th"
                         scope="row"
                         padding="none"
-                        onClick={() => handleItemClick(row)}
+                        onClick={onItemClick ? () => handleItemClick(row) : undefined}
                       >
                         <Stack direction="row" alignItems="center" spacing={2}>
                           {showAvatar !== false && (
@@ -347,18 +387,24 @@ export default function DataTable({
                           key={headObj.id}
                           style={{ cursor: 'pointer' }}
                           align="left"
-                          onClick={() => handleItemClick(row)}
+                          onClick={onItemClick ? () => handleItemClick(row) : undefined}
                         >
                           <CellData row={row} headObj={headObj} />
                         </TableCell>
                       ))}
 
-                      {showMenu && (
+                      {shouldShowMenu && (
                         <TableCell align="right">
                           <MoreMenu
-                            onClickShow={() => handleItemClick(row)}
-                            onClickEdit={canEdit ? () => handleItemEditClick(row) : undefined}
-                            onClickDelete={canRemove ? () => handleItemDeleteClick(row) : undefined}
+                            onClickShow={onItemClick ? () => handleItemClick(row) : undefined}
+                            onClickEdit={
+                              canEdit && onItemEdit ? () => handleItemEditClick(row) : undefined
+                            }
+                            onClickDelete={
+                              canRemove && onItemDelete
+                                ? () => handleItemDeleteClick(row)
+                                : undefined
+                            }
                           />
                         </TableCell>
                       )}

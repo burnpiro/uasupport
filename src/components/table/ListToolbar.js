@@ -115,7 +115,7 @@ export default function ListToolbar({
         </Grid>
         {!matches && (
           <Grid item>
-            {numSelected === 0 && (
+            {numSelected === 0 && onFilterClick && (
               <Tooltip title={t('Filter list')}>
                 <IconButton onClick={onFilterClick}>
                   <Iconify icon="ic:round-filter-list" />
@@ -144,7 +144,7 @@ export default function ListToolbar({
 
         {matches && (
           <Grid item>
-            {numSelected === 0 && (
+            {numSelected === 0 && onFilterClick && (
               <Tooltip title={t('Filter list')}>
                 <IconButton onClick={onFilterClick}>
                   <Iconify icon="ic:round-filter-list" />

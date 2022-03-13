@@ -37,7 +37,7 @@ export default function OrganizationsTitle({ handleFormOpen }) {
       <Typography variant="h4" gutterBottom>
         {t('Organizations')}
       </Typography>
-      {!matches && (
+      {!matches && handleFormOpen && (
         <Box>
           <IconButton
             aria-controls={open ? 'basic-menu' : undefined}
@@ -63,7 +63,7 @@ export default function OrganizationsTitle({ handleFormOpen }) {
           </Menu>
         </Box>
       )}
-      {matches && (
+      {matches && handleFormOpen && (
         <Box>
           <Button
             variant="contained"

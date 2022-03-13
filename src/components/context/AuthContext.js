@@ -39,7 +39,6 @@ export function AuthProvider({ children }) {
   async function setUserData(user) {
     if(user) {
       const token = await user.getIdTokenResult();
-      console.log(token);
       if (token.claims.admin === true) {
         setIsAdmin(true);
       }
@@ -52,9 +51,9 @@ export function AuthProvider({ children }) {
       setUser(user);
     } else {
       setUser(null);
-      setIsAdmin(true);
-      setIsVolunteer(true);
-      setIsManager(true);
+      setIsAdmin(false);
+      setIsVolunteer(false);
+      setIsManager(false);
     }
   }
 
@@ -178,14 +177,14 @@ export function AuthProvider({ children }) {
         enqueueSnackbar(t('Error') + ': ' + t(res.code), { variant: 'error' });
       }
     }
-    setUser(null);
+    setUserData(null);
     setLoading(false);
   }
 
   function logout() {
     signOut(auth)
       .then(() => {
-        setUser(null);
+        setUserData(null);
         enqueueSnackbar(t('Logged out successfully'), { variant: 'success' });
       })
       .catch((error) => {
@@ -209,7 +208,7 @@ export function AuthProvider({ children }) {
       logout,
       forgotPassword
     }),
-    [user, loading, error]
+    [user, loading, error, isAdmin, isManager, isVolunteer]
   );
 
   return (

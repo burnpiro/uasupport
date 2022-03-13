@@ -26,6 +26,7 @@ import AdminContainer from "./pages/Admin/AdminContainer";
 import AdminPanel from "./pages/Admin/AdminPanel";
 import Organizations from "./pages/Admin/Organizations/Organizations";
 import OrganizationDetails from "./pages/Admin/Organizations/OrganizationDetails";
+import OrgContainer from "./pages/Admin/OrgContainer";
 // import Info from "./pages/info/Info";
 
 // ----------------------------------------------------------------------
@@ -63,6 +64,14 @@ export default function Router() {
             { path: 'panel*', element: <AdminPanel /> },
             { path: 'organisations/:organizationId', element: <OrganizationDetails /> },
             { path: 'organisations', element: <Organizations /> },
+          ]
+        },
+        {
+          path: 'organization',
+          element: <OrgContainer />,
+          children: [
+            { path: 'manage/:organizationId', element: <OrganizationDetails /> },
+            { path: 'manage', element: <Organizations /> },
           ]
         }
       ]

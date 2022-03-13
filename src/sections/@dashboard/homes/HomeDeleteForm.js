@@ -57,7 +57,7 @@ export default function HomeDeleteForm({ onClose, open, onFormSubmitted, deleteE
   };
 
   return (
-    <Dialog onClose={handleClose} fullWidth open={open} maxWidth={false}>
+    <Dialog onClose={handleClose} fullWidth open={open} maxWidth={"sm"}>
       <CustomDialogTitle onClose={handleClose}>{t('RemoveHome')}</CustomDialogTitle>
       <DialogContent>
         <Stack spacing={3}>

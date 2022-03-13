@@ -4,17 +4,17 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
 import FormHelperText from '@mui/material/FormHelperText';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { useTranslation } from 'react-i18next';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import {SITE_KEY} from "../../../utils/settings";
-import {CustomDialogTitle} from "../../../components/dialogs/CustomDialogTitle";
+import { SITE_KEY } from '../../../utils/settings';
+import { CustomDialogTitle } from '../../../components/dialogs/CustomDialogTitle';
 
-export default function AidsDeleteForm({ onClose, open, onFormSubmitted, deleteElement }) {
+export default function MemberDeleteForm({ onClose, open, onFormSubmitted, deleteElement }) {
   const { t, i18n } = useTranslation();
   const [typedName, setTypedName] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -58,20 +58,22 @@ export default function AidsDeleteForm({ onClose, open, onFormSubmitted, deleteE
 
   return (
     <Dialog onClose={handleClose} fullWidth open={open} maxWidth={"sm"}>
-      <CustomDialogTitle onClose={handleClose}>{t('RemoveAid')}</CustomDialogTitle>
+      <CustomDialogTitle onClose={handleClose}>
+        {t(deleteElement.type === 'manager' ? 'Remove Manager' : 'Remove Volunteer')}
+      </CustomDialogTitle>
       <DialogContent>
         <Stack spacing={3}>
           <Typography>
-            {t('AidName')}: <b>{deleteElement.name}</b>
+            {t('Name')}: <b>{deleteElement.name}</b>
           </Typography>
           <TextField
             fullWidth
             value={typedName}
             onChange={handleChange}
-            label={t('TypeTheName') + '*'}
+            label={t('TypeTheName2') + '*'}
             error={Boolean(typedName.trim() !== deleteElement.name.trim())}
             helperText={
-              Boolean(typedName.trim() !== deleteElement.name.trim()) && t('TypedNameIncorrect')
+              Boolean(typedName.trim() !== deleteElement.name.trim()) && t('TypedNameIncorrect2')
             }
           />
           <ReCAPTCHA

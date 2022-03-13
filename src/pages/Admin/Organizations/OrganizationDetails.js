@@ -26,16 +26,37 @@ import {
 } from '../../../utils/dbService/organizations';
 import OrganizationForm from '../../../sections/@dashboard/organization/OrganizationForm';
 import OrganizationListToolbar from '../../../sections/@dashboard/organization/OrganizationListToolbar';
-import {getVolunteersFromOrg} from "../../../utils/dbService/volunteers";
+import { getVolunteersFromOrg, updateVolunteer } from '../../../utils/dbService/volunteers';
+import OrganizationDetailsTitle from './OrganizationDetailsTitle';
+import MemberForm from '../../../sections/@dashboard/organization/MemberForm';
+import { getManagersFromOrg, updateManager } from '../../../utils/dbService/managers';
+import { addVolunteer, removeVolunteer } from '../../../utils/apiService/volunteersService';
+import { addManager, removeManager } from '../../../utils/apiService/managersService';
+import OrganizationMemberToolbar from '../../../sections/@dashboard/organization/OrganizationMemberToolbar';
+import TransportDeleteForm from '../../../sections/@dashboard/transport/TransportDeleteForm';
+import MemberDeleteForm from '../../../sections/@dashboard/organization/MemberDeleteForm';
+import { removeTransport } from '../../../utils/dbService/transport';
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = () => [
-  { id: 'name', label: i18next.t('Organization Name'), alignRight: false },
+  { id: 'name', label: i18next.t('Name'), alignRight: false },
   {
-    id: 'addressFrom',
-    value: { field: 'addressFrom', type: 'string' },
-    label: i18next.t('Address'),
+    id: 'email',
+    value: { field: 'email', type: 'string', mask: true },
+    label: i18next.t('Email'),
+    alignRight: false
+  },
+  {
+    id: 'phone',
+    value: { field: 'phone', type: 'string', mask: true },
+    label: i18next.t('Phone'),
+    alignRight: false
+  },
+  {
+    id: 'fb',
+    value: { field: 'fb', type: 'link', icon: 'eva:facebook-fill' },
+    label: i18next.t('FB'),
     alignRight: false
   },
   // { id: 'isVerified', label: i18next.t('Verified'), alignRight: false },
@@ -47,13 +68,13 @@ const TABLE_HEAD = () => [
         type: 'label',
         variant: 'success',
         variantConditions: {
-          'foundation-type': 'success',
-          'association-type': 'info',
-          'non-profit-company-type': 'warning'
+          volunteer: 'success',
+          manager: 'info',
+          admin: 'warning'
         }
       }
     ],
-    label: i18next.t('Organization Type'),
+    label: i18next.t('Role'),
     alignRight: false
   }
 ];
@@ -71,7 +92,7 @@ function applyDataFilter(array, { type }) {
   return result;
 }
 
-const queryMatchFields = ['name', 'addressFrom', 'type'];
+const queryMatchFields = ['name', 'type', 'email'];
 
 const avatarGenerator = {
   field: 'type',
@@ -90,37 +111,48 @@ export default function OrganizationDetails() {
 
   const [filterName, setFilterName] = useState(initialQuery);
   const [filterOpen, setFilterOpen] = useState(false);
-  const [formOpen, setFormOpen] = useState(false);
+  const [organizationFormOpen, setOrganizationFormOpen] = useState(false);
+  const [memberFormOpen, setMemberFormOpen] = useState(false);
   const [reloadList, setReloadList] = useState(true);
   const [filter, setFilter] = useState(initialParams);
   const [showDetails, setShowDetails] = useState([]);
+  const [deleteElement, setDeleteElement] = useState(null);
   const [organization, setOrganization] = useState(null);
+  const [editMemberElement, setEditMemberElement] = useState(null);
+  const [editOrganizationElement, setOrganizationEditElement] = useState(null);
   const [list, setList] = useState([]);
   const { t, i18n } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
-  const { user } = useAuth();
+  const { user, isAdmin, isManager, isVolunteer } = useAuth();
   const { enqueueSnackbar } = useSnackbar();
 
   const selectedOrganizationUID = params['organizationId'];
-  console.log(selectedOrganizationUID);
 
   useEffect(() => {
     const dbCall = async () => {
       setIsLoading(true);
       const org = await getOrganization(selectedOrganizationUID);
 
-      console.log(org);
       setReloadList(false);
       if (org == null || org.id == null) {
         enqueueSnackbar(t(response ? response.code : 'Error'), { variant: 'error' });
       }
       setOrganization(org);
-      if(org.id) {
+      if (org.id) {
+        let newList = [];
         const volunteers = await getVolunteersFromOrg(org.id);
         if (!Array.isArray(volunteers)) {
           enqueueSnackbar(t(volunteers.code), { variant: 'error' });
+        } else {
+          newList = [...newList, ...volunteers];
         }
-        setList(Array.isArray(volunteers) ? volunteers : []);
+        const managers = await getManagersFromOrg(org.id);
+        if (!Array.isArray(managers)) {
+          enqueueSnackbar(t(managers.code), { variant: 'error' });
+        } else {
+          newList = [...newList, ...managers];
+        }
+        setList(Array.isArray(newList) ? newList : []);
       }
       setIsLoading(false);
     };
@@ -151,40 +183,80 @@ export default function OrganizationDetails() {
     setFilterOpen(false);
   };
 
-  const handleFormOpen = () => {
-    setFormOpen(true);
+  const handleOrganizationFormOpen = () => {
+    setOrganizationFormOpen(true);
+    setOrganizationEditElement(organization);
   };
 
-  const handleFormClose = () => {
-    setFormOpen(false);
+  const handleOrganizationFormClose = () => {
+    setOrganizationFormOpen(false);
   };
 
-  const onFormSubmitted = async (values) => {
+  const handleMemberFormOpen = (type) => {
+    setMemberFormOpen(type);
+  };
+
+  const handleMemberFormClose = () => {
+    setMemberFormOpen(false);
+  };
+
+  const handleEditMemberFormOpen = (member) => {
+    if (member == null) {
+      const currMember = list.find(el => el.email === user.email);
+      console.log(currMember);
+      setMemberFormOpen(currMember.type);
+      setEditMemberElement(currMember);
+    } else {
+      setMemberFormOpen(member.type);
+      setEditMemberElement(member);
+    }
+  };
+
+  const onOrganizationFormSubmitted = async (values) => {
     try {
       if (values.id != null && values.id.length > 0) {
         const newDoc = await updateOrganization(values);
-        setList(list.map((el) => (el.id === newDoc.id ? newDoc : el)));
-        navigate(
-          values.id + (searchParams.toString().length > 0 ? `?${searchParams.toString()}` : '')
-        );
-        setDisplayDetails(newDoc);
+        setOrganization(newDoc);
+      }
+      handleOrganizationFormClose();
+    } catch (error) {
+      enqueueSnackbar((error && t(error.code)) || t('Error'), { variant: 'error' });
+      return false;
+    }
+  };
+
+  const onMemberFormSubmitted = async (values) => {
+    try {
+      if (values.id != null && values.id.length > 0) {
+        const updateMethod =
+          values.type === 'volunteer'
+            ? updateVolunteer
+            : values.type === 'manager'
+            ? updateManager
+            : null;
+        if (updateMethod != null) {
+          const newDoc = await updateMethod(values);
+          setOrganization(newDoc);
+        } else {
+          enqueueSnackbar(t('Error'), { variant: 'error' });
+        }
       } else {
-        values.createdAt = new Date();
-        values.roles = {
-          [user.uid]: 'owner'
-        };
-        const newDoc = await addOrganization(values);
-        if (newDoc.id) {
-          navigate(
-            newDoc.id + (searchParams.toString().length > 0 ? `?${searchParams.toString()}` : '')
-          );
-          setList([...list, newDoc]);
-          setDisplayDetails(newDoc);
+        const addMethod =
+          values.type === 'volunteer'
+            ? addVolunteer
+            : values.type === 'manager'
+            ? addManager
+            : null;
+        if (addMethod != null) {
+          const newDoc = await addMethod(organization.id, values);
+        } else {
+          enqueueSnackbar(t('Error'), { variant: 'error' });
         }
       }
-      handleFormClose();
+      setReloadList(true);
+      handleMemberFormClose();
     } catch (error) {
-      enqueueSnackbar(t('Error'), { variant: 'error' });
+      enqueueSnackbar((error && t(error.code)) || t('Error'), { variant: 'error' });
       return false;
     }
   };
@@ -203,55 +275,100 @@ export default function OrganizationDetails() {
   };
 
   const setDisplayDetails = (element) => {
-    if (Array.isArray(element)) {
-      setShowDetails(element);
-    } else {
-      navigate(
-        element.id + (searchParams.toString().length > 0 ? `?${searchParams.toString()}` : '')
-      );
-      setShowDetails([element]);
+    navigate(
+      element.id + (searchParams.toString().length > 0 ? `?${searchParams.toString()}` : '')
+    );
+    setShowDetails([element]);
+  };
+
+  const handleDeleteElement = (element) => {
+    setDeleteElement(element);
+  };
+
+  const handleDeleteFormClose = () => {
+    setDeleteElement(null);
+  };
+
+  const onDeleteFormSubmitted = async (element) => {
+    try {
+      if (element.id != null && element.id.length > 0) {
+        const removeMethod =
+          element.type === 'volunteer'
+            ? removeVolunteer
+            : element.type === 'manager'
+            ? removeManager
+            : null;
+        if (removeMethod != null) {
+          const newDoc = await removeMethod(organization.id, deleteElement);
+        } else {
+          enqueueSnackbar(t('Error'), { variant: 'error' });
+        }
+        setReloadList(true);
+      }
+      handleDeleteFormClose();
+    } catch (error) {
+      console.error(error);
+      enqueueSnackbar(t('Error'), { variant: 'error' });
+      return false;
     }
   };
 
   return (
-    <Page title={t('MyAid')}>
+    <Page title={`${t(organization && organization.name)} | ${t('Organization')}`}>
       <Container>
-        <OrganizationsTitle handleFormOpen={handleFormOpen} />
+        {organization && (
+          <OrganizationDetailsTitle
+            onEdit={isAdmin || isManager ? handleOrganizationFormOpen : undefined}
+            handleAddVolunteer={isAdmin || isManager ? handleMemberFormOpen : undefined}
+            handleEditCurrentMember={isManager || isVolunteer ? handleEditMemberFormOpen : undefined}
+            handleAddManager={isAdmin ? handleMemberFormOpen : undefined}
+            name={organization.name}
+          />
+        )}
 
         <DataTable
           isLoading={isLoading}
           TableHead={TableHead}
           filteredData={filteredData}
-          onItemClick={setDisplayDetails}
+          onItemDelete={handleDeleteElement}
           query={filterName}
           queryMatchFields={queryMatchFields}
           isLocationFiltered={false}
           isFiltered={Object.keys(filter).length > 0}
           onClearFilter={handleClearFilter}
           onClearLocation={undefined}
-          onFilterClick={handleFilterClick}
           onFilterQueryChange={handleFilterByName}
           showAllSelected={handleShowSelected}
-          searchPlaceholder={'Organization search'}
-          avatarGenerator={avatarGenerator}
+          searchPlaceholder={'Search'}
           selectable={false}
-          showMenu={false}
           ListToolbarItems={
-            <OrganizationListToolbar filter={filter} onFilterChange={handleSelectFilter} />
+            <OrganizationMemberToolbar filter={filter} onFilterChange={handleSelectFilter} />
           }
         />
       </Container>
-      <FilterDialog
-        open={filterOpen}
-        onClose={handleFilterClose}
-        selectFilter={handleSelectFilter}
-        filter={filter}
-      />
-      {formOpen && (
+      {organizationFormOpen && (
         <OrganizationForm
-          open={formOpen}
-          onClose={handleFormClose}
-          onFormSubmitted={onFormSubmitted}
+          open={organizationFormOpen}
+          onClose={handleOrganizationFormClose}
+          onFormSubmitted={onOrganizationFormSubmitted}
+          editElement={editOrganizationElement}
+        />
+      )}
+      {memberFormOpen && (
+        <MemberForm
+          open={memberFormOpen != null && memberFormOpen !== false}
+          formType={memberFormOpen}
+          onClose={handleMemberFormClose}
+          onFormSubmitted={onMemberFormSubmitted}
+          editElement={editMemberElement}
+        />
+      )}
+      {deleteElement != null && (
+        <MemberDeleteForm
+          open={true}
+          onClose={handleDeleteFormClose}
+          onFormSubmitted={onDeleteFormSubmitted}
+          deleteElement={deleteElement}
         />
       )}
       {isLoading && (

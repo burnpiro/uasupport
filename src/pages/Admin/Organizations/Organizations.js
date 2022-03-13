@@ -19,7 +19,7 @@ import Backdrop from '@mui/material/Backdrop';
 import { getTypeIcon } from '../../../utils/getTypeIcon';
 import OrganizationsTitle from './OrganizationTitle';
 import {
-  addOrganization,
+  addOrganization, getMyOrganizations,
   getOrganizations,
   updateOrganization
 } from '../../../utils/dbService/organizations';
@@ -94,13 +94,13 @@ export default function Organizations() {
   const [transportList, setTransportList] = useState([]);
   const { t, i18n } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
-  const { user } = useAuth();
+  const { user, isAdmin, isManager } = useAuth();
   const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     const dbCall = async () => {
       setIsLoading(true);
-      const response = await getOrganizations(user);
+      const response = await (isManager ? getMyOrganizations(user.uid) : getOrganizations(user));
 
       setReloadList(false);
       if (!Array.isArray(response)) {
@@ -196,7 +196,7 @@ export default function Organizations() {
   return (
     <Page title={t('MyAid')}>
       <Container>
-        <OrganizationsTitle handleFormOpen={handleFormOpen} />
+        <OrganizationsTitle handleFormOpen={isAdmin && handleFormOpen} />
 
         <DataTable
           isLoading={isLoading}
@@ -209,7 +209,6 @@ export default function Organizations() {
           isFiltered={Object.keys(filter).length > 0}
           onClearFilter={handleClearFilter}
           onClearLocation={undefined}
-          onFilterClick={handleFilterClick}
           onFilterQueryChange={handleFilterByName}
           showAllSelected={handleShowSelected}
           searchPlaceholder={'Organization search'}
@@ -221,12 +220,6 @@ export default function Organizations() {
           }
         />
       </Container>
-      <FilterDialog
-        open={filterOpen}
-        onClose={handleFilterClose}
-        selectFilter={handleSelectFilter}
-        filter={filter}
-      />
       {formOpen && (
         <OrganizationForm
           open={formOpen}

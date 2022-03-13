@@ -20,7 +20,7 @@ import Logo from '../../components/Logo';
 import Scrollbar from '../../components/Scrollbar';
 import NavSection from '../../components/NavSection';
 //
-import sidebarConfig, { adminMenu } from './SidebarConfig';
+import sidebarConfig, {adminMenu, managerMenu, volunteerMenu} from './SidebarConfig';
 import { useTranslation } from 'react-i18next';
 import IconButton from '@mui/material/IconButton';
 import Iconify from '../../components/Iconify';
@@ -60,8 +60,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
   const [emailOpen, setEmailOpen] = useState(false);
   const [showGDPR, setShowGDPR] = React.useContext(GDPRContext);
   const isDesktop = useResponsive('up', 'lg');
-  const { isAdmin } = useAuth();
-  console.log(isAdmin);
+  const { isAdmin, isManager, isVolunteer } = useAuth();
 
   useEffect(() => {
     if (isOpenSidebar) {
@@ -74,6 +73,14 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
     title: t(el.title)
   }));
   const adminConfig = adminMenu.map((el) => ({
+    ...el,
+    title: t(el.title)
+  }));
+  const managerConfig = managerMenu.map((el) => ({
+    ...el,
+    title: t(el.title)
+  }));
+  const volunteerConfig = volunteerMenu.map((el) => ({
     ...el,
     title: t(el.title)
   }));
@@ -117,6 +124,18 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
         <Fragment>
           <Divider textAlign="left">{t('Admin')}</Divider>
           <NavSection navConfig={adminConfig} />
+        </Fragment>
+      )}
+      {isManager && (
+        <Fragment>
+          <Divider textAlign="left">{t('Organization')}</Divider>
+          <NavSection navConfig={managerConfig} />
+        </Fragment>
+      )}
+      {isVolunteer && (
+        <Fragment>
+          <Divider textAlign="left">{t('My Volunteering')}</Divider>
+          <NavSection navConfig={managerConfig} />
         </Fragment>
       )}
 

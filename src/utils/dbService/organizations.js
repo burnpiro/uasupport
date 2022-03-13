@@ -15,9 +15,20 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 import { db, storage } from '../../firebase';
 
+export async function getMyOrganizations(uid) {
+  const cols = collection(db, 'organizations');
+  const q = query(cols, where(`roles.${uid}`, '==', 'manager'))
+  const querySnapshot = await getDocs(q);
+  return querySnapshot.docs
+    .map((doc) => ({
+      ...doc.data(),
+      id: doc.id
+    }))
+    .map((doc) => ({ ...doc, createdAt: doc.createdAt.toDate() }));
+}
+
 export async function getOrganizations() {
   const col = collection(db, 'organizations');
-  console.log(col);
   try {
     const querySnapshot = await getDocs(col);
     return querySnapshot.docs
@@ -32,7 +43,6 @@ export async function getOrganizations() {
 }
 
 export async function getOrganization(uid) {
-  console.log(uid);
   try {
     const querySnapshot = await getDoc(doc(db, 'organizations', uid));
     if (querySnapshot.exists()) {

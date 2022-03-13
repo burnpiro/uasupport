@@ -62,4 +62,20 @@ export const adminMenu = [
   },
 ]
 
+export const managerMenu = [
+  {
+    title: 'My Organizations',
+    path: '/dashboard/organization/manage',
+    icon: getIcon('ps:organisation')
+  },
+]
+
+export const volunteerMenu = [
+  {
+    title: 'My Organizations',
+    path: '/dashboard/organization/manage',
+    icon: getIcon('ps:organisation')
+  },
+]
+
 export default sidebarConfig;

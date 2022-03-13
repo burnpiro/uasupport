@@ -30,13 +30,11 @@ import AuthSocial from '../../authentication/AuthSocial';
 import { CustomDialogTitle } from '../../../components/dialogs/CustomDialogTitle';
 import { Link as RouterLink } from 'react-router-dom';
 
-export default function OrganizationForm(props) {
+export default function OrganizationForm({ onClose, open, onFormSubmitted, editElement }) {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down('sm'));
   const { t, i18n } = useTranslation();
-  const { user, isAdmin } = useAuth();
-
-  const { onClose, open, onFormSubmitted, editElement } = props;
+  const { user, isAdmin, isManager } = useAuth();
 
   const TransportSchema = Yup.object().shape({
     type: Yup.string().required(t('Field required')),
@@ -102,11 +100,7 @@ export default function OrganizationForm(props) {
   const isDisabled = !isFormValid;
 
   const canShowForm =
-    (editElement == null && isAdmin) ||
-    (editElement != null &&
-      user != null &&
-      editElement.owner != null &&
-      editElement.owner === user.id);
+    (editElement == null && isAdmin) || (editElement != null && (isAdmin || isManager));
 
   return (
     <Dialog
@@ -118,7 +112,7 @@ export default function OrganizationForm(props) {
       maxWidth={'md'}
     >
       <CustomDialogTitle onClose={handleClose}>
-        {editElement != null && editElement.id != null ? t('EditAid') : t('AddAid')}
+        {editElement != null && editElement.id != null ? t('Edit') : t('Add')}
       </CustomDialogTitle>
       {canShowForm && (
         <DialogContent>
@@ -366,7 +360,7 @@ export default function OrganizationForm(props) {
               loading={isSubmitting}
               onClick={submitForm}
             >
-              {editElement != null && editElement.id != null ? t('EditAid') : t('AddAid')}
+              {editElement != null && editElement.id != null ? t('Edit') : t('Add')}
             </LoadingButton>
             {Object.keys(errors).length > 0 && (
               <FormHelperText error>{t('Form Invalid')}</FormHelperText>

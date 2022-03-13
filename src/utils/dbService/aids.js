@@ -16,8 +16,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { db, storage } from '../../firebase';
 import { sample } from 'lodash';
 
-// import aids from './aid-zbior.json';
-
 // export async function getAids() {
 //   const transportCol = collection(db, 'aids');
 //   const transportSnapshot = await getDocs(transportCol);

@@ -15,8 +15,8 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 import { db, storage } from '../../firebase';
 
-export async function getVolunteers() {
-  const col = collection(db, 'volunteers');
+export async function getManagers() {
+  const col = collection(db, 'managers');
   console.log(col);
   try {
     const querySnapshot = await getDocs(col);
@@ -31,10 +31,10 @@ export async function getVolunteers() {
   }
 }
 
-export async function getVolunteer(uid) {
+export async function getManager(uid) {
   console.log(uid);
   try {
-    const querySnapshot = await getDoc(doc(db, 'volunteers', uid));
+    const querySnapshot = await getDoc(doc(db, 'managers', uid));
     if (querySnapshot.exists()) {
       return {
         ...querySnapshot.data(),
@@ -47,9 +47,9 @@ export async function getVolunteer(uid) {
   }
 }
 
-export async function getVolunteersFromOrg(orgUid) {
+export async function getManagersFromOrg(orgUid) {
   try {
-    const cols = collection(db, 'volunteers');
+    const cols = collection(db, 'managers');
     const q = query(cols, where(`organization`, '==', orgUid))
     const querySnapshot = await getDocs(q);
     return querySnapshot.docs
@@ -63,12 +63,7 @@ export async function getVolunteersFromOrg(orgUid) {
   }
 }
 
-export async function removeVolunteer(data) {
-  await deleteDoc(doc(db, 'volunteers', data.id));
-  return data.id;
-}
-
-export async function updateVolunteer(data) {
-  await setDoc(doc(db, 'volunteers', data.id), data);
+export async function updateManager(data) {
+  await setDoc(doc(db, 'managers', data.id), data);
   return data;
 }

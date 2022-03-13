@@ -53,12 +53,14 @@ export default function MoreMenu({ onClickShow, onClickEdit, onClickDelete }) {
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-        <MenuItem sx={{ color: 'text.secondary' }} onClick={handleShowClick}>
-          <ListItemIcon>
-            <Iconify icon="eva:book-open-outline" width={24} height={24} />
-          </ListItemIcon>
-          <ListItemText primary={t('Zobacz')} primaryTypographyProps={{ variant: 'body2' }} />
-        </MenuItem>
+        {onClickShow && (
+          <MenuItem sx={{ color: 'text.secondary' }} onClick={handleShowClick}>
+            <ListItemIcon>
+              <Iconify icon="eva:book-open-outline" width={24} height={24} />
+            </ListItemIcon>
+            <ListItemText primary={t('Zobacz')} primaryTypographyProps={{ variant: 'body2' }} />
+          </MenuItem>
+        )}
 
         {onClickEdit && (
           <MenuItem onClick={handleEditClick} sx={{ color: 'text.secondary' }}>
