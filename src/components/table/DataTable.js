@@ -160,12 +160,14 @@ export default function DataTable({
   ListToolbarItems,
   searchPlaceholder,
   avatarGenerator,
+  shouldAllowDeleteFunc,
+  shouldAllowEditFunc,
   queryMatchFields = ['name', 'addressFrom'],
   showAvatar = true,
   selectable = true,
   showMenu = true,
   allowEditAll = false,
-  allowRemoveAll = false,
+  allowRemoveAll = false
 }) {
   const { t, i18n } = useTranslation();
   const [order, setOrder] = useState('asc');
@@ -329,12 +331,16 @@ export default function DataTable({
                   const { id, name } = row;
                   const isItemSelected = selected.indexOf(id) !== -1;
 
-                  const canEdit =
-                    isAdmin || allowEditAll ||
-                    (row.roles != null && user != null && row.roles[user.uid] === 'owner');
-                  const canRemove =
-                    isAdmin || allowRemoveAll ||
-                    (row.roles != null && user != null && row.roles[user.uid] === 'owner');
+                  const canEdit = shouldAllowEditFunc
+                    ? shouldAllowEditFunc(row)
+                    : isAdmin ||
+                      allowEditAll ||
+                      (row.roles != null && user != null && row.roles[user.uid] === 'owner');
+                  const canRemove = shouldAllowDeleteFunc
+                    ? shouldAllowDeleteFunc(row)
+                    : isAdmin ||
+                      allowRemoveAll ||
+                      (row.roles != null && user != null && row.roles[user.uid] === 'owner');
 
                   const shouldShowMenu =
                     showMenu &&

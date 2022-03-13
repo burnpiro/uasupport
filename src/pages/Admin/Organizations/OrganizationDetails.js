@@ -202,8 +202,7 @@ export default function OrganizationDetails() {
 
   const handleEditMemberFormOpen = (member) => {
     if (member == null) {
-      const currMember = list.find(el => el.email === user.email);
-      console.log(currMember);
+      const currMember = list.find((el) => el.email === user.email);
       setMemberFormOpen(currMember.type);
       setEditMemberElement(currMember);
     } else {
@@ -313,6 +312,20 @@ export default function OrganizationDetails() {
     }
   };
 
+  const shouldAllowDelete = (row) => {
+    if (row.type === 'volunteer') {
+      return (
+        isAdmin ||
+        isManager ||
+        (row.roles != null && user != null && row.roles[user.uid] === 'owner')
+      );
+    }
+    if (row.type === 'manager') {
+      return isAdmin || (row.roles != null && user != null && row.roles[user.uid] === 'owner');
+    }
+    return false;
+  };
+
   return (
     <Page title={`${t(organization && organization.name)} | ${t('Organization')}`}>
       <Container>
@@ -320,7 +333,9 @@ export default function OrganizationDetails() {
           <OrganizationDetailsTitle
             onEdit={isAdmin || isManager ? handleOrganizationFormOpen : undefined}
             handleAddVolunteer={isAdmin || isManager ? handleMemberFormOpen : undefined}
-            handleEditCurrentMember={isManager || isVolunteer ? handleEditMemberFormOpen : undefined}
+            handleEditCurrentMember={
+              isManager || isVolunteer ? handleEditMemberFormOpen : undefined
+            }
             handleAddManager={isAdmin ? handleMemberFormOpen : undefined}
             name={organization.name}
           />
@@ -340,6 +355,7 @@ export default function OrganizationDetails() {
           onFilterQueryChange={handleFilterByName}
           showAllSelected={handleShowSelected}
           searchPlaceholder={'Search'}
+          shouldAllowDeleteFunc={shouldAllowDelete}
           selectable={false}
           ListToolbarItems={
             <OrganizationMemberToolbar filter={filter} onFilterChange={handleSelectFilter} />
