@@ -58,7 +58,14 @@ const defaultMapCenter = {
   lng: 19.956
 };
 
-export default function HomeForm(props) {
+export default function HomeForm({
+  onClose,
+  open,
+  onFormSubmitted,
+  editElement,
+  defaultStatus = 'dam',
+  hideCaptcha = false
+}) {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down('sm'));
   const [locale, setLocale] = React.useState('pl');
@@ -70,8 +77,6 @@ export default function HomeForm(props) {
   const { user } = useAuth();
   const [showGDPR, setShowGDPR] = React.useContext(GDPRContext);
   const [mapCenter, setMapCenter] = useState(defaultMapCenter);
-
-  const { onClose, open, onFormSubmitted, editElement, defaultStatus = 'dam' } = props;
 
   const TransportSchema = Yup.object().shape({
     name: Yup.string().min(2, t('TooShort')).max(100, 'TooLong').required(t('Field required')),
@@ -112,6 +117,9 @@ export default function HomeForm(props) {
   };
 
   const postFormSubmit = async (values) => {
+    if(hideCaptcha) {
+      return await handleSubmitConfirmed(values);
+    }
     const recaptchaValue = recaptchaRef.current.getValue();
     if (recaptchaValue.length > 3) {
       return await handleSubmitConfirmed(values);
@@ -197,7 +205,8 @@ export default function HomeForm(props) {
 
   const isFormValid = !(values.fb === '' && values.email === '' && values.phone === '');
 
-  const isDisabled = !isFormValid || captchaError || token == null || !GDPRChecked;
+  const isDisabled =
+    !isFormValid || ((captchaError || token == null) && !hideCaptcha) || !GDPRChecked;
 
   const canShowForm =
     (editElement == null && user != null) ||
@@ -226,7 +235,7 @@ export default function HomeForm(props) {
         <DialogContent>
           <FormikProvider value={formik}>
             <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-              <Stack spacing={3}>
+              <Stack spacing={3} sx={{pt: 1}}>
                 <TextField
                   fullWidth
                   label={t('Name') + '*'}
@@ -469,7 +478,7 @@ export default function HomeForm(props) {
             />
             {!GDPRChecked && <FormHelperText error>{t('TCAccept')}</FormHelperText>}
           </Box>
-          <Box sx={{ mt: 2 }}>
+          {!hideCaptcha && <Box sx={{ mt: 2 }}>
             <ReCAPTCHA
               ref={recaptchaRef}
               sitekey={SITE_KEY}
@@ -477,7 +486,7 @@ export default function HomeForm(props) {
               onErrored={handleCaptchaError}
               onExpired={handleCaptchaExpired}
             />
-          </Box>
+          </Box>}
         </DialogContent>
       )}
       {!canShowForm && (
@@ -542,7 +551,7 @@ export default function HomeForm(props) {
             {values.fb === '' && values.email === '' && values.phone === '' && (
               <FormHelperText error>{t('Form Invalid - Social')}</FormHelperText>
             )}
-            {captchaError && <FormHelperText error>{t('CAPTCHA Error')}</FormHelperText>}
+            {captchaError && !hideCaptcha && <FormHelperText error>{t('CAPTCHA Error')}</FormHelperText>}
             {isFormValid && !GDPRChecked && <FormHelperText error>{t('TCAccept')}</FormHelperText>}
           </Stack>
         )}

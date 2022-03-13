@@ -23,7 +23,7 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import RadioGroup from '@mui/material/RadioGroup';
 import Radio from '@mui/material/Radio';
-import { getTypeIcon } from "../../../utils/getTypeIcon";
+import { getTypeIcon } from '../../../utils/getTypeIcon';
 import { useRef, useState } from 'react';
 import { SITE_KEY } from '../../../utils/settings';
 import { useTheme } from '@mui/material/styles';
@@ -42,7 +42,13 @@ const defaultMapCenter = {
   lng: 19.956
 };
 
-export default function AidsForm(props) {
+export default function AidsForm({
+  onClose,
+  open,
+  onFormSubmitted,
+  editElement,
+  hideCaptcha = false
+}) {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down('sm'));
   const [locale, setLocale] = React.useState('pl');
@@ -54,8 +60,6 @@ export default function AidsForm(props) {
   const { user } = useAuth();
   const [showGDPR, setShowGDPR] = React.useContext(GDPRContext);
   const [mapCenter, setMapCenter] = useState(defaultMapCenter);
-
-  const { onClose, open, onFormSubmitted, editElement } = props;
 
   const TransportSchema = Yup.object().shape({
     aidType: Yup.string().required(t('Field required')),
@@ -92,6 +96,9 @@ export default function AidsForm(props) {
   };
 
   const postFormSubmit = async (values) => {
+    if (hideCaptcha) {
+      return await handleSubmitConfirmed(values);
+    }
     const recaptchaValue = recaptchaRef.current.getValue();
     if (recaptchaValue.length > 3) {
       return await handleSubmitConfirmed(values);
@@ -163,7 +170,8 @@ export default function AidsForm(props) {
 
   const isFormValid = !(values.fb === '' && values.email === '' && values.phone === '');
 
-  const isDisabled = !isFormValid || captchaError || token == null || !GDPRChecked;
+  const isDisabled =
+    !isFormValid || ((captchaError || token == null) && !hideCaptcha) || !GDPRChecked;
 
   const canShowForm =
     (editElement == null && user != null) ||
@@ -189,7 +197,7 @@ export default function AidsForm(props) {
         <DialogContent>
           <FormikProvider value={formik}>
             <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-              <Stack spacing={3}>
+              <Stack spacing={3} sx={{pt: 1}}>
                 <FormControl>
                   <FormLabel id="aid-type-label">{t('AidType')}</FormLabel>
                   <RadioGroup
@@ -501,15 +509,17 @@ export default function AidsForm(props) {
             />
             {!GDPRChecked && <FormHelperText error>{t('TCAccept')}</FormHelperText>}
           </Box>
-          <Box sx={{ mt: 2 }}>
-            <ReCAPTCHA
-              ref={recaptchaRef}
-              sitekey={SITE_KEY}
-              onChange={onCaptchaSubmit}
-              onErrored={handleCaptchaError}
-              onExpired={handleCaptchaExpired}
-            />
-          </Box>
+          {!hideCaptcha && (
+            <Box sx={{ mt: 2 }}>
+              <ReCAPTCHA
+                ref={recaptchaRef}
+                sitekey={SITE_KEY}
+                onChange={onCaptchaSubmit}
+                onErrored={handleCaptchaError}
+                onExpired={handleCaptchaExpired}
+              />
+            </Box>
+          )}
         </DialogContent>
       )}
       {!canShowForm && (
@@ -572,7 +582,7 @@ export default function AidsForm(props) {
             {values.fb === '' && values.email === '' && values.phone === '' && (
               <FormHelperText error>{t('Form Invalid - Social')}</FormHelperText>
             )}
-            {captchaError && <FormHelperText error>{t('CAPTCHA Error')}</FormHelperText>}
+            {captchaError && !hideCaptcha && <FormHelperText error>{t('CAPTCHA Error')}</FormHelperText>}
             {isFormValid && !GDPRChecked && <FormHelperText error>{t('TCAccept')}</FormHelperText>}
           </Stack>
         )}

@@ -125,7 +125,7 @@ export default function Homes() {
   const [editElement, setEditElement] = useState(null);
   const [deleteElement, setDeleteElement] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const { user } = useAuth();
+  const { user, isVolunteer, isAdmin } = useAuth();
   const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
@@ -325,6 +325,8 @@ export default function Homes() {
           onFilterClick={handleFilterClick}
           onFilterQueryChange={handleFilterByName}
           showAllSelected={handleShowSelected}
+          allowEditAll={isVolunteer}
+          allowRemoveAll={isVolunteer}
           searchPlaceholder={'Szukaj zakwaterowania'}
           ListToolbarItems={<HomeListToolbar filter={filter} onFilterChange={handleSelectFilter} />}
         />
@@ -343,6 +345,7 @@ export default function Homes() {
           onClose={handleFormClose}
           onFormSubmitted={onFormSubmitted}
           editElement={editElement}
+          hideCaptcha={isAdmin || isVolunteer}
         />
       )}
       {deleteElement != null && (

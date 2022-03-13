@@ -130,7 +130,7 @@ export default function Transport() {
   const [editElement, setEditElement] = useState(null);
   const [deleteElement, setDeleteElement] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const { user } = useAuth();
+  const { user, isVolunteer, isAdmin } = useAuth();
   const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
@@ -332,6 +332,8 @@ export default function Transport() {
           onFilterClick={handleFilterClick}
           onFilterQueryChange={handleFilterByName}
           showAllSelected={handleShowSelected}
+          allowEditAll={isVolunteer}
+          allowRemoveAll={isVolunteer}
           searchPlaceholder={'Szukaj transport'}
           ListToolbarItems={
             <TransportListToolbar filter={filter} onFilterChange={handleSelectFilter} />
@@ -356,6 +358,7 @@ export default function Transport() {
           onClose={handleFormClose}
           onFormSubmitted={onFormSubmitted}
           editElement={editElement}
+          hideCaptcha={isAdmin || isVolunteer}
         />
       )}
       {deleteElement != null && (
