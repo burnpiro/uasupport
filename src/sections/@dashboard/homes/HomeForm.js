@@ -117,7 +117,7 @@ export default function HomeForm({
   };
 
   const postFormSubmit = async (values) => {
-    if(hideCaptcha) {
+    if (hideCaptcha) {
       return await handleSubmitConfirmed(values);
     }
     const recaptchaValue = recaptchaRef.current.getValue();
@@ -235,7 +235,7 @@ export default function HomeForm({
         <DialogContent>
           <FormikProvider value={formik}>
             <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-              <Stack spacing={3} sx={{pt: 1}}>
+              <Stack spacing={3} sx={{ pt: 1 }}>
                 <TextField
                   fullWidth
                   label={t('Name') + '*'}
@@ -292,6 +292,9 @@ export default function HomeForm({
                   error={Boolean(touched.phone && errors.phone)}
                   helperText={touched.phone && errors.phone}
                 />
+                <FormHelperText sx={{ color: 'darkorange' }}>
+                  {t('OnlyYourOwnDataWarning')}
+                </FormHelperText>
 
                 <LocalizationProvider dateAdapter={AdapterDateFns} locale={localeMap[locale]}>
                   <DateTimePicker
@@ -350,6 +353,7 @@ export default function HomeForm({
                     )
                   }}
                 />
+                <FormHelperText error>{t('AddressWarning')}</FormHelperText>
                 <Button color={'primary'} variant={'outlined'} onClick={handleUseLocation}>
                   {t('Use current location')}
                 </Button>
@@ -478,15 +482,17 @@ export default function HomeForm({
             />
             {!GDPRChecked && <FormHelperText error>{t('TCAccept')}</FormHelperText>}
           </Box>
-          {!hideCaptcha && <Box sx={{ mt: 2 }}>
-            <ReCAPTCHA
-              ref={recaptchaRef}
-              sitekey={SITE_KEY}
-              onChange={onCaptchaSubmit}
-              onErrored={handleCaptchaError}
-              onExpired={handleCaptchaExpired}
-            />
-          </Box>}
+          {!hideCaptcha && (
+            <Box sx={{ mt: 2 }}>
+              <ReCAPTCHA
+                ref={recaptchaRef}
+                sitekey={SITE_KEY}
+                onChange={onCaptchaSubmit}
+                onErrored={handleCaptchaError}
+                onExpired={handleCaptchaExpired}
+              />
+            </Box>
+          )}
         </DialogContent>
       )}
       {!canShowForm && (
@@ -551,7 +557,9 @@ export default function HomeForm({
             {values.fb === '' && values.email === '' && values.phone === '' && (
               <FormHelperText error>{t('Form Invalid - Social')}</FormHelperText>
             )}
-            {captchaError && !hideCaptcha && <FormHelperText error>{t('CAPTCHA Error')}</FormHelperText>}
+            {captchaError && !hideCaptcha && (
+              <FormHelperText error>{t('CAPTCHA Error')}</FormHelperText>
+            )}
             {isFormValid && !GDPRChecked && <FormHelperText error>{t('TCAccept')}</FormHelperText>}
           </Stack>
         )}

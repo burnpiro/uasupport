@@ -279,6 +279,9 @@ export default function TransportForm({
                   error={Boolean(touched.phone && errors.phone)}
                   helperText={touched.phone && errors.phone}
                 />
+                <FormHelperText sx={{ color: 'darkorange' }}>
+                  {t('OnlyYourOwnDataWarning')}
+                </FormHelperText>
 
                 <LocalizationProvider dateAdapter={AdapterDateFns} locale={localeMap[locale]}>
                   <DateTimePicker
@@ -321,6 +324,7 @@ export default function TransportForm({
                     )
                   }}
                 />
+                <FormHelperText error>{t('AddressWarning')}</FormHelperText>
                 <Button color={'primary'} variant={'outlined'} onClick={handleUseLocation}>
                   {t('Use current location')}
                 </Button>
@@ -473,7 +477,9 @@ export default function TransportForm({
             {values.fb === '' && values.email === '' && values.phone === '' && (
               <FormHelperText error>{t('Form Invalid - Social')}</FormHelperText>
             )}
-            {captchaError && !hideCaptcha && <FormHelperText error>{t('CAPTCHA Error')}</FormHelperText>}
+            {captchaError && !hideCaptcha && (
+              <FormHelperText error>{t('CAPTCHA Error')}</FormHelperText>
+            )}
             {isFormValid && !GDPRChecked && <FormHelperText error>{t('TCAccept')}</FormHelperText>}
           </Stack>
         )}

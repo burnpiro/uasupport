@@ -197,7 +197,7 @@ export default function AidsForm({
         <DialogContent>
           <FormikProvider value={formik}>
             <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-              <Stack spacing={3} sx={{pt: 1}}>
+              <Stack spacing={3} sx={{ pt: 1 }}>
                 <FormControl>
                   <FormLabel id="aid-type-label">{t('AidType')}</FormLabel>
                   <RadioGroup
@@ -446,6 +446,9 @@ export default function AidsForm({
                   error={Boolean(touched.phone && errors.phone)}
                   helperText={touched.phone && errors.phone}
                 />
+                <FormHelperText sx={{ color: 'darkorange' }}>
+                  {t('OnlyYourOwnDataWarning')}
+                </FormHelperText>
 
                 <TextField
                   fullWidth
@@ -582,7 +585,9 @@ export default function AidsForm({
             {values.fb === '' && values.email === '' && values.phone === '' && (
               <FormHelperText error>{t('Form Invalid - Social')}</FormHelperText>
             )}
-            {captchaError && !hideCaptcha && <FormHelperText error>{t('CAPTCHA Error')}</FormHelperText>}
+            {captchaError && !hideCaptcha && (
+              <FormHelperText error>{t('CAPTCHA Error')}</FormHelperText>
+            )}
             {isFormValid && !GDPRChecked && <FormHelperText error>{t('TCAccept')}</FormHelperText>}
           </Stack>
         )}

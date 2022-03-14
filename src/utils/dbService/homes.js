@@ -40,27 +40,31 @@ export async function getMyHomes(uid) {
 }
 
 export async function getHomes() {
-  const pathReference = ref(storage, 'homes-data');
-  const url = await getDownloadURL(pathReference);
-  const bundleData = await fetch(url, {
-    method: 'GET', // *GET, POST, PUT, DELETE, etc.
-    mode: 'cors' // no-cors, *cors, same-origin
-  });
-  // // Load the bundle contents into the Firestore SDK
-  await loadBundle(db, bundleData.body);
-  //
-  const query = await namedQuery(db, 'latest-homes-query');
-  const storiesSnap = await getDocsFromCache(query);
-  //
-  return shuffle(
-    storiesSnap.docs
-      .map((doc) => ({
-        ...doc.data(),
-        id: doc.id
-      }))
-      .filter((doc) => doc.status === 'dam')
-      .map((doc) => ({ ...doc, date: doc.date.toDate() })) || []
-  );
+  try {
+    const pathReference = ref(storage, 'homes-data');
+    const url = await getDownloadURL(pathReference);
+    const bundleData = await fetch(url, {
+      method: 'GET', // *GET, POST, PUT, DELETE, etc.
+      mode: 'cors' // no-cors, *cors, same-origin
+    });
+    // // Load the bundle contents into the Firestore SDK
+    await loadBundle(db, bundleData.body);
+    //
+    const query = await namedQuery(db, 'latest-homes-query');
+    const storiesSnap = await getDocsFromCache(query);
+    //
+    return shuffle(
+      storiesSnap.docs
+        .map((doc) => ({
+          ...doc.data(),
+          id: doc.id
+        }))
+        .filter((doc) => doc.status === 'dam')
+        .map((doc) => ({...doc, date: doc.date.toDate()})) || []
+    );
+  } catch (e) {
+    return []
+  }
 }
 
 export async function addHome(data) {

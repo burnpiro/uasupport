@@ -28,7 +28,7 @@ import { getDownloadURL, ref } from 'firebase/storage';
 
 export async function getMyTransport(uid) {
   const cols = collection(db, 'transport');
-  const q = query(cols, where(`roles.${uid}`, '==', 'owner'))
+  const q = query(cols, where(`roles.${uid}`, '==', 'owner'));
   const querySnapshot = await getDocs(q);
   return querySnapshot.docs
     .map((doc) => ({
@@ -39,27 +39,31 @@ export async function getMyTransport(uid) {
 }
 
 export async function getTransport() {
-  const pathReference = ref(storage, 'transport-data');
-  const url = await getDownloadURL(pathReference);
-  const bundleData = await fetch(url, {
-    method: 'GET', // *GET, POST, PUT, DELETE, etc.
-    mode: 'cors' // no-cors, *cors, same-origin
-  });
-  // // Load the bundle contents into the Firestore SDK
-  await loadBundle(db, bundleData.body);
-  //
-  const query = await namedQuery(db, 'latest-transport-query');
-  const storiesSnap = await getDocsFromCache(query);
-  //
-  return (
-    storiesSnap.docs
-      .map((doc) => ({
-        ...doc.data(),
-        id: doc.id
-      }))
-      .filter((doc) => doc.status === 'dam')
-      .map((doc) => ({ ...doc, date: doc.date.toDate() })) || []
-  );
+  try {
+    const pathReference = ref(storage, 'transport-data');
+    const url = await getDownloadURL(pathReference);
+    const bundleData = await fetch(url, {
+      method: 'GET', // *GET, POST, PUT, DELETE, etc.
+      mode: 'cors' // no-cors, *cors, same-origin
+    });
+    // // Load the bundle contents into the Firestore SDK
+    await loadBundle(db, bundleData.body);
+    //
+    const query = await namedQuery(db, 'latest-transport-query');
+    const storiesSnap = await getDocsFromCache(query);
+    //
+    return (
+      storiesSnap.docs
+        .map((doc) => ({
+          ...doc.data(),
+          id: doc.id
+        }))
+        .filter((doc) => doc.status === 'dam')
+        .map((doc) => ({ ...doc, date: doc.date.toDate() })) || []
+    );
+  } catch (e) {
+    return [];
+  }
 }
 
 export async function removeTransport(data) {

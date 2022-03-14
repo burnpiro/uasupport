@@ -77,8 +77,8 @@ const resources = {
       'standard-aid': 'Material Aid',
       'all-aid': 'All',
       SzczegolyPomocy: 'Aid Details',
-      AddressHomeDesc: 'Address - description',
-      AddressAidDesc: 'Address - description',
+      AddressHomeDesc: 'Address',
+      AddressAidDesc: 'Address',
       'Pomoc UA': 'Help UA',
       'Search for fundraising': 'Search for Fundraising...',
       Fundraising: 'List of funds',
@@ -218,7 +218,9 @@ const resources = {
       Show: 'Show',
       'Remove Manager': 'Remove Manager',
       'Remove Volunteer': 'Remove Volunteer',
-      'Edit My Data': 'Edit My Data'
+      'Edit My Data': 'Edit My Data',
+      AddressWarning: 'Please do not provide exact address with your home number. Street name is more than enough.',
+      OnlyYourOwnDataWarning: 'When entering data, they must belong to the person who enters them. Entering someone else\'s data is not allowed, unless that person expressly consents.'
     }
   },
   pl: {
@@ -226,8 +228,8 @@ const resources = {
       Transport: 'Transport',
       Name: 'Imię',
       Address: 'Adres',
-      AddressDesc: 'Adres Odbioru - opis',
-      AddressToDesc: 'Jadę do... - opis',
+      AddressDesc: 'Adres Odbioru',
+      AddressToDesc: 'Jadę do...',
       Date: 'Data',
       Car: 'Samochód - rodzaj',
       People: 'Osoby',
@@ -297,8 +299,8 @@ const resources = {
       'standard-aid': 'Zbiórka Rzeczowa',
       'all-aid': 'Dowolna Pomoc',
       SzczegolyPomocy: 'Szczegóły Pomocy',
-      AddressHomeDesc: 'Adres Mieszkania - opis',
-      AddressAidDesc: 'Adres Centrum - opis',
+      AddressHomeDesc: 'Adres Mieszkania',
+      AddressAidDesc: 'Adres Centrum',
       'Pomoc UA': 'Pomoc UA',
       'Search for fundraising': 'Wyszukaj Zbiórki...',
       Fundraising: 'Lista Zbiórek',
@@ -438,7 +440,9 @@ const resources = {
       Show: 'Zobacz',
       'Remove Manager': 'Usuń Menedżera',
       'Remove Volunteer': 'Usuń Wolontariusza',
-      'Edit My Data': 'Edytuj Moje Dane'
+      'Edit My Data': 'Edytuj Moje Dane',
+      AddressWarning: 'Prosimy nie podawać pełnego adresu z numerem budynku. Nazwa ulicy jest aż nadto wystarczając.',
+      OnlyYourOwnDataWarning: 'Wprowadzając dane muszą należeć do osoby która je wprowadza. Wprowadzanie czyiś danych nie jest dozwolone, chyba że ta osoba wyraża ewidentną zgodę.'
     }
   },
   ua: {
@@ -446,8 +450,8 @@ const resources = {
       Transport: 'Транспорт',
       Name: "Ім'я",
       Address: 'Адреса',
-      AddressDesc: 'Адреса самовивезення - опис',
-      AddressToDesc: 'Я збираюся ... - опис',
+      AddressDesc: 'Адреса самовивезення',
+      AddressToDesc: 'Я збираюся ...',
       Date: 'Дата',
       Car: 'Автомобіль - тип',
       People: 'Особи',
@@ -517,8 +521,8 @@ const resources = {
       'standard-aid': 'Збір матеріалів',
       'all-aid': 'Будь-яка допомога',
       SzczegolyPomocy: 'Деталі довідки',
-      AddressHomeDesc: 'Адреса квартири - опис',
-      AddressAidDesc: 'Адреса центру - опис',
+      AddressHomeDesc: 'Адреса квартири',
+      AddressAidDesc: 'Адреса центру',
       'Pomoc UA': 'Допоможіть UA',
       'Search for fundraising': 'Пошук підборів...',
       Fundraising: 'Список колекції',
@@ -658,7 +662,9 @@ const resources = {
       Show: 'дивись',
       'Remove Manager': 'Видалити менеджер',
       'Remove Volunteer': 'Видалити волонтера',
-      'Edit My Data': 'Редагувати Мої дані'
+      'Edit My Data': 'Редагувати Мої дані',
+      AddressWarning: 'Будь ласка, не вказуйте точну адресу разом із домашнім номером. Назви вулиці більш ніж достатньо.',
+      OnlyYourOwnDataWarning: 'При введенні даних вони повинні належати особі, яка їх вводить. Забороняється вводити чужі дані, за винятком випадків, коли ця особа чітко на це дасть згоду.'
     }
   },
   ru: {
@@ -666,8 +672,8 @@ const resources = {
       Transport: 'Транспорт',
       Name: 'Имя',
       Address: 'Адрес',
-      AddressDesc: 'Адрес получения - описание',
-      AddressToDesc: 'Я собираюсь ... - описание',
+      AddressDesc: 'Адрес получения',
+      AddressToDesc: 'Я собираюсь ...',
       Date: 'Дата',
       Car: 'Тип автомобиля',
       People: 'лица',
@@ -737,8 +743,8 @@ const resources = {
       'standard-aid': 'Сбор материалов',
       'all-aid': 'Любая помощь',
       SzczegolyPomocy: 'Детали справки',
-      AddressHomeDesc: 'Адрес квартиры - описание',
-      AddressAidDesc: 'Адрес центра - описание',
+      AddressHomeDesc: 'Адрес квартиры',
+      AddressAidDesc: 'Адрес центра',
       'Pomoc UA': 'Помощь UA',
       'Search for fundraising': 'Искать отскоки...',
       Fundraising: 'Список коллекций',
@@ -879,7 +885,9 @@ const resources = {
       Show: 'Смотреть',
       'Remove Manager': 'Удалить менеджера',
       'Remove Volunteer': 'Удалить волонтера',
-      'Edit My Data': 'Изменить мои данные'
+      'Edit My Data': 'Изменить мои данные',
+      AddressWarning: 'Пожалуйста, не указывайте точный адрес вместе с вашим домашним номером. Названия улицы более чем достаточно.',
+      OnlyYourOwnDataWarning: 'При вводе данных они должны принадлежать тому, кто их вводит. Ввод чужих данных не допускается, если это лицо прямо не дает на это согласия.'
     }
   }
 };
