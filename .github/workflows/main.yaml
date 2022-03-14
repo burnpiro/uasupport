@@ -3,6 +3,9 @@ name: Build to GH Pages
 on:
   push:
     branches: [ master ]
+    paths:
+      - 'src/**'
+      - 'public/**'
 
 jobs:
   build-and-deploy:
