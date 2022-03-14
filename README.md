@@ -1,9 +1,11 @@
 ![logo](./public/logo.svg)
 
 ![licence](https://badgen.net/github/license/burnpiro/uasupport)
-![node](https://badgen.net/badge/node/>=16/green)
+![node](https://img.shields.io/badge/node-%3E%3D16-brightgreen)
 ![commits](https://badgen.net/github/commits/burnpiro/uasupport)
-![node](https://badgen.net/badge/react/>=17/orange)
+![node](https://img.shields.io/badge/react-%3E%3D17-orange)
+![firebase](https://img.shields.io/badge/cloud-firebase-red)
+![pwa](https://img.shields.io/badge/PWA-ready-brightgreen)
 
 # UASupport
 

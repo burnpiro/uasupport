@@ -1,0 +1,161 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function getRole(rsc) {
+      return rsc.data.roles[request.auth.uid];
+    }
+
+    function hasRoles(rsc) {
+      return rsc.data.keys().hasAll(['roles']);
+    }
+
+    function isOneOfRoles(rsc, array) {
+      return isSignedIn() && hasRoles(rsc) && (getRole(rsc) in array);
+    }
+
+    function documentHasOwner(res) {
+      return hasRoles(res);
+    }
+
+    function isAdmin() {
+      return request.auth.token.admin == true;
+    }
+
+    function isVolunteer() {
+      return request.auth.token.volunteer == true;
+    }
+
+    match /organizations/{document} {
+      function isValidNewElement() {
+        return request.resource.data.roles[request.auth.uid] == 'owner';
+      }
+
+      function onlyContentChanged() {
+        // Ensure that created and roles are unchanged.
+        return (request.resource.data.get('createdAt', null) == resource.data.get('createdAt', null)) && (request.resource.data.get('rules', null) == resource.data.get('rules', null));
+      }
+
+      allow create: if isAdmin() && isValidNewElement();
+      allow delete: if isAdmin();
+      allow update: if (isOneOfRoles(resource, ['owner', 'manager']) || isAdmin()) && onlyContentChanged();
+      allow read: if (isOneOfRoles(resource, ['owner', 'manager', 'volunteer'])) || isAdmin() || true;
+    }
+
+    match /managers/{document} {
+      function isValidNewElement() {
+        return request.resource.data.roles[request.auth.uid] == 'owner';
+      }
+
+      function onlyContentChanged() {
+        // Ensure that created and roles are unchanged.
+        return (request.resource.data.get('createdAt', null) == resource.data.get('createdAt', null)) && (request.resource.data.get('rules', null) == resource.data.get('rules', null)) && (request.resource.data.get('email', null) == resource.data.get('email', null));
+      }
+
+      function isManagerInUsersOrg() {
+        // check if current use has "manager" role in volunteers organization
+        return get(/databases/$(database)/documents/organizations/$(resource.data.organization)).data.roles[request.auth.uid] == 'manager';
+      }
+
+      function isVolunteerInUsersOrg() {
+        // check if current use has "manager" role in volunteers organization
+        return get(/databases/$(database)/documents/organizations/$(resource.data.organization)).data.roles[request.auth.uid] == 'volunteer';
+      }
+
+      function isEditingAuthUser() {
+        return request.auth.token.email == resource.data.email;
+      }
+
+      allow create: if isAdmin() && isValidNewElement();
+      allow delete: if isAdmin();
+      allow update: if (isEditingAuthUser() && onlyContentChanged()) || isAdmin();
+      allow read: if (isOneOfRoles(resource, ['owner'])) || isManagerInUsersOrg() || isVolunteerInUsersOrg() || isAdmin();
+    }
+
+    match /volunteers/{document} {
+      function isValidNewElement() {
+        return request.resource.data.roles[request.auth.uid] == 'owner';
+      }
+
+      function onlyContentChanged() {
+        // Ensure that created and roles are unchanged.
+        return (request.resource.data.get('createdAt', null) == resource.data.get('createdAt', null)) && (request.resource.data.get('rules', null) == resource.data.get('rules', null)) && (request.resource.data.get('email', null) == resource.data.get('email', null));
+      }
+
+      function isManagerInUsersOrg() {
+        // check if current use has "manager" role in volunteers organization
+        return get(/databases/$(database)/documents/organizations/$(resource.data.organization)).data.roles[request.auth.uid] == 'manager';
+      }
+
+      function isVolunteerInUsersOrg() {
+        // check if current use has "manager" role in volunteers organization
+        return get(/databases/$(database)/documents/organizations/$(resource.data.organization)).data.roles[request.auth.uid] == 'volunteer';
+      }
+
+      function isEditingAuthUser() {
+        return request.auth.token.email == resource.data.email;
+      }
+
+      allow create: if isAdmin() && isValidNewElement();
+      allow delete: if isAdmin();
+      allow update: if (isEditingAuthUser() && onlyContentChanged()) || isAdmin();
+      allow read: if isOneOfRoles(resource, ['owner']) || isManagerInUsersOrg() || isVolunteerInUsersOrg() || isAdmin();
+    }
+
+    match /aids/{document} {
+      function isValidNewElement() {
+        return request.resource.data.roles[request.auth.uid] == 'owner';
+      }
+
+      function onlyContentChanged() {
+        // Ensure that created and roles are unchanged.
+        return (request.resource.data.get('createdAt', null) == resource.data.get('createdAt', null)) && (request.resource.data.get('rules', null) == resource.data.get('rules', null));
+      }
+
+      allow create: if isValidNewElement();
+      allow delete: if (isOneOfRoles(resource, ['owner']) || isAdmin() || isVolunteer());
+      allow update: if (isOneOfRoles(resource, ['owner']) || isAdmin() || isVolunteer()) && onlyContentChanged();
+      allow read: if (isOneOfRoles(resource, ['owner']));
+    }
+    match /fundraising/{document} {
+      allow read: if true;
+      allow write: if false;
+    }
+    match /homes/{document} {
+      function isValidNewElement() {
+        return request.resource.data.roles[request.auth.uid] == 'owner';
+      }
+
+      function onlyContentChanged() {
+        // Ensure that created and roles are unchanged.
+        return (request.resource.data.get('createdAt', null) == resource.data.get('createdAt', null)) && (request.resource.data.get('rules', null) == resource.data.get('rules', null));
+      }
+
+      allow create: if isValidNewElement();
+      allow delete: if (isOneOfRoles(resource, ['owner']) || isAdmin() || isVolunteer());
+      allow update: if (isOneOfRoles(resource, ['owner']) || isAdmin() || isVolunteer()) && onlyContentChanged();
+      allow read: if (isOneOfRoles(resource, ['owner']));
+    }
+    match /transport/{document} {
+      function isValidNewElement() {
+        return request.resource.data.roles[request.auth.uid] == 'owner';
+      }
+
+      function onlyContentChanged() {
+        // Ensure that created and roles are unchanged.
+        return (request.resource.data.get('createdAt', null) == resource.data.get('createdAt', null)) && (request.resource.data.get('rules', null) == resource.data.get('rules', null));
+      }
+
+      allow create: if isValidNewElement();
+      allow delete: if (isOneOfRoles(resource, ['owner']) || isAdmin() || isVolunteer());
+      allow update: if (isOneOfRoles(resource, ['owner']) || isAdmin() || isVolunteer()) && onlyContentChanged();
+      allow read: if (isOneOfRoles(resource, ['owner']));
+    }
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
