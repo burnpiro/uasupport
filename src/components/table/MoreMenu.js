@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 
 // ----------------------------------------------------------------------
 
-export default function MoreMenu({ onClickShow, onClickEdit, onClickDelete }) {
+export default function MoreMenu({ onClickShow, onClickEdit, onClickDelete, onClickToggle, isHidden }) {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   const { t, i18n } = useTranslation();
@@ -23,9 +23,17 @@ export default function MoreMenu({ onClickShow, onClickEdit, onClickDelete }) {
       setIsOpen(false);
     }
   };
+
   const handleDeleteClick = () => {
     if (onClickDelete) {
       onClickDelete();
+      setIsOpen(false);
+    }
+  };
+
+  const handleToggleClick = () => {
+    if (onClickToggle) {
+      onClickToggle();
       setIsOpen(false);
     }
   };
@@ -48,7 +56,7 @@ export default function MoreMenu({ onClickShow, onClickEdit, onClickDelete }) {
         anchorEl={ref.current}
         onClose={() => setIsOpen(false)}
         PaperProps={{
-          sx: { width: 200, maxWidth: '100%' }
+          sx: { minWidth: 150, maxWidth: '100%' }
         }}
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
@@ -59,6 +67,15 @@ export default function MoreMenu({ onClickShow, onClickEdit, onClickDelete }) {
               <Iconify icon="eva:book-open-outline" width={24} height={24} />
             </ListItemIcon>
             <ListItemText primary={t('Zobacz')} primaryTypographyProps={{ variant: 'body2' }} />
+          </MenuItem>
+        )}
+
+        {onClickToggle && (
+          <MenuItem onClick={handleToggleClick} sx={{ color: 'text.secondary' }}>
+            <ListItemIcon>
+              <Iconify icon={isHidden ? "bx:show" : "bx:hide"} width={24} height={24} />
+            </ListItemIcon>
+            <ListItemText primary={isHidden ? t('Mark as Available') : t('Mark as Unavailable')} primaryTypographyProps={{ variant: 'body2' }} />
           </MenuItem>
         )}
 

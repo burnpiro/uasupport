@@ -157,7 +157,8 @@ export default function HomeForm({
           disability: '',
           includingTransport: '',
           separateBath: false,
-          kitchen: false
+          kitchen: false,
+          hidden: false
         },
     validationSchema: TransportSchema,
     onSubmit: postFormSubmit

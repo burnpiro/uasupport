@@ -1,5 +1,5 @@
-const functions = require("firebase-functions");
-const admin = require("firebase-admin");
+const functions = require('firebase-functions');
+const admin = require('firebase-admin');
 
 const bucket = admin.storage().bucket();
 exports.autoGenerateTransport = functions.firestore
@@ -8,7 +8,11 @@ exports.autoGenerateTransport = functions.firestore
     const bundleId = 'latest-transport';
 
     const bundle = admin.firestore().bundle(bundleId);
-    var querySnapshot = await admin.firestore().collection('transport').get();
+    var querySnapshot = await admin
+      .firestore()
+      .collection('transport')
+      .where('hidden', '!=', true)
+      .get();
 
     var bundleBuffer = bundle
       .add('latest-transport-query', querySnapshot) // Add a named query.

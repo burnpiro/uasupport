@@ -131,7 +131,8 @@ export default function AidsForm({
           addressFrom: '',
           from: [],
           aidType: 'standard-aid',
-          aidSubType: ''
+          aidSubType: '',
+          hidden: false
         },
     validationSchema: TransportSchema,
     onSubmit: postFormSubmit

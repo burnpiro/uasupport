@@ -61,6 +61,20 @@ const TABLE_HEAD = () => [
     label: i18next.t('Status'),
     alignRight: false
   },
+  {
+    id: 'hidden',
+    value: {
+      field: 'hidden',
+      type: 'label',
+      variant: 'success',
+      variantConditions: {
+        false: 'success',
+        true: 'error'
+      }
+    },
+    label: i18next.t('Is Hidden?'),
+    alignRight: false
+  },
   { id: '' }
 ];
 
@@ -267,6 +281,19 @@ export default function MyHomes() {
     }
   };
 
+  const handleToggleAvailability = async (element) => {
+    try {
+      await onFormSubmitted({
+        ...element,
+        hidden: !(element.hidden)
+      })
+      setShowDetails([])
+    } catch (error) {
+      enqueueSnackbar(t('Error'), { variant: 'error' });
+      return false;
+    }
+  }
+
   return (
     <Page title={t('MyHomes')}>
       <Container>
@@ -279,6 +306,7 @@ export default function MyHomes() {
           onItemClick={setDisplayDetails}
           onItemEdit={handleEditElement}
           onItemDelete={handleDeleteElement}
+          onClickToggle={handleToggleAvailability}
           query={filterName}
           queryMatchFields={queryMatchFields}
           isLocationFiltered={false}

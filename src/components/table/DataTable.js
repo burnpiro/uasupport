@@ -148,6 +148,7 @@ export default function DataTable({
   filteredData,
   onItemClick,
   onItemEdit,
+  onClickToggle,
   onItemDelete,
   query,
   isLocationFiltered,
@@ -406,6 +407,10 @@ export default function DataTable({
                             onClickEdit={
                               canEdit && onItemEdit ? () => handleItemEditClick(row) : undefined
                             }
+                            onClickToggle={
+                              canEdit && onClickToggle ? () => onClickToggle(row) : undefined
+                            }
+                            isHidden={row.hidden}
                             onClickDelete={
                               canRemove && onItemDelete
                                 ? () => handleItemDeleteClick(row)

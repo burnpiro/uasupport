@@ -1,5 +1,5 @@
-const functions = require("firebase-functions");
-const admin = require("firebase-admin");
+const functions = require('firebase-functions');
+const admin = require('firebase-admin');
 
 const bucket = admin.storage().bucket();
 exports.autoGenerateHomes = functions.firestore
@@ -8,7 +8,11 @@ exports.autoGenerateHomes = functions.firestore
     const bundleId = 'latest-homes';
 
     const bundle = admin.firestore().bundle(bundleId);
-    var querySnapshot = await admin.firestore().collection('homes').get();
+    var querySnapshot = await admin
+      .firestore()
+      .collection('homes')
+      .where('hidden', '!=', true)
+      .get();
 
     var bundleBuffer = bundle
       .add('latest-homes-query', querySnapshot) // Add a named query.

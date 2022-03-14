@@ -220,7 +220,12 @@ const resources = {
       'Remove Volunteer': 'Remove Volunteer',
       'Edit My Data': 'Edit My Data',
       AddressWarning: 'Please do not provide exact address with your home number. Street name is more than enough.',
-      OnlyYourOwnDataWarning: 'When entering data, they must belong to the person who enters them. Entering someone else\'s data is not allowed, unless that person expressly consents.'
+      OnlyYourOwnDataWarning: 'When entering data, they must belong to the person who enters them. Entering someone else\'s data is not allowed, unless that person expressly consents.',
+      'Mark as Available': 'Mark as Available',
+      'Mark as Unavailable': 'Mark as Unavailable',
+      'true': 'Yes',
+      'false': 'No',
+      'Is Hidden?': 'Is Hidden?'
     }
   },
   pl: {
@@ -442,7 +447,12 @@ const resources = {
       'Remove Volunteer': 'Usuń Wolontariusza',
       'Edit My Data': 'Edytuj Moje Dane',
       AddressWarning: 'Prosimy nie podawać pełnego adresu z numerem budynku. Nazwa ulicy jest aż nadto wystarczając.',
-      OnlyYourOwnDataWarning: 'Wprowadzając dane muszą należeć do osoby która je wprowadza. Wprowadzanie czyiś danych nie jest dozwolone, chyba że ta osoba wyraża ewidentną zgodę.'
+      OnlyYourOwnDataWarning: 'Wprowadzając dane muszą należeć do osoby która je wprowadza. Wprowadzanie czyiś danych nie jest dozwolone, chyba że ta osoba wyraża ewidentną zgodę.',
+      'Mark as Available': 'Oznacz jako Dostępne',
+      'Mark as Unavailable': 'Oznacz jako Niedostępne',
+      'true': 'Tak',
+      'false': 'Nie',
+      'Is Hidden?': 'Niewidoczne?'
     }
   },
   ua: {
@@ -664,7 +674,12 @@ const resources = {
       'Remove Volunteer': 'Видалити волонтера',
       'Edit My Data': 'Редагувати Мої дані',
       AddressWarning: 'Будь ласка, не вказуйте точну адресу разом із домашнім номером. Назви вулиці більш ніж достатньо.',
-      OnlyYourOwnDataWarning: 'При введенні даних вони повинні належати особі, яка їх вводить. Забороняється вводити чужі дані, за винятком випадків, коли ця особа чітко на це дасть згоду.'
+      OnlyYourOwnDataWarning: 'При введенні даних вони повинні належати особі, яка їх вводить. Забороняється вводити чужі дані, за винятком випадків, коли ця особа чітко на це дасть згоду.',
+      'Mark as Available': 'Позначити як доступне',
+      'Mark as Unavailable': 'Позначити як недоступний',
+      'true': 'Так',
+      'false': 'ні',
+      'Is Hidden?': 'Невидимий?'
     }
   },
   ru: {
@@ -887,7 +902,12 @@ const resources = {
       'Remove Volunteer': 'Удалить волонтера',
       'Edit My Data': 'Изменить мои данные',
       AddressWarning: 'Пожалуйста, не указывайте точный адрес вместе с вашим домашним номером. Названия улицы более чем достаточно.',
-      OnlyYourOwnDataWarning: 'При вводе данных они должны принадлежать тому, кто их вводит. Ввод чужих данных не допускается, если это лицо прямо не дает на это согласия.'
+      OnlyYourOwnDataWarning: 'При вводе данных они должны принадлежать тому, кто их вводит. Ввод чужих данных не допускается, если это лицо прямо не дает на это согласия.',
+      'Mark as Available': 'Отметить как доступный',
+      'Mark as Unavailable': 'Отметить как недоступный',
+      'true': 'да',
+      'false': 'Нет',
+      'Is Hidden?': 'Невидимый?'
     }
   }
 };

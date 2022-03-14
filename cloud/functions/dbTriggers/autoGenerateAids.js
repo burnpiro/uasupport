@@ -1,5 +1,5 @@
-const functions = require("firebase-functions");
-const admin = require("firebase-admin");
+const functions = require('firebase-functions');
+const admin = require('firebase-admin');
 const bucket = admin.storage().bucket();
 
 exports.autoGenerateAids = functions.firestore
@@ -8,7 +8,11 @@ exports.autoGenerateAids = functions.firestore
     const bundleId = 'latest-aids';
 
     const bundle = admin.firestore().bundle(bundleId);
-    var querySnapshot = await admin.firestore().collection('aids').get();
+    var querySnapshot = await admin
+      .firestore()
+      .collection('aids')
+      .where('hidden', '!=', true)
+      .get();
 
     var bundleBuffer = bundle
       .add('latest-aids-query', querySnapshot) // Add a named query.

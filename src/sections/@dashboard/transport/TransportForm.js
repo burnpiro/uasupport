@@ -152,7 +152,8 @@ export default function TransportForm({
           status: defaultStatus,
           date: new Date(),
           from: [],
-          people: 0
+          people: 0,
+          hidden: false
         },
     validationSchema: TransportSchema,
     onSubmit: postFormSubmit
