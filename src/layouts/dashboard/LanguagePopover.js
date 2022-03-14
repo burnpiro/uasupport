@@ -203,7 +203,12 @@ export default function LanguagePopover() {
         <img src={lang.icon} alt={lang.label} />
       </IconButton>
 
-      <MenuPopover open={open} onClose={handleClose} anchorEl={anchorRef.current}>
+      <MenuPopover
+        open={open}
+        onClose={handleClose}
+        anchorEl={anchorRef.current}
+        sx={{ maxHeight: '80vh', overflow: 'auto' }}
+      >
         <Box sx={{ py: 1 }}>
           {COMBINED_LANGS.map((option) => (
             <MenuItem
@@ -213,7 +218,15 @@ export default function LanguagePopover() {
               sx={{ py: 1, px: 2.5 }}
             >
               <ListItemIcon>
-                <Box component="img" alt={option.label} src={option.icon} />
+                <Box
+                  component="img"
+                  alt={option.label}
+                  src={option.icon}
+                  sx={{
+                    width: 32,
+                    height: 32
+                  }}
+                />
               </ListItemIcon>
               <ListItemText primaryTypographyProps={{ variant: 'body2' }}>
                 {option.label}
@@ -252,6 +265,7 @@ export default function LanguagePopover() {
           height: !isSelectedMainLang ? 30 : 24,
           borderWidth: '3px',
           borderStyle: !isSelectedMainLang ? 'solid' : 'none',
+          borderColor: (theme) => theme.palette.primary.light,
           ...(open && {
             bgcolor: (theme) => alpha(theme.palette.primary.main, theme.palette.action.focusOpacity)
           })
@@ -260,10 +274,7 @@ export default function LanguagePopover() {
         {isSelectedMainLang ? (
           <img src={'/static/icons/flags/world-svgrepo-com.svg'} alt={lang.label} />
         ) : (
-          <img
-            src={lang.icon}
-            alt={lang.label}
-          />
+          <img src={lang.icon} alt={lang.label} />
         )}
       </IconButton>
 
