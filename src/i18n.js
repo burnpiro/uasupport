@@ -682,7 +682,6 @@ const resources = {
       'Is Hidden?': 'Невидимий?'
     }
   },
-  {
     nl: {
         translation: {
             Transport: 'Transport',
@@ -767,7 +766,7 @@ const resources = {
             'Mieszkanie-dzieci': 'Kinderen',
             'Mieszkanie-disability': 'Belangrijk voor mensen met een beperking',
             'Mieszkanie-transport': 'Transport',
-            'Mieszkanie-czas': 'Voor hoelang?'',
+            'Mieszkanie-czas': 'Voor hoelang?',
             Tak: 'Ja',
             Nie: 'Nee',
             Zobacz: 'Details',
@@ -813,7 +812,7 @@ const resources = {
             'auth/wrong-password': 'Ingevoerde details zijn niet geldig',
             'By registering, I agree to': 'Door te registreren, stem ik in met...',
             'Create a free account.': 'Gratis account aanmaken.',
-            'Don't have an account?': 'Nog geen account?',
+            "Don't have an account?": 'Nog geen account?',
             'Enter your details below.': 'Login methode selecteren',
             Error: 'Error',
             'First name': 'Voornaam',
@@ -894,8 +893,7 @@ const resources = {
             AddressWarning: 'Gelieve uw exact adres niet aan te geven inclusief huisnummer. Enkel de straatnaam is meer dan genoeg.',
             'OnlyYourOwnDataWarning': 'Ingevoerde gegevens moeten van toepassing zijn op de persoon die ze invoert. Iemand andes zijn gegevens invoeren is niet toegestaan, tenzij die persoon het uitdrukkelijk toestaat.'
         }
-    }
-},
+    },
   ru: {
     translation: {
       Transport: 'Транспорт',
