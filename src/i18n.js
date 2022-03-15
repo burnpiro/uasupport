@@ -684,9 +684,9 @@ const resources = {
   },
     it: {
         translation: {
-            Transport: 'Trasporto'
-            Name: 'Nome'
-            Address: 'Indirizzo'
+            Transport: 'Trasporto',
+            Name: 'Nome',
+            Address: 'Indirizzo',
             Date: 'Data',
             People: 'Persone',
             Verified: 'Verificato',
@@ -734,8 +734,7 @@ const resources = {
             AddHome: 'Offri alloggio',
             GetHome: 'Cerca alloggio',
             'Not found': 'Non trovato',
-            'Nessun risultato é stato trovato per la tua richiesta, per favore considera di cambiare richiesta per vedere più risultati.':
-                'Non ci sono risultati corrispondenti alla tua richiesta.',
+            'No results found for your query, please consider to change it in order to see more.': 'Nessun risultato é stato trovato per la tua richiesta, per favore considera di cambiare richiesta per vedere più risultati.',
             Aids: 'Centro D’Aiuto',
             AddAid: 'Aggiungi Centro D’Aiuto',
             HealthAids: 'Centro D’Assistenza Medica',
@@ -814,7 +813,7 @@ const resources = {
             'auth/user-not-found': 'Le credenziali fornite non sono valide',
             'auth/weak-password': 'La password é troppo debole',
             'auth/wrong-password': 'Le credenziali fornite non sono valide',
-            'By registering, I agree to': 'Registando, accetto'',
+            'By registering, I agree to': 'Registando, accetto',
             'Create a free account.': 'Crea un’account gratuito.',
             "Don't have an account?": "Non hai un’account?",
             'Enter your details below.': 'Seleziona il metodo di login',
@@ -900,7 +899,6 @@ const resources = {
             OnlyYourOwnDataWarning: 'I dati inseriti devono appartenere alla persona che li inserisce. L\'inserimento di dati di qualcun’altro non è consentito, a meno che tale persona non acconsentisce espressamente.'
         }
     },
-
   ru: {
     translation: {
       Transport: 'Транспорт',
