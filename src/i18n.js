@@ -602,7 +602,7 @@ const resources = {
       'Logged out successfully': 'Terminou sessão com sucesso',
       Login: 'Login',
       'Login to add new data':
-        'A criação de novas entradas é reservada para utilizadores registados. Por favor dê login com o seu método preferido.',
+        'A criação de novas entradas é reservada para utilizadores registados. Por favor faça login com o seu método preferido.',
       Logout: 'Terminar sessão',
       'Message was sent to your email address': 'A mensagem foi enviada para o seu email',
       'Must Contain 8 Characters, One Uppercase, One Lowercase and One Number':
