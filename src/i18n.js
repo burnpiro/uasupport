@@ -221,7 +221,7 @@ const resources = {
       'Edit My Data': 'Editovat Moje Data',
       AddressWarning: 'Neuvádějte přesnou adresu vašeho domova. Název ulice je více než dost.',
       OnlyYourOwnDataWarning: 'Data musí patřit osobě, která je zadává. Zadání dat někoho jiného není povoleno, pokud to daná osoba explicitně nepovolila.'
-}}
+}},
   bg: {
     "translation": {
       "Transport": "Транспорт",
@@ -338,7 +338,7 @@ const resources = {
       "Add": "Добави",
       "OK": "ОК",
       "Regulaminy": "Правила и условия",
-      "TCAccept": "Трябва да приемете правилата и условия за ползване", 
+      "TCAccept": "Трябва да приемете правилата и условия за ползване",
       "TCFillInfo":
         "С попълването на формуляра вие се съгласявате с обработването на личните данни, съдържащи се в него, с цел създаване и споделяне на рекламата. Научете повече за обработката на данни тук.",
       "Find": "Намери",
@@ -437,7 +437,7 @@ const resources = {
       "Edit My Data": "Редактирай моите данни",
       "AddressWarning": "Моля не посочвайте точен адрес с домашния си номер. Името на улицата е повече от достатъчно.",
       "OnlyYourOwnDataWarning": "При въвеждане на данни, те трябва да принадлежат на лицето което ги въвежда. Въвеждането на чужди данни не е разрешено, освен ако това лице изрично не даде съгласието си."
-}}
+}},
   da: {
     translation: {
       Transport: 'Transport',
@@ -1095,7 +1095,7 @@ const resources = {
       'Edit My Data': 'Editja d-Dejta Tiegħi',
       AddressWarning: 'Jekk jogħġbok tipprovdix l-indirizz eżatt tiegħek bin-numru tad-dar. L-isem tat-triq huwa biżżejjed',
       OnlyYourOwnDataWarning: 'L-informazzjoni mdaħħla trid tkun tal-persuna li ddaħħalha. Id-dħul tad-dejta ta’ xi ħadd ieħor mhuwiex permess, sakemm dik il-persuna tagħti l-kunsens tagħha.'
-    }}
+    }},
   sk: {
     translation: {
       Transport: 'Doprava',
@@ -1125,7 +1125,7 @@ const resources = {
       IntegerNumberError: 'Číslo musí mať celú číselnú hodnotu',
       TooShort: 'Príliš krátke',
       TooLong: 'Príliš dlhe',
-      'Invalid Email': 'Neplatný email,
+      'Invalid Email': 'Neplatný email',
       'Invalid URL': 'Neplatná URL adresa',
       Cancel: 'Zrušiť',
       'Form Invalid': 'Formulár je neplatný',
@@ -1758,7 +1758,7 @@ const resources = {
       AddressWarning: 'Por favor não dê a sua morada exata com o número da sua porta. O nome da sua rua é mais que suficiente.',
       OnlyYourOwnDataWarning: 'Os dados introduzidos têm que pertencer ao indivíduo que os introduz. Introduzir os dados de outra pessoa não é permitido, exceto em casos que haja consentimento explícito do outro indivíduo.'
     }
-  },  
+  },
   ua: {
     translation: {
       Transport: 'Транспорт',
@@ -2183,7 +2183,7 @@ const resources = {
             Organizations: 'Organizzazioni',
             Organization: 'Organizzazione',
             'My Organizations': 'Le mie Organizzazioni',
-            'My Volunteering': 'Il mio Volontariato', 
+            'My Volunteering': 'Il mio Volontariato',
             'Organization Name': 'Nome dell’Organizzazione',
             'Organization Contact Data': 'Dati di contatto per l’Organizzazione (numero di identificazione, forma giuridica)',
             'permission-denied': 'Non hai l\'autorizzazione per eseguire questa operazione',
@@ -2201,7 +2201,7 @@ const resources = {
             'Edit My Data': 'Modifica i miei Dati',
             AddressWarning: 'Si prega di non fornire l\'indirizzo esatto con il numero della casa. Il nome della via è più che sufficiente.',
             OnlyYourOwnDataWarning: 'I dati inseriti devono appartenere alla persona che li inserisce. L\'inserimento di dati di qualcun’altro non è consentito, a meno che tale persona non acconsentisce espressamente.'
-}}
+}},
     de: {
         translation: {
             Transport: 'Transport',
@@ -2408,7 +2408,7 @@ const resources = {
             'Edit My Data': 'Meine Daten bearbeiten',
             AddressWarning: 'Bitte gebe nicht deine genau Adresse inklusive Hausnummer an. Der Straßenname reicht vollauf.',
             "OnlyYourOwnDataWarning": "Bitte gebe nur deine eigenen Daten ein. Wenn Du Daten für jemand anderes eingeben möchtest, benötigst Du deren explizite Zustimmung."
-}}
+}},
       nl: {
         translation: {
             Transport: 'Transport',
@@ -2517,7 +2517,7 @@ const resources = {
             TypeTheName: 'Om te verwijderen, herschrijf de naam correct...',
             'TypeTheName2': 'Om te verwijderen, herschrijf de naam correct...',
             TypedNameIncorrect: 'Geschreven naam is niet gelijk aan de originele naam',
-            'TypedNameIncorrect': 'Geschreven naam is niet gelijk aan de originele naam',
+            'TypedNameIncorrect2': 'Geschreven naam is niet gelijk aan de originele naam',
             'CAPTCHA Error': 'Ongeldige CAPTCHA',
             MedicalAidType: 'Medische hulp type',
             SupportedBy: 'Ondersteund door',
