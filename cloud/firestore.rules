@@ -120,6 +120,22 @@ service cloud.firestore {
       allow update: if (isOneOfRoles(resource, ['owner']) || isAdmin() || isVolunteer()) && onlyContentChanged();
       allow read: if (isOneOfRoles(resource, ['owner']));
     }
+
+    match /groups/{document} {
+      function isValidNewElement() {
+        return request.resource.data.roles[request.auth.uid] == 'owner';
+      }
+
+      function onlyContentChanged() {
+        // Ensure that created and roles are unchanged.
+        return (request.resource.data.get('createdAt', null) == resource.data.get('createdAt', null)) && (request.resource.data.get('rules', null) == resource.data.get('rules', null));
+      }
+
+      allow create: if isValidNewElement();
+      allow delete: if (isOneOfRoles(resource, ['owner']) || isAdmin() || isVolunteer());
+      allow update: if (isOneOfRoles(resource, ['owner']) || isAdmin() || isVolunteer()) && onlyContentChanged();
+      allow read: if (isOneOfRoles(resource, ['owner']));
+    }
     match /fundraising/{document} {
       allow read: if true;
       allow write: if false;

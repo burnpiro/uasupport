@@ -888,7 +888,17 @@ const resources = {
       'Mark as Unavailable': 'Mark as Unavailable',
       true: 'Yes',
       false: 'No',
-      'Is Hidden?': 'Is Hidden?'
+      'Is Hidden?': 'Is Hidden?',
+      GroupName: 'Group Name',
+      GroupDetails: 'Group Details',
+      Groups: 'Groups',
+      'Support Groups': 'Support Groups',
+      GroupType: 'Group Type',
+      GroupSubType: 'Group Subtype',
+      'fb-group': 'FB Group',
+      'other-group': 'Other Group',
+      Language: 'Language',
+      MyGroups: 'My Groups'
     }
   },
   no: {
@@ -1781,7 +1791,17 @@ const resources = {
       'Mark as Unavailable': 'Oznacz jako Niedostępne',
       true: 'Tak',
       false: 'Nie',
-      'Is Hidden?': 'Niewidoczne?'
+      'Is Hidden?': 'Niewidoczne?',
+      GroupName: 'Nazwa Grupy',
+      GroupDetails: 'Szczegóły Grupy',
+      Groups: 'Grupy',
+      'Support Groups': 'Grupy Wsparcia',
+      GroupType: 'Typ Grupy',
+      GroupSubType: 'Podtyp Grupy',
+      'fb-group': 'Grupa FB',
+      'other-group': 'Inna grupa',
+      Language: 'Język',
+      MyGroups: 'Moje Grupy'
     }
   },
   sv: {
@@ -2454,7 +2474,17 @@ const resources = {
       'Mark as Unavailable': 'Позначити як недоступний',
       true: 'Так',
       false: 'ні',
-      'Is Hidden?': 'Невидимий?'
+      'Is Hidden?': 'Невидимий?',
+      GroupName: 'Назва групи',
+      GroupDetails: 'Деталі групи',
+      Groups: 'Групи',
+      'Support Groups': 'Групи підтримки',
+      GroupType: 'Тип групи',
+      GroupSubType: 'Підтип групи',
+      'fb-group': 'Група FB',
+      'other-group': 'Інша група',
+      Language: 'Мову',
+      MyGroups: 'Мої групи'
     }
   },
   it: {
@@ -3347,7 +3377,17 @@ const resources = {
       'Mark as Unavailable': 'Отметить как недоступный',
       true: 'да',
       false: 'Нет',
-      'Is Hidden?': 'Невидимый?'
+      'Is Hidden?': 'Невидимый?',
+      GroupName: 'Имя группы',
+      GroupDetails: 'Детали группы',
+      Groups: 'Группы',
+      'Support Groups': 'Группы поддержки',
+      GroupType: 'Тип группы',
+      GroupSubType: 'Подтип группы',
+      'fb-group': 'Группа FB',
+      'other-group': 'Другая группа',
+      Language: 'Язык',
+      MyGroups: 'Мои группы'
     }
   }
 };

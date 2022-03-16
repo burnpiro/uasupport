@@ -26,6 +26,7 @@ import { fToNow, fDateTime, fDate } from '../../utils/formatTime';
 import { isAfter } from 'date-fns';
 import Link from '@mui/material/Link';
 import Iconify from '../Iconify';
+import Box from '@mui/material/Box';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -63,7 +64,10 @@ function applySortFilter(array, comparator, query, fieldsToQuery = []) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-function CellValue({ row, value: { type, field, variant, variantConditions, mask, icon } }) {
+function CellValue({
+  row,
+  value: { type, field, variant, variantConditions, mask, icon, valueParser }
+}) {
   const { t, i18n } = useTranslation();
   const [showMask, setShowMask] = useState(mask);
 
@@ -128,6 +132,18 @@ function CellValue({ row, value: { type, field, variant, variantConditions, mask
             )}
           </span>
         </Link>
+      );
+    case 'image':
+      return (
+        <Box
+          component="img"
+          alt={row[field]}
+          src={valueParser ? valueParser(row[field]) : row[field]}
+          sx={{
+            width: 32,
+            height: 32
+          }}
+        />
       );
     default:
       return t(String(row[field]));

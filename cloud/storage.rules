@@ -5,6 +5,10 @@ service firebase.storage {
       allow read: if true;
       allow write: if false;
     }
+    match /groups-data {
+      allow read: if true;
+      allow write: if false;
+    }
   	match /transport-data {
       allow read: if true;
       allow write: if false;

@@ -37,6 +37,11 @@ const sidebarConfig = [
     icon: getIcon('bxs:first-aid')
   },
   {
+    title: 'Support Groups',
+    path: '/dashboard/groups',
+    icon: getIcon('ic:outline-groups')
+  },
+  {
     title: 'Login',
     path: '/login',
     withoutAuth: true,

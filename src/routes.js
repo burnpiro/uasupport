@@ -27,6 +27,8 @@ import AdminPanel from "./pages/Admin/AdminPanel";
 import Organizations from "./pages/Admin/Organizations/Organizations";
 import OrganizationDetails from "./pages/Admin/Organizations/OrganizationDetails";
 import OrgContainer from "./pages/Admin/OrgContainer";
+import Groups from "./pages/Groups/Groups";
+import MyGroups from "./pages/My/MyGroups/MyGroups";
 // import Info from "./pages/info/Info";
 
 // ----------------------------------------------------------------------
@@ -44,6 +46,7 @@ export default function Router() {
         { path: 'transport*', element: <Transport /> },
         { path: 'homes*', element: <Homes /> },
         { path: 'aids*', element: <Aids /> },
+        { path: 'groups*', element: <Groups /> },
         { path: 'tc', element: <TC /> },
         { path: 'privacy-policy', element: <PrivacyPolicy /> },
         // { path: 'products', element: <Products /> },
@@ -54,7 +57,8 @@ export default function Router() {
           children: [
             { path: 'transport*', element: <MyTransport /> },
             { path: 'homes*', element: <MyHomes /> },
-            { path: 'aids*', element: <MyAids /> }
+            { path: 'aids*', element: <MyAids /> },
+            { path: 'groups*', element: <MyGroups /> }
           ]
         },
         {

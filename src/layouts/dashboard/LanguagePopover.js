@@ -153,8 +153,8 @@ export const OTHER_LANGS = [
 
 // ----------------------------------------------------------------------
 
-const COMBINED_LANGS = [...LANGS, ...OTHER_LANGS];
-const AVAILABLE_CODES = COMBINED_LANGS.map((el) => el.value);
+export const COMBINED_LANGS = [...LANGS, ...OTHER_LANGS];
+export const AVAILABLE_CODES = COMBINED_LANGS.map((el) => el.value);
 
 export default function LanguagePopover() {
   let defaultLanguage =
