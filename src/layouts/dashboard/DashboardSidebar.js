@@ -205,7 +205,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
                     variant="body2"
                     sx={{ color: 'text.primary', textAlign: 'left', ml: 2, fontSize: '14px' }}
                   >
-                    {'kemalpiro+ua@gmail.com'}
+                    {'uacrisishelp@gmail.com'}
                   </Typography>
                 )}
                 {!emailOpen && (
