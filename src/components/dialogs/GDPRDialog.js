@@ -25,14 +25,14 @@ export default function GDPRDialog({ open, handleClose }) {
     }, 10);
   }, [i18n.resolvedLanguage]);
 
-  let selectedTC = TCPL;
+  let selectedTC = TCEN;
   switch (selectedLang) {
     case 'ua':
     case 'ru':
       selectedTC = TCUA;
       break;
-    case 'en':
-      selectedTC = TCEN;
+    case 'pl':
+      selectedTC = TCPL;
       break;
   }
 
