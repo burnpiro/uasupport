@@ -54,21 +54,21 @@ export const OTHER_LANGS = [
     label: 'Dansk',
     icon: '/static/icons/flags/denmark-svgrepo-com.svg'
   },
-  {
-    value: 'et',
-    label: 'Eesti keel',
-    icon: '/static/icons/flags/estonia-svgrepo-com.svg'
-  },
-  {
-    value: 'fi',
-    label: 'Suomalainen',
-    icon: '/static/icons/flags/finland-svgrepo-com.svg'
-  },
-  {
-    value: 'fr',
-    label: 'Français',
-    icon: '/static/icons/flags/france-svgrepo-com.svg'
-  },
+  // {
+  //   value: 'et',
+  //   label: 'Eesti keel',
+  //   icon: '/static/icons/flags/estonia-svgrepo-com.svg'
+  // },
+  // {
+  //   value: 'fi',
+  //   label: 'Suomalainen',
+  //   icon: '/static/icons/flags/finland-svgrepo-com.svg'
+  // },
+  // {
+  //   value: 'fr',
+  //   label: 'Français',
+  //   icon: '/static/icons/flags/france-svgrepo-com.svg'
+  // },
   {
     value: 'de',
     label: 'Deutsch',
@@ -79,11 +79,11 @@ export const OTHER_LANGS = [
   //   label: 'Ελληνικά',
   //   icon: '/static/icons/flags/greece-svgrepo-com.svg'
   // },
-  {
-    value: 'hu',
-    label: 'Magyar',
-    icon: '/static/icons/flags/hungary-svgrepo-com.svg'
-  },
+  // {
+  //   value: 'hu',
+  //   label: 'Magyar',
+  //   icon: '/static/icons/flags/hungary-svgrepo-com.svg'
+  // },
   {
     value: 'it',
     label: 'Italiano',
@@ -94,11 +94,11 @@ export const OTHER_LANGS = [
   //   label: 'Latviešu',
   //   icon: '/static/icons/flags/latvia-svgrepo-com.svg'
   // },
-  {
-    value: 'lt',
-    label: 'Lietuvių',
-    icon: '/static/icons/flags/lithuania-svgrepo-com.svg'
-  },
+  // {
+  //   value: 'lt',
+  //   label: 'Lietuvių',
+  //   icon: '/static/icons/flags/lithuania-svgrepo-com.svg'
+  // },
   {
     value: 'mt',
     label: 'Malti',
@@ -124,11 +124,11 @@ export const OTHER_LANGS = [
     label: 'Português',
     icon: '/static/icons/flags/portugal-svgrepo-com.svg'
   },
-  {
-    value: 'ro',
-    label: 'Română',
-    icon: '/static/icons/flags/romania-svgrepo-com.svg'
-  },
+  // {
+  //   value: 'ro',
+  //   label: 'Română',
+  //   icon: '/static/icons/flags/romania-svgrepo-com.svg'
+  // },
   {
     value: 'sk',
     label: 'Slovenský',
@@ -139,11 +139,11 @@ export const OTHER_LANGS = [
   //   label: 'Slovenščina',
   //   icon: '/static/icons/flags/slovenia-svgrepo-com.svg'
   // },
-  {
-    value: 'es',
-    label: 'Español',
-    icon: '/static/icons/flags/spain-svgrepo-com.svg'
-  },
+  // {
+  //   value: 'es',
+  //   label: 'Español',
+  //   icon: '/static/icons/flags/spain-svgrepo-com.svg'
+  // },
   {
     value: 'sv',
     label: 'Svenska',
