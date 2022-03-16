@@ -670,7 +670,7 @@ const resources = {
       'Remove Volunteer': 'Remover Voluntário',
       'Edit My Data': 'Editar os Meus Dados',
       AddressWarning: 'Por favor não dê a sua morada exata com o número da sua porta. O nome da sua rua é mais que suficiente.',
-      OnlyYourOwnDataWarning: 'Os dados introduzidos têm que pertencer ao indivíduo que os introduz. Introduzir os dados de outra pessoa não é permitido, exceto em casos que haja consento explícito do outro indivíduo.'
+      OnlyYourOwnDataWarning: 'Os dados introduzidos têm que pertencer ao indivíduo que os introduz. Introduzir os dados de outra pessoa não é permitido, exceto em casos que haja consentimento explícito do outro indivíduo.'
     }
   },  
   ua: {
