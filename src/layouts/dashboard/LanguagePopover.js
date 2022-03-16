@@ -154,11 +154,14 @@ export const OTHER_LANGS = [
 // ----------------------------------------------------------------------
 
 const COMBINED_LANGS = [...LANGS, ...OTHER_LANGS];
+const AVAILABLE_CODES = COMBINED_LANGS.map((el) => el.value);
 
 export default function LanguagePopover() {
   let defaultLanguage =
     window && window.navigator ? window.navigator.userLanguage || window.navigator.language : 'en';
-  console.log(defaultLanguage);
+  if (!AVAILABLE_CODES.includes(defaultLanguage)) {
+    defaultLanguage = 'en';
+  }
   const anchorRef = useRef(null);
   const [open, setOpen] = useState(false);
   const [selectedLang, setSelectedLang] = useLocalStorage('lang', defaultLanguage);
