@@ -25,14 +25,14 @@ export default function PrivacyPolicyDialog({ open, handleClose }) {
     }, 10);
   }, [i18n.resolvedLanguage]);
 
-  let selectedPP = PPPL;
+  let selectedPP = PPEN;
   switch (selectedLang) {
     case 'ua':
     case 'ru':
       selectedPP = PPUA;
       break;
-    case 'en':
-      selectedPP = PPEN;
+    case 'pl':
+      selectedPP = PPPL;
       break;
   }
 
