@@ -2,7 +2,7 @@ export const PPPL = `
 🇵🇱 Polityka prywatności uasupport.pl
 Niniejszy dokument dotyczący Polityki prywatności zawiera rodzaje informacji gromadzonych i rejestrowanych przez uasupport.pl oraz sposób ich wykorzystywania. Należy pamiętać, że dane podawane dobrowolnie w ogłoszeniach o pomocy są publicznie dostępne każdej osobie, która odwiedza tę stronę. Możesz samodzielnie zdecydować, jak szczegółowe informacje np. o adresie chcesz podać w ogłoszeniu.
 
-Jeśli masz dodatkowe pytania lub potrzebujesz więcej informacji na temat naszej Polityki prywatności prosimy o kontakt pod adresem kemalpiro+ua@gmail.com.
+Jeśli masz dodatkowe pytania lub potrzebujesz więcej informacji na temat naszej Polityki prywatności prosimy o kontakt pod adresem uacrisishelp@gmail.com.
 
 Administratorem Twoich danych jest Kemal Erdem, z którym możesz kontaktować się pod adresem e-mail powyżej.
 
@@ -29,7 +29,7 @@ Serwis uasupport.pl będzie przechowywać Twoje dane osobowe tylko tak długo, j
 
 W niektórych przypadkach Twoje dane osobowe mogą zostać przekazane poza Europejski Obszar Gospodarczy, o czym zostaniesz poinformowany/poinformowana. Dane na naszej stronie są dostępne publicznie, a więc na całym świecie. Strona jest zaś przygotowana w oparciu o Google Crisis Management – narzędzie spółki Google, która ma siedzibę w USA (państwo to nie zapewnia adekwatnej ochrony danych osobowych). Dane przekazywane są ze względu na ważne względy interesu publicznego – niesienie pomocy humanitarnej w efektywny sposób. 
 
-Masz prawo żądania od administratora dostępu do danych osobowych, ich sprostowania, usunięcia lub ograniczenia przetwarzania, a także prawo wniesienia sprzeciwu wobec przetwarzania oraz prawo do przenoszenia danych. Aby z nich skorzystać, skontaktuj się z nami pod adresem kemalpiro+ua@gmail.com .
+Masz prawo żądania od administratora dostępu do danych osobowych, ich sprostowania, usunięcia lub ograniczenia przetwarzania, a także prawo wniesienia sprzeciwu wobec przetwarzania oraz prawo do przenoszenia danych. Aby z nich skorzystać, skontaktuj się z nami pod adresem uacrisishelp@gmail.com .
 
 Masz prawo wniesienia skargi do organu nadzorczego – Prezesa Urzędu Ochrony Danych Osobowych (www.uodo.gov.pl).
 
@@ -67,7 +67,7 @@ export const PPEN = `
 🇬🇧 Privacy Policy uasupport.pl
 This Privacy Policy document contains the types of information collected and recorded by uasupport.pl and how we use it. Please note that the information you voluntarily provide in your support postings is publicly available to anyone who visits this site. You can decide for yourself how detailed information, e.g. address, you wish to provide in your offer.
 
-If you have additional questions or need more information about our Privacy Policy, please contact us at kemalpiro+ua@gmail.com.
+If you have additional questions or need more information about our Privacy Policy, please contact us at uacrisishelp@gmail.com.
 
 The controller of your data is Kemal Erdem, who can be contacted at the email address above.
 
@@ -94,7 +94,7 @@ The uasupport.pk platform will only retain your personal data for as long as is 
 
 In some cases, your personal data may be transferred outside the European Economic Area, of which you will be informed. The data on our website is available to the public, thus worldwide. This website is based on Google Crisis Management, a tool of the Google company, which is based in the USA (this country does not provide adequate protection for personal data). The data is transferred for important reasons of public interest - providing humanitarian aid in an effective manner. 
 
-You have the right to request from the controller access to your personal data, rectification, erasure or restriction of processing, as well as the right to object to processing and the right to data portability. To exercise these, please contact us at kemalpiro+ua@gmail.com .
+You have the right to request from the controller access to your personal data, rectification, erasure or restriction of processing, as well as the right to object to processing and the right to data portability. To exercise these, please contact us at uacrisishelp@gmail.com .
 
 You have the right to lodge a complaint with the supervisory authority, the President of the Office for Personal Data Protection (www.uodo.gov.pl).
 
@@ -132,7 +132,7 @@ export const PPUA = `
 🇺🇦 Політика конфіденційності uasupport.pl
 Цей документ про політику конфіденційності містить типи інформації, що збирається та реєструється сайтом uasupport.pl, і те, яким чином вона буде використана. Зверніть увагу, що інформація, яку користувач добровільно надає у своїх оголошеннях про підтримку, є доступною для всіх, хто відвідує цей сайт. Користувач сам вирішує, наскільки детальну інформацію, зокрема адресу, він хоче надати у своєму оголошенні.
 
-У разі виникнення додаткових питань або необхідності отримання додаткової інформації щодо нашої політики конфіденційності, будь ласка, зв'яжіться з нами за адресою kemalpiro+ua@gmail.com. 
+У разі виникнення додаткових питань або необхідності отримання додаткової інформації щодо нашої політики конфіденційності, будь ласка, зв'яжіться з нами за адресою uacrisishelp@gmail.com. 
 
 Власником Ваших даних є Кемаль Ердем, з яким можна зв'язатися за вказаною адресою електронної пошти.
 Правова основа для збору та використання персональних даних, викладених у цій Політиці конфіденційності, залежить від інформації, що збирається і конкретних умов, за яких ми збираємо інформацію.
@@ -159,7 +159,7 @@ export const PPUA = `
 
 У деяких випадках Ваші особисті дані можуть бути передані за межі Європейської економічної зони, про що ви будете поінформовані. Інформація, розміщена на нашому сайті, є загальнодоступною, отже, доступна у всьому світі. Цей веб-сайт заснований на Google Crisis Management, інструменті компанії Google, яка базується в США (дана країна не забезпечує належного захисту персональних даних). Передача даних здійснюється з важливих причин, пов'язаних із суспільними інтересами – забезпечення гуманітарної допомоги ефективним чином.
 
-Ви маєте право вимагати від контролера доступу до Ваших персональних даних, їх виправлення, видалення або обмеження обробки, а також право заперечувати проти їх обробки та право на передачу даних. Щоб скористатися цими правами, зв’яжіться з нами за адресою kemalpiro+ua@gmail.com.
+Ви маєте право вимагати від контролера доступу до Ваших персональних даних, їх виправлення, видалення або обмеження обробки, а також право заперечувати проти їх обробки та право на передачу даних. Щоб скористатися цими правами, зв’яжіться з нами за адресою uacrisishelp@gmail.com.
 
 Ви маєте право подати скаргу до контролюючого органу - Президента Управління захисту персональних даних (www.uodo.gov.pl).
 

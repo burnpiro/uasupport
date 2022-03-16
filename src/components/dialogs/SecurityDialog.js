@@ -25,7 +25,7 @@ export default function SecurityDialog({ open, handleClose }) {
     }, 10);
   }, [i18n.resolvedLanguage]);
 
-  let selectedTC = SECPL;
+  let selectedTC = SECEN;
   switch (selectedLang) {
     case 'ua':
       selectedTC = SECUA;
@@ -33,8 +33,8 @@ export default function SecurityDialog({ open, handleClose }) {
     case 'ru':
       selectedTC = SECRU;
       break;
-    case 'en':
-      selectedTC = SECEN;
+    case 'pl':
+      selectedTC = SECPL;
       break;
   }
 
