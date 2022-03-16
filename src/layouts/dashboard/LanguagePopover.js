@@ -264,8 +264,8 @@ export default function LanguagePopover() {
         onClick={handleOpen}
         sx={{
           padding: 0,
-          width: !isSelectedMainLang ? 30 : 24,
-          height: !isSelectedMainLang ? 30 : 24,
+          width: !isSelectedMainLang ? 32 : 30,
+          height: !isSelectedMainLang ? 32 : 30,
           borderWidth: '3px',
           borderStyle: !isSelectedMainLang ? 'solid' : 'none',
           borderColor: (theme) => theme.palette.primary.light,
@@ -275,7 +275,7 @@ export default function LanguagePopover() {
         }}
       >
         {isSelectedMainLang ? (
-          <img src={'/static/icons/flags/world-svgrepo-com.svg'} alt={lang.label} />
+          <img src={'/static/icons/flags/worldwide-svgrepo-com.svg'} alt={lang.label} />
         ) : (
           <img src={lang.icon} alt={lang.label} />
         )}
