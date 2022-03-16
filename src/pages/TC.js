@@ -5,13 +5,12 @@ import Container from '@mui/material/Container';
 // components
 import Page from '../components/Page';
 import { useTranslation } from 'react-i18next';
-import { LANGS } from '../layouts/dashboard/LanguagePopover';
 import {TCUA, TCPL, TCEN} from '../utils/data/TC';
 import { useEffect, useState } from 'react';
 
 export default function TC() {
   const { t, i18n } = useTranslation();
-  const [selectedLang, setSelectedLang] = useState(LANGS[0].value);
+  const [selectedLang, setSelectedLang] = useState('en');
 
   // i18n has to resolve lang value in next tick
   useEffect(() => {

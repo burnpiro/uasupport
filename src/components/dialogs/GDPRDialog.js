@@ -10,13 +10,12 @@ import { useTheme } from '@mui/material/styles';
 import { useTranslation } from 'react-i18next';
 import {CustomDialogTitle} from "./CustomDialogTitle";
 import {useEffect, useState} from "react";
-import {LANGS} from "../../layouts/dashboard/LanguagePopover";
 import {TCPL, TCUA, TCEN} from "../../utils/data/TC";
 export default function GDPRDialog({ open, handleClose }) {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
   const { t, i18n } = useTranslation();
-  const [selectedLang, setSelectedLang] = useState(LANGS[0].value);
+  const [selectedLang, setSelectedLang] = useState('en');
 
   // i18n has to resolve lang value in next tick
   useEffect(() => {
