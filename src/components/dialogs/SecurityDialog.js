@@ -10,13 +10,12 @@ import { useTheme } from '@mui/material/styles';
 import { useTranslation } from 'react-i18next';
 import { CustomDialogTitle } from './CustomDialogTitle';
 import { useEffect, useState } from 'react';
-import { LANGS } from '../../layouts/dashboard/LanguagePopover';
 import { SECPL, SECEN, SECUA, SECRU } from '../../utils/data/SecurityInfo';
 export default function SecurityDialog({ open, handleClose }) {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
   const { t, i18n } = useTranslation();
-  const [selectedLang, setSelectedLang] = useState(LANGS[0].value);
+  const [selectedLang, setSelectedLang] = useState('en');
 
   // i18n has to resolve lang value in next tick
   useEffect(() => {
@@ -25,7 +24,7 @@ export default function SecurityDialog({ open, handleClose }) {
     }, 10);
   }, [i18n.resolvedLanguage]);
 
-  let selectedTC = SECPL;
+  let selectedTC = SECEN;
   switch (selectedLang) {
     case 'ua':
       selectedTC = SECUA;
@@ -33,8 +32,8 @@ export default function SecurityDialog({ open, handleClose }) {
     case 'ru':
       selectedTC = SECRU;
       break;
-    case 'en':
-      selectedTC = SECEN;
+    case 'pl':
+      selectedTC = SECPL;
       break;
   }
 

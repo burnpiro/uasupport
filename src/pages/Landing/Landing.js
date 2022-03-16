@@ -10,9 +10,19 @@ import AppHomesGet from './AppHomeGet';
 import AppAidsGet from './AppAidGet';
 import AppTransportGet from './AppTransportGet';
 import AppInfoGet from "./AppInfoGet";
+import {useEffect, useState} from "react";
 
 export default function Landing() {
   const { t, i18n } = useTranslation();
+  const [selectedLang, setSelectedLang] = useState('en');
+
+  // i18n has to resolve lang value in next tick
+  useEffect(() => {
+    setTimeout(() => {
+      setSelectedLang(i18n.resolvedLanguage);
+    }, 10);
+  }, [i18n.resolvedLanguage]);
+
   return (
     <Page title={t('Landing')}>
       <Container maxWidth="xl">

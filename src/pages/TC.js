@@ -5,14 +5,12 @@ import Container from '@mui/material/Container';
 // components
 import Page from '../components/Page';
 import { useTranslation } from 'react-i18next';
-import { useLocalStorage } from '../hooks/useLocalStorage';
-import { LANGS } from '../layouts/dashboard/LanguagePopover';
 import {TCUA, TCPL, TCEN} from '../utils/data/TC';
 import { useEffect, useState } from 'react';
 
 export default function TC() {
   const { t, i18n } = useTranslation();
-  const [selectedLang, setSelectedLang] = useState(LANGS[0].value);
+  const [selectedLang, setSelectedLang] = useState('en');
 
   // i18n has to resolve lang value in next tick
   useEffect(() => {
@@ -21,14 +19,14 @@ export default function TC() {
     }, 10);
   }, [i18n.resolvedLanguage]);
 
-  let selectedTC = TCPL;
+  let selectedTC = TCEN;
   switch (selectedLang) {
     case 'ua':
     case 'ru':
       selectedTC = TCUA;
       break;
-    case 'en':
-      selectedTC = TCEN;
+    case 'pl':
+      selectedTC = TCPL;
       break;
   }
   return (
