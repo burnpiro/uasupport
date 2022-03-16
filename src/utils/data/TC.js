@@ -21,7 +21,7 @@ export const TCPL = `
 15. Aby skorzystać z usług naszej platformy, należy dysponować urządzeniem umożliwiającym dostęp do Internetu, a także samym łączem internetowym. Konieczne jest dysponowanie przeglądarką internetową, Google Chrome lub inna współczesna przeglądarka.
 16. Tak jak wszystkie usługi w Internecie, także korzystanie z tej platformy może wiązać się z ryzykiem. Nie należy nigdy podawać swoich loginów i haseł osobom postronnym.
 17. Administrator platformy nie ponosi odpowiedzialności za nieprawidłowe działanie serwisu w wyniku braków w zakresie sprzętu czy łącza internetowego użytkownika, jak również ze względu na niedostępność funkcjonalności Facebook i Google, jeśli Użytkownik z nich korzysta. Administrator zastrzega sobie możliwość zawieszenia działania platformy do celów serwisu lub w przypadku ustania przyczyny powodującej jej użyteczność, a także do odstąpienia od umowy o prowadzenie konta na platformie za 2-tygodniowym terminem wypowiedzenia.
-18. W razie pytań prosimy o kontakt e-mailowy: kemalpiro+ua@gmail.com.     
+18. W razie pytań prosimy o kontakt e-mailowy: uacrisishelp@gmail.com.     
 19.  Pod powyższym adresem możliwe jest również zgłaszanie reklamacji co do działania serwisu – w reklamacji należy podać swoje imię, nazwisko, adres e-mail oraz opis sytuacji, która jest powodem reklamacji. Odpowiedź zostanie udzielona na adres e-mail w przeciągu 14 dni.
 `;
 
@@ -48,7 +48,7 @@ export const TCEN = `
 15. In order to use our platform, you must have a device that allows you to access the Internet, as well as an Internet connection. It is necessary to have a web browser.
 16. Like all services on the Internet, the use of this platform may involve risks. You should never give out your logins and passwords to third parties.
 17. The platform administrator is not responsible for the malfunction of the service as a result of deficiencies in equipment or Internet connection of the user, as well as due to the unavailability of Facebook and Google, if the user uses them. The administrator reserves the right to suspend the operation of the platform for the purposes of the service or in the event of the cessation of the cause causing its usefulness, as well as to withdraw from the contract for maintaining an account on the platform at 2-week notice.
-18. If you have any questions, please contact us by e-mail: kemalpiro+ua@gmail.com.
+18. If you have any questions, please contact us by e-mail: uacrisishelp@gmail.com.
 19. At the above address it is also possible to report complaints about the operation of the service - in the complaint you should provide your name, surname, e-mail address and a description of the situation, which is the reason for complaint. The answer will be given to the e-mail address within 14 days.
 `
 
@@ -75,6 +75,6 @@ export const TCUA = `
 15. Для того, щоб скористатися нашою платформою, необхідно мати пристрій, що дозволяє виходити в Інтернет, а також підключення до Інтернету. Наявність веб-браузера є обов'язковою.
 16. Як і всі послуги в Інтернеті, використання цієї платформи може бути пов'язане з ризиками. Не передавайте свої логіни та паролі третім особам.
 17. Адміністратор платформи не несе відповідальності за збої в роботі сервісу внаслідок недоліків обладнання або інтернет-з'єднання користувача, а також через відсутність Facebook і Google, якщо користувач їх використовує. Адміністратор залишає за собою право призупинити роботу платформи з метою надання послуги або у разі усунення причини, що спричинила її непрацездатність, а також розірвати договір на ведення облікового запису на платформі, за умови такого повідомлення, за 2 тижні.
-18. Якщо у Вас виникли запитання, будь ласка, зв'яжіться з нами електронною поштою: kemalpiro+ua@gmail.com.
+18. Якщо у Вас виникли запитання, будь ласка, зв'яжіться з нами електронною поштою: uacrisishelp@gmail.com.
 19. За вказаною вище адресою також можна повідомити про скарги на роботу сервісу – у скарзі необхідно вказати своє ім'я, прізвище, адресу електронної пошти та опис ситуації, що є причиною скарги. Протягом 14 днів на електронну адресу буде надано відповідь.
 `
