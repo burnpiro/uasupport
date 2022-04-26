@@ -175,51 +175,51 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
             </Typography>
           </Button>
         </Box>
-        <Box>
-          <Typography
-            sx={{
-              color: 'text.secondary',
-              textAlign: 'left',
-              ml: 2,
-              pb: 0
-            }}
-            variant={'subtitle2'}
-          >
-            {t('Contact')}
-            {':'}
-          </Typography>
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'left',
-              alignItems: 'center',
-              pl: 2
-            }}
-          >
-            <Stack spacing={1}>
-              <IconButton aria-label="email" color={'success'} onClick={handleToggleEmail}>
-                <Iconify icon={'eva:email-outline'} width={24} height={24} />
-                {emailOpen && (
-                  <Typography
-                    variant="body2"
-                    sx={{ color: 'text.primary', textAlign: 'left', ml: 2, fontSize: '14px' }}
-                  >
-                    {'uacrisishelp@gmail.com'}
-                  </Typography>
-                )}
-                {!emailOpen && (
-                  <Typography
-                    variant="body2"
-                    sx={{ color: 'text.primary', textAlign: 'left', ml: 2, fontSize: '14px' }}
-                  >
-                    {t('Email')}
-                  </Typography>
-                )}
-              </IconButton>
-            </Stack>
-          </Box>
-        </Box>
+        {/*<Box>*/}
+        {/*  <Typography*/}
+        {/*    sx={{*/}
+        {/*      color: 'text.secondary',*/}
+        {/*      textAlign: 'left',*/}
+        {/*      ml: 2,*/}
+        {/*      pb: 0*/}
+        {/*    }}*/}
+        {/*    variant={'subtitle2'}*/}
+        {/*  >*/}
+        {/*    {t('Contact')}*/}
+        {/*    {':'}*/}
+        {/*  </Typography>*/}
+        {/*  <Box*/}
+        {/*    sx={{*/}
+        {/*      display: 'flex',*/}
+        {/*      flexDirection: 'row',*/}
+        {/*      justifyContent: 'left',*/}
+        {/*      alignItems: 'center',*/}
+        {/*      pl: 2*/}
+        {/*    }}*/}
+        {/*  >*/}
+        {/*    <Stack spacing={1}>*/}
+        {/*      <IconButton aria-label="email" color={'success'} onClick={handleToggleEmail}>*/}
+        {/*        <Iconify icon={'eva:email-outline'} width={24} height={24} />*/}
+        {/*        {emailOpen && (*/}
+        {/*          <Typography*/}
+        {/*            variant="body2"*/}
+        {/*            sx={{ color: 'text.primary', textAlign: 'left', ml: 2, fontSize: '14px' }}*/}
+        {/*          >*/}
+        {/*            {'uacrisishelp@gmail.com'}*/}
+        {/*          </Typography>*/}
+        {/*        )}*/}
+        {/*        {!emailOpen && (*/}
+        {/*          <Typography*/}
+        {/*            variant="body2"*/}
+        {/*            sx={{ color: 'text.primary', textAlign: 'left', ml: 2, fontSize: '14px' }}*/}
+        {/*          >*/}
+        {/*            {t('Email')}*/}
+        {/*          </Typography>*/}
+        {/*        )}*/}
+        {/*      </IconButton>*/}
+        {/*    </Stack>*/}
+        {/*  </Box>*/}
+        {/*</Box>*/}
         <Box>
           <Typography
             sx={{

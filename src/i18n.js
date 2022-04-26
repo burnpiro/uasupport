@@ -898,7 +898,9 @@ const resources = {
       'fb-group': 'FB Group',
       'other-group': 'Other Group',
       Language: 'Language',
-      MyGroups: 'My Groups'
+      MyGroups: 'My Groups',
+      AirbnbDeal: 'We have partnered with AirBnB.org to make the entire process of offering assistance to people fleeing Ukraine more convenient and safer. We join our forces with the non-profit organization AirBnB.org, we strive to unify assistance to refugees throughout Europe. Therefore, we encourage you to submit offers through the organization\'s portal. Please use the link below.',
+      AirbnbHomes: 'The housing database was donated to AirBnb.org. If you want to contact the organization, please use the form below.'
     }
   },
   no: {
@@ -1801,7 +1803,9 @@ const resources = {
       'fb-group': 'Grupa FB',
       'other-group': 'Inna grupa',
       Language: 'Język',
-      MyGroups: 'Moje Grupy'
+      MyGroups: 'Moje Grupy',
+      AirbnbDeal: 'Nawiązaliśmy współpracę z AirBnB.org aby cały proces oferowania pomocy osobom uciekającym z Ukrainy był wygodniejszy i bezpieczniejszy. Łączymy nasze siły z organizacją non-profit AirBnB.org staramy się ujednolicić pomoc uchodźcom na terenie całej europy. W związku z tym zachęcamy do składania ofert przez portal organizacji. Skorzystaj proszę z odnośnika poniżej.',
+      AirbnbHomes: 'Baza mieszkań została przekazana organizacji AirBnb.org. Jeżeli chcesz się skontaktować z organizacją proszę skorzystaj z formularza umieszczonego poniżej.'
     }
   },
   sv: {
@@ -2484,7 +2488,9 @@ const resources = {
       'fb-group': 'Група FB',
       'other-group': 'Інша група',
       Language: 'Мову',
-      MyGroups: 'Мої групи'
+      MyGroups: 'Мої групи',
+      AirbnbDeal: 'Ми співпрацюємо з AirBnB.org, щоб зробити весь процес надання допомоги людям, які тікають з України, зручнішим та безпечнішим. Ми об’єднуємо наші зусилля з неприбутковою організацією AirBnB.org, прагнемо об’єднати допомогу біженцям по всій Європі. Тому ми рекомендуємо подавати пропозиції через портал організації. Будь ласка, скористайтеся посиланням нижче.',
+      AirbnbHomes: 'База даних житла була передана AirBnb.org. Якщо ви хочете зв’язатися з організацією, скористайтеся формою нижче.'
     }
   },
   it: {
@@ -3387,7 +3393,9 @@ const resources = {
       'fb-group': 'Группа FB',
       'other-group': 'Другая группа',
       Language: 'Язык',
-      MyGroups: 'Мои группы'
+      MyGroups: 'Мои группы',
+      AirbnbDeal: 'Мы сотрудничаем с AirBnB.org, чтобы сделать весь процесс оказания помощи людям, покидающим Украину, более удобным и безопасным. Мы объединяем наши усилия с некоммерческой организацией AirBnB.org, мы стремимся объединить помощь беженцам по всей Европе. Поэтому мы рекомендуем вам подавать предложения через портал организации. Пожалуйста, используйте ссылку ниже.',
+      AirbnbHomes: 'База данных жилья была передана в дар AirBnb.org. Если вы хотите связаться с организацией, пожалуйста, используйте форму ниже.'
     }
   }
 };

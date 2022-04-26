@@ -5,6 +5,7 @@ import { NavLink as RouterLink, matchPath, useLocation } from 'react-router-dom'
 import { alpha, useTheme, styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
+import Link from "@mui/material/Link";
 import Collapse from '@mui/material/Collapse';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -101,11 +102,14 @@ function NavItem({ item, active }) {
               const { title, path } = item;
               const isActiveSub = active(path);
 
+              const isDirectLink = path.startsWith('http');
+
               return (
                 <ListItemStyle
                   key={title}
-                  component={RouterLink}
+                  component={isDirectLink ? Link : RouterLink}
                   to={path}
+                  href={path}
                   sx={{
                     ...(isActiveSub && activeSubStyle)
                   }}
@@ -139,10 +143,13 @@ function NavItem({ item, active }) {
     );
   }
 
+  const isDirectLink = path.startsWith('http');
+
   return (
     <ListItemStyle
-      component={RouterLink}
+      component={isDirectLink ? Link : RouterLink}
       to={path}
+      href={path}
       sx={{
         ...(isActiveRoot && activeRootStyle)
       }}

@@ -43,41 +43,41 @@ export default function Router() {
         { path: 'landing', element: <Landing /> },
         // { path: 'info', element: <Info /> },
         { path: 'fundraising*', element: <Fundraising /> },
-        { path: 'transport*', element: <Transport /> },
-        { path: 'homes*', element: <Homes /> },
-        { path: 'aids*', element: <Aids /> },
-        { path: 'groups*', element: <Groups /> },
+        // { path: 'transport*', element: <Transport /> },
+        // { path: 'homes*', element: <Homes /> },
+        // { path: 'aids*', element: <Aids /> },
+        // { path: 'groups*', element: <Groups /> },
         { path: 'tc', element: <TC /> },
         { path: 'privacy-policy', element: <PrivacyPolicy /> },
         // { path: 'products', element: <Products /> },
         // { path: 'blog', element: <Blog /> }
-        {
-          path: 'my',
-          element: <MyContainer />,
-          children: [
-            { path: 'transport*', element: <MyTransport /> },
-            { path: 'homes*', element: <MyHomes /> },
-            { path: 'aids*', element: <MyAids /> },
-            { path: 'groups*', element: <MyGroups /> }
-          ]
-        },
-        {
-          path: 'admin',
-          element: <AdminContainer />,
-          children: [
-            { path: 'panel*', element: <AdminPanel /> },
-            { path: 'organisations/:organizationId', element: <OrganizationDetails /> },
-            { path: 'organisations', element: <Organizations /> },
-          ]
-        },
-        {
-          path: 'organization',
-          element: <OrgContainer />,
-          children: [
-            { path: 'manage/:organizationId', element: <OrganizationDetails /> },
-            { path: 'manage', element: <Organizations /> },
-          ]
-        }
+        // {
+        //   path: 'my',
+        //   element: <MyContainer />,
+        //   children: [
+        //     { path: 'transport*', element: <MyTransport /> },
+        //     { path: 'homes*', element: <MyHomes /> },
+        //     { path: 'aids*', element: <MyAids /> },
+        //     { path: 'groups*', element: <MyGroups /> }
+        //   ]
+        // },
+        // {
+        //   path: 'admin',
+        //   element: <AdminContainer />,
+        //   children: [
+        //     { path: 'panel*', element: <AdminPanel /> },
+        //     { path: 'organisations/:organizationId', element: <OrganizationDetails /> },
+        //     { path: 'organisations', element: <Organizations /> },
+        //   ]
+        // },
+        // {
+        //   path: 'organization',
+        //   element: <OrgContainer />,
+        //   children: [
+        //     { path: 'manage/:organizationId', element: <OrganizationDetails /> },
+        //     { path: 'manage', element: <Organizations /> },
+        //   ]
+        // }
       ]
     },
     {

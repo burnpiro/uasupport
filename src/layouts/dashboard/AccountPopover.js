@@ -19,26 +19,26 @@ import {useTranslation} from "react-i18next";
 // ----------------------------------------------------------------------
 
 const MENU_OPTIONS = [
-  {
-    label: 'MyHomes',
-    icon: 'eva:home-fill',
-    linkTo: '/dashboard/my/homes'
-  },
-  {
-    label: 'MyAid',
-    icon: 'bxs:first-aid',
-    linkTo: '/dashboard/my/aids'
-  },
-  {
-    label: 'MyTransport',
-    icon: 'eva:car-fill',
-    linkTo: '/dashboard/my/transport'
-  },
-  {
-    label: 'MyGroups',
-    icon: 'ic:outline-groups',
-    linkTo: '/dashboard/my/groups'
-  },
+  // {
+  //   label: 'MyHomes',
+  //   icon: 'eva:home-fill',
+  //   linkTo: '/dashboard/my/homes'
+  // },
+  // {
+  //   label: 'MyAid',
+  //   icon: 'bxs:first-aid',
+  //   linkTo: '/dashboard/my/aids'
+  // },
+  // {
+  //   label: 'MyTransport',
+  //   icon: 'eva:car-fill',
+  //   linkTo: '/dashboard/my/transport'
+  // },
+  // {
+  //   label: 'MyGroups',
+  //   icon: 'ic:outline-groups',
+  //   linkTo: '/dashboard/my/groups'
+  // },
   // {
   //   label: 'Settings',
   //   icon: 'eva:settings-2-fill',
